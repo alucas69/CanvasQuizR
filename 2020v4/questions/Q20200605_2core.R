@@ -609,7 +609,7 @@ Q_2b1 <- function(){
   lCore= Q20200605_2core()
   sType= 'num'
   sq= '2b1'
-  iDigits= 4
+  iDigits= 3
 
   # Random lower/upper
   iBound= sample(1:2, 1)
