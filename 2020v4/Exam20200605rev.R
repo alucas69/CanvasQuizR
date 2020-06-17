@@ -8,10 +8,10 @@
 # getwd()
 # setwd("..")
 EnginePath = ".."
-ExamPath = paste(EnginePath, "2020v4r", sep="/")
+ExamPath = paste(EnginePath, "2020v4", sep="/")
 ExamDate= "20200605"
-# EmailAddress = "a.lucas@vu.nl"
-EmailAddress = "c.s.bos@vu.nl"
+EmailAddress = "a.lucas@vu.nl"
+#EmailAddress = "c.s.bos@vu.nl"
 
 
 ###############################
