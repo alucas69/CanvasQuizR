@@ -163,7 +163,7 @@ Q20200605_3core <- function() {
   vP1= c(200, -4.2, 3, 30)
   vP2= c(14, 1, -112, 212, 25)
 
-  Lots= list(YX=c("Price", "Area", "Rural", "City", "Rural"),
+  Lots= list(YX=c("Price", "Area", "Rural", "City", "Suburban"),
              Variables= c("Price (in k$)", "Area (in m2)", "Rural location, dummy", "City location, dummy", "Suburban location, dummy"),
              Description= "prices of lots. The price may be linked to the area of lot, and its location, in either a rural zone, suburban or a city",
              Zone= "California",
@@ -171,7 +171,7 @@ Q20200605_3core <- function() {
              Topic= "lot prices",
              TopicEx= "These lots (bouwkavels) are empty pieces of land where a new house may be build.",
              Extra= "m2 of lot size")
-  Sales= list(YX=c("Sales", "Area", "Rural", "City", "Rural"),
+  Sales= list(YX=c("Sales", "Area", "Rural", "City", "Suburban"),
               Variables= c("Sales (in k$)", "Surface area of parking lot (in number of places)", "Rural location, dummy", "City location, dummy", "Suburban location, dummy"),
               Description= "sales of supermarkets. The sales volume may be linked to the area of the parking lot, and the location of the supermarket, in either a rural zone, suburban or a city",
               Zone= "a number of US states",
@@ -179,7 +179,7 @@ Q20200605_3core <- function() {
               Topic= "supermarket sales",
               TopicEx= "",
               Extra= "parking spot")
-  Corona= list(YX=c("Infected", "Inhabitants", "Rural", "City", "Rural"),
+  Corona= list(YX=c("Infected", "Inhabitants", "Rural", "City", "Suburban"),
                Variables= c("Number of infected patients", "Number of inhabitants (x 1000)", "Rural location, dummy", "City location, dummy", "Suburban location, dummy"),
                Description= "number of inhabitants infected by the corona virus. The number of infected people may be linked to the population in the county (in '000s of people), and the location of the county, in either a rural zone, suburban or a city",
                Zone= "a number of counties in the US",
@@ -753,20 +753,33 @@ Q_3c2 <- function() {
     Answers= matrix(Answers, nrow=2)
     iA= ncol(Answers)
 
+    # INCORRECT CODE, USED DURING EXAM
+    #   EFFECT WAS THAT I COULD HAND OVER NO CORRECT ANSWER AT ALL, WHICH CANVAS MISINTERPRETED...
+    # # Get some wrong answers, plus correct answer
+    # vI0= which(!(as.logical(Answers[1,])))
+    # vI1= which(as.logical(Answers[1,]))
+
+    # # Get some wrong answers, plus correct answers
+    # vI= c(sample(vI0, iAa-2), vI1)
+    #
+    # # Shuffle
+    # vI= sample(1:iA, iAa)
+    # AnswersSel= Answers[,vI]
+
+    # # Shuffle
+    # vI= sample(1:iA, iAa)
+    # AnswersSel= Answers[,vI]
+    #
+    # # Add in fake 'none of the above'
+    # AnswersSel= cbind(AnswersSel, rbind(FALSE, "None of the above"))
+    #
+    # vCorrect= as.logical(AnswersSel[1,])
+
+    # CORRECTED CODE?
     # Get some wrong answers, plus correct answer
-    vI0= which(!(as.logical(Answers[1,])))
-    vI1= which(as.logical(Answers[1,]))
+    # Select iAa out of iA answers, ordered randomly, including all correct ones
+    lac= Qselect(Answers[2,], as.numeric(Answers[1,]), iAa, addnone=TRUE, mincorrect=1, maxcorrect= 1)
 
-    # Get some wrong answers, plus correct answers
-    vI= c(sample(vI0, iAa-2), vI1)
-
-    # Shuffle
-    vI= sample(1:iA, iAa)
-    AnswersSel= Answers[,vI]
-
-    # Add in fake 'none of the above'
-    AnswersSel= cbind(AnswersSel, rbind(FALSE, "None of the above"))
-    vCorrect= as.logical(AnswersSel[1,])
     #
     # pose the question
     #
@@ -774,7 +787,8 @@ Q_3c2 <- function() {
     #                        AnswersSel[2,], as.logical(AnswersSel[1,]), Counters, texify=TRUE)
   }
 
-  return (list(type='ma', q='3c2', text=QuestionText, answer=AnswersSel[2,], correct=vCorrect))
+  # return (list(type='ma', q='3c2', text=QuestionText, answer=AnswersSel[2,], correct=vCorrect))
+  return (list(type='ma', q='3c2', text=QuestionText, answer=lac$answer, correct=lac$correct))
   # return(Counters)
 }
 
