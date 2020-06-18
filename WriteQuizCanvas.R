@@ -70,7 +70,7 @@ WriteQuizCanvas <- function(ExamDate, TestName, IntroText, ExamQ, htmlesc = FALS
                                Qi$answer, Qi$correct, Counters, texify=TRUE, htmlesc = htmlesc)
       } else if (Qi$type == "mb"){
         Counters <- MBquestion(QuizFile, Qi$q, Qi$text,
-                               Qi$answernames, Qi$correct, Counters, texify=TRUE, htmlesc = htmlesc)
+                               Qi$answernames, Qi$answer, Counters, texify=TRUE, htmlesc = htmlesc)
       } else if (Qi$type == "num"){
         Counters <- NUMquestion(QuizFile, Qi$q, Qi$text,
                                 Qi$correct, Counters, texify=TRUE, htmlesc = htmlesc)
