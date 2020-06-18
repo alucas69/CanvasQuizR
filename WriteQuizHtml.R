@@ -1,3 +1,7 @@
+# required libraries
+library("stringi")
+
+
 # indent by i_indent * i_indentspace spaces
 sprintf_indent= function(vs_text, i_indent=1, i_indentspace=3) {
   if ((i_indent >= 1) & (i_indentspace >= 1))
@@ -113,7 +117,7 @@ write_quiz_html_mc= function(question, minimumcorrect=1, maximumcorrect=1) {
   output= list()
   
   # write the question part as paragraphs
-  output$question= write_in_wrapper(question$question, "p")
+  output$question= write_in_wrapper(question$text, "p")
   # write the table heading
   if (length(question$q) > 1) output$heading= write_in_wrapper(question$q, "p")
   else output$heading= question$q
@@ -170,7 +174,7 @@ write_quiz_html_mb= function(question) {
   output= list()
 
   # write the question part as paragraphs
-  mb_core= write_quiz_html_mb_highlight_variables(question$question)
+  mb_core= write_quiz_html_mb_highlight_variables(question$text)
   output$question= write_in_wrapper(mb_core$text, "p")
   # write the table heading
   if (length(question$q) > 1) output$heading= write_in_wrapper(question$q, "p")
@@ -205,7 +209,7 @@ write_quiz_html_num= function(question) {
   output= list()
   
   # write the question part as paragraphs
-  output$question= write_in_wrapper(question$question, "p")
+  output$question= write_in_wrapper(question$text, "p")
   # write the table heading
   if (length(question$q) > 1) output$heading= write_in_wrapper(question$q, "p")
   else output$heading= question$q
@@ -238,7 +242,7 @@ write_quiz_html_alph= function(question) {
   output= list()
   
   # write the question part as paragraphs
-  output$question= write_in_wrapper(question$question, "p")
+  output$question= write_in_wrapper(question$text, "p")
   # write the table heading
   if (length(question$q) > 1) output$heading= write_in_wrapper(question$q, "p")
   else output$heading= question$q
@@ -294,7 +298,7 @@ write_quiz_html= function(s_filename, l_quiz, s_dirname=".") {
 maintest= function() {
   qq= list()
   
-  qq$question= c("what is","the meaning of life?")
+  qq$text= c("what is","the meaning of life?")
   qq$correct= c(F,F,F)
   qq$q= "de 1e vraag"
   qq$type= "mc"
@@ -319,7 +323,7 @@ maintest= function() {
   
   
   q= list()
-  qq$question= c("what is [the] meaning [of] [lif]e?")
+  qq$text= c("what is [the] meaning [of] [lif]e?")
   qq$correct= c(F,F,T)
   qq$q= "de 1e vraag"
   qq$type= "mb"
@@ -327,6 +331,12 @@ maintest= function() {
   qq$answernames= c("[the]", "[of]", "[life]")
   q= append(q, list(qq))
   length(q)
+  
+  qq$type= "alph"
+  q= append(q, list(qq))
+  
+  qq$type= "upl"
+  q= append(q, list(qq))
   
   lq= append(lq, list(q))
   length(lq)
