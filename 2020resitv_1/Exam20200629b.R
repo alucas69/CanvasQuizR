@@ -1,3 +1,5 @@
+library("stringi")
+
 ###############################
 ###############################
 ## Set my working directory
@@ -112,82 +114,37 @@ BaseFileName <- sprintf("Q%s", ExamDate)
 QuestionNumber <- 1
 NumberOfVariations <- 2
 WhichQuestions <- NULL
+WhichQuestions <- c(WhichQuestions, sprintf("Integrity(\"%s\")", sEmailaddress))
 # WhichQuestions <- c(WhichQuestions,
 #                     "1a", "1b", "1c", "1d", "1e", "1g", "1h", "1i", "1j",
 #                     "1l", "1m", "1n", "1o", "1p", "1q", "1r", "1s", "1t",
 #                     "1u", "1v", "1w", "1x", "1y", "1z")
-WhichQuestions <- c(WhichQuestions,
-                    "1b", "1e", "1h", "1j", "1m", "1o", 
-                    "1q", "1t", "1u", "1w", "1y", "1r")
+# WhichQuestions <- c(WhichQuestions,
+#                     "1b", "1e", "1h", "1j", "1m", "1o", 
+#                     "1q", "1t", "1u", "1w", "1y", "1r")
 # WhichQuestions <- c(WhichQuestions,
 #                     "2core")
-WhichQuestions <- c(WhichQuestions, "Selfie")
+WhichQuestions <- c(WhichQuestions, "Selfie()")
 # WhichQuestions <- c(WhichQuestions,
 #                     sprintf('2a%i', 1:7), '2b1')
 # WhichQuestions <- c(WhichQuestions,
 #                     "3a1", "3a2", "3a3",
 #                     "3b1", "3b2",
 #                     "3c1", "3c2", "3c3", "3c4", "3c5", "3c6", "3c7", "3c8")
-WhichQuestions <- c(WhichQuestions, "IntegrityExit")
-
-# integrity question with email address
-blockkey <- startnewblock(QuizFile, "Integrity check")
-Counters <- WriteQ(Q_Integrity(sEmailaddress), Counters)
-closeblock(QuizFile)
+WhichQuestions <- c(WhichQuestions, "IntegrityExit()")
 
 
-
-# #
-# # Build the exam part 1
-# #
+EX= list()
 for (i1 in 1:length(WhichQuestions)) {
   print(sprintf("Question %s", WhichQuestions[i1]))
-  # QuestionTitle <- sprintf("Question %d", i1)
-  QuestionTitle <- sprintf("Question %s", WhichQuestions[i1])
-  blockkey <- startnewblock(QuizFile, QuestionTitle)
-
-  if ((stri_sub(WhichQuestions[i1], 1, 1) == "1")){
-    # import the question code
-    source(sprintf("%s/questions/%s_%s.R", ExamPath, BaseFileName, WhichQuestions[i1]))
-    # evaluate and write the question
-    eval(parse(text = sprintf("Counters <- %s_%s(QuizFile, Counters, NumberOfVariations)", BaseFileName, WhichQuestions[i1])))
-    # drop the question code from memory
-    eval(parse(text = sprintf("rm(%s_%s)", BaseFileName, WhichQuestions[i1])))
-    # drop the question code from memory
-    # eval(parse(text = sprintf("rm(%s_%s)", BaseFileName, WhichQuestions[i1])))
-  } else {
-    for (j in 1:NumberOfVariations){
-      sQi= sprintf("Qi= Q_%s()", WhichQuestions[i1])
-      eval(parse(text=sQi))
-      Counters <- WriteQ(Qi, Counters)
-    }
+  BL= list()
+  for (j in 1:NumberOfVariations){
+    sQi= sprintf("Qi= Q_%s", WhichQuestions[i1])
+    eval(parse(text=sQi))
+#    Counters <- WriteQ(Qi, Counters)
+    BL= append(BL, list(Qi))
   }
-  closeblock(QuizFile)
+  EX= append(EX, list(BL))
 }
 
-
-#######################################################################################
-#######################################################################################
-#######################################################################################
-####
-####  END OF THE ACTUAL EXAM QUESTIONS (PER BLOCK)
-####
-#######################################################################################
-#######################################################################################
-#######################################################################################
-
-
-
-
-###############################
-###############################
-## Close the quiz file, zip it,
-## and deletet the original files.
-###############################
-###############################
-CloseQuizFile(QuizFile)
-quizzip(mydir, QuizFile$key, deleteold = TRUE)
-
-warnings()
-
-sprintf("\n\nEmails are sent to %s", sEmailaddress)
+write_quiz_html("tmp.html", EX)

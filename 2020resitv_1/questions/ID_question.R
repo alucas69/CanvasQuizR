@@ -99,13 +99,16 @@ Q_Selfie <- function() {
 
   sType <- "upl"
   sq <- "Selfie"
-  sText <- EscapeHtml(c("Upload a selfie such that:",
-             HtmlUlList(c(
+  sText <- c(write_in_wrapper("Upload a selfie such that:", "p"),
+             write_as_html_ul(c(
                "your face is clearly visible",
                "your ID with photo is clearly visible",
                Selfie[i1,1])),
-             sprintf("<p><img src=\"%s\" alt=\"\" width=\"%s\" height=\"%s\" data-decorative=\"true\"></p>",
-                     Selfie[i1,2], Selfie[i1,3], Selfie[i1,4])))
+             write_in_wrapper(
+               sprintf("<img src=\"%s\" alt=\"\" width=\"%s\" height=\"%s\" data-decorative=\"true\">",
+                       Selfie[i1,2], Selfie[i1,3], Selfie[i1,4]),
+               "p"
+             ))
 
   return (list(type=sType, q=sq, text=sText))
 }
