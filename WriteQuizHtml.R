@@ -119,8 +119,7 @@ write_quiz_html_mc= function(question, minimumcorrect=1, maximumcorrect=1) {
   # write the question part as paragraphs
   output$question= write_in_wrapper(question$text, "p")
   # write the table heading
-  if (length(question$q) > 1) output$heading= write_in_wrapper(question$q, "p")
-  else output$heading= question$q
+  output$heading= write_in_wrapper(c(question$q, sprintf("(question type: %s)", question$type)), "p")
   # write color coded answers
   output$answer= write_as_html_ul_color(question$answer, as.logical(question$correct))
   if (sum(as.integer(question$correct)) < minimumcorrect) 
@@ -177,8 +176,8 @@ write_quiz_html_mb= function(question) {
   mb_core= write_quiz_html_mb_highlight_variables(question$text)
   output$question= write_in_wrapper(mb_core$text, "p")
   # write the table heading
-  if (length(question$q) > 1) output$heading= write_in_wrapper(question$q, "p")
-  else output$heading= question$q
+  output$heading= write_in_wrapper(c(question$q, sprintf("(question type: %s)", question$type)), "p")
+  # write answer part
   output$answer= write_quiz_html_mb_highlight_variables(paste(
     question$answernames, ": ", question$answer, sep=""))$text
   correct= rep(TRUE, length(question$answernames))
@@ -211,8 +210,7 @@ write_quiz_html_num= function(question) {
   # write the question part as paragraphs
   output$question= write_in_wrapper(question$text, "p")
   # write the table heading
-  if (length(question$q) > 1) output$heading= write_in_wrapper(question$q, "p")
-  else output$heading= question$q
+  output$heading= write_in_wrapper(c(question$q, sprintf("(question type: %s)", question$type)), "p")
   # check answers
   correct = 
     # lower bound below answer
@@ -244,9 +242,8 @@ write_quiz_html_alph= function(question) {
   # write the question part as paragraphs
   output$question= write_in_wrapper(question$text, "p")
   # write the table heading
-  if (length(question$q) > 1) output$heading= write_in_wrapper(question$q, "p")
-  else output$heading= question$q
-
+  output$heading= write_in_wrapper(c(question$q, sprintf("(question type: %s)", question$type)), "p")
+  
   # output the table
   output= write_three_part_table(output$heading, output$question)
   return(output)
@@ -295,55 +292,47 @@ write_quiz_html= function(s_filename, l_quiz, s_dirname=".") {
 
 
 
-maintest= function() {
-  qq= list()
+write_quiz_html_test= function() {
+  testquestion= list()
+  testquestion$q= "Question 1"
+  testquestion$type= "mc"
+  testquestion$text= c("What is","the meaning of life?")
+  testquestion$answer= c("yes","no","pi")
+  testquestion$correct= c(F,F,F)
+  testblock= list(testquestion)
+
+  testquestion$q= "Question 2"
+  testquestion$type= "ma"
+  testquestion$correct= c(T,T,T)
+  testblock= append(testblock, list(testquestion))
+
+  testquestion$q= "Question 3"
+  testquestion$type= "num"
+  testquestion$answer= matrix(round(rnorm(12), digits = 3), ncol = 3)
+  for (i1 in 1:nrow(testquestion$answer)) testquestion$answer[i1,] = sort(testquestion$answer[i1,])
+  testquestion$answer= testquestion$answer[ ,c(2,1,3)]
+  testquestion$answer[3,1] = testquestion$answer[3,2] - 1
+  testblock= append(testblock, list(testquestion))
+
+  testquiz= list(testblock)
+
+  testquestion$q= "Question 4"
+  testquestion$type= "mb"
+  testquestion$text= c("what is [the] meaning [of] [lif]e?")
+  testquestion$answer= c("geen","idee","hoep")
+  testquestion$answernames= c("[the]", "[of]", "[life]")
+  testquestion$correct= c(F,F,T)
+  testblock= list(testquestion)
+
+  testquestion$q= "Question 5 (essay)"
+  testquestion$type= "alph"
+  testblock= append(testblock, list(testquestion))
   
-  qq$text= c("what is","the meaning of life?")
-  qq$correct= c(F,F,F)
-  qq$q= "de 1e vraag"
-  qq$type= "mc"
-  qq$answer= c("yes","no","pi")
-  q= list(qq)
-  length(q)
+  testquestion$q= "Question 6 (upload)"
+  testquestion$type= "upl"
+  testblock= append(testblock, list(testquestion))
   
-  qq$type= "ma"
-  q= append(q, list(qq))
-  length(q)
-  
-  qq$type= "num"
-  qq$answer= matrix(round(rnorm(12), digits = 4), ncol = 3)
-  for (i1 in 1:nrow(qq$answer)) qq$answer[i1,] = sort(qq$answer[i1,])
-  tmp= qq$answer[,1]; qq$answer[,1]=qq$answer[,2]; qq$answer2=tmp
-  qq$answer[3,1] = qq$answer[3,2] - 1
-  q= append(q, list(qq))
-  length(q)
-  
-  lq= list(q)
-  length(lq)
-  
-  
-  q= list()
-  qq$text= c("what is [the] meaning [of] [lif]e?")
-  qq$correct= c(F,F,T)
-  qq$q= "de 1e vraag"
-  qq$type= "mb"
-  qq$answer= c("geen","idee","hoep")
-  qq$answernames= c("[the]", "[of]", "[life]")
-  q= append(q, list(qq))
-  length(q)
-  
-  qq$type= "alph"
-  q= append(q, list(qq))
-  
-  qq$type= "upl"
-  q= append(q, list(qq))
-  
-  lq= append(lq, list(q))
-  length(lq)
-  
-  write_quiz_html("tmp.html", lq)
+  testquiz= append(testquiz, list(testblock))
+  write_quiz_html("write_quiz_html_test.html", testquiz)
 }
 
-
-
-maintest()
