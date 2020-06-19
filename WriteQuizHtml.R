@@ -330,7 +330,7 @@ write_quiz_html= function(s_filename, l_quiz, s_dirname=".") {
 
 
 
-write_quiz_html_test= function() {
+write_quiz_html_maketestquiz= function() {
   testquestion= list()
   testquestion$q= "Question 1"
   testquestion$type= "mc"
@@ -371,9 +371,13 @@ write_quiz_html_test= function() {
   testblock= append(testblock, list(testquestion))
   
   testquiz= append(testquiz, list(testblock))
+  return(testquiz)
+}
+
+
+write_quiz_html_test() {
+  testquiz= write_quiz_html_maketestquiz()
   write_quiz_html("write_quiz_html_test.html", testquiz)
 }
 
 
-
-write_quiz_html_test()
