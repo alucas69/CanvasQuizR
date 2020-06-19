@@ -112,6 +112,19 @@ write_three_part_table= function(vs_header, vs_question, vs_answer=NULL,
   output= write_in_wrapper(output, "table", s_wrappertag = tablestyle, block = TRUE)
 }
     
+
+check_mc_answers= function(question, minimumcorrect=1, maximumcorrect=1) {
+  if (length(question$answer) != length(question$correct))
+    stop(sprintf("ERROR in question \"%s\": answers and correct have unequal lenghts for ma/mc question\nanswer:\n%s\ncorrect:\n%s", question$q, paste(question$answer, collapse = ", "), paste(question$correct, collapse = ", ")))
+  if (sum(as.integer(question$correct)) < minimumcorrect) 
+    output= write_in_wrapper("WARNING: TOO FEW CORRECT ANSWERS!!", "strong", s_wrappertag = "style=\"color:red\"")
+  else if (sum(as.integer(question$correct)) > maximumcorrect) 
+    output= write_in_wrapper("WARNING: TOO MANY CORRECT ANSWERS!!", "strong", s_wrappertag = "style=\"color:red\"")
+  else output= NULL
+  return(list(warningmessage=output))
+}
+
+
 write_quiz_html_mc= function(question, minimumcorrect=1, maximumcorrect=1) {
   # initialize: three part table with heading, question, answers
   output= list()
@@ -121,11 +134,10 @@ write_quiz_html_mc= function(question, minimumcorrect=1, maximumcorrect=1) {
   # write the table heading
   output$heading= write_in_wrapper(c(question$q, sprintf("(question type: %s)", question$type)), "p")
   # write color coded answers
-  output$answer= write_as_html_ul_color(question$answer, as.logical(question$correct))
-  if (sum(as.integer(question$correct)) < minimumcorrect) 
-    output$answer= c(write_in_wrapper("WARNING: TOO FEW CORRECT ANSWERS!!", "strong", s_wrappertag = "style=\"color:red\""), output$answer)
-  if (sum(as.integer(question$correct)) > maximumcorrect) 
-    output$answer= c(write_in_wrapper("WARNING: TOO MANY CORRECT ANSWERS!!", "strong", s_wrappertag = "style=\"color:red\""), output$answer)
+  output$answer= c(
+    check_mc_answers(question, minimumcorrect=1, maximumcorrect=1)$warningmessage,
+    write_as_html_ul_color(question$answer, as.logical(question$correct))
+  )
   
   # output the table
   output= write_three_part_table(output$heading, output$question, output$answer)
@@ -168,6 +180,28 @@ write_quiz_html_mb_highlight_variables= function(vs_text, s_highlightwrapper="st
 }
 
 
+check_mb_answers= function(question, questionvariables=NULL) {
+  if ((length(question$answer) != length(question$answernames)) | (length(question$answer) != length(question$correct))) {
+    stop(sprintf("ERROR IN MB QUESTION \"%s\": WRONG LENGTHS OF ANSWER VECTORS\nanswer:\n%s\nanswernames:\n%s\ncorrect:\n%s", question$q, paste(question$answer, collapse = ", "), paste(question$answernames, collapse = ", "), paste(question$correct, collapse = ", ")))    
+  }
+  if (is.null(questionvariables)) questionvariables= write_quiz_html_mb_highlight_variables(question$text)$variables
+  output=list(warningmessage=NULL, rowwarnings=rep("", length(question$answer)), notused=NULL)
+
+  correct= rep(TRUE, length(question$answernames))
+  notused= which(!(question$answernames %in% questionvariables))
+  notdefined= which(!(questionvariables %in% question$answernames))
+  if (length(notused) > 0) output$rowwarnings[notused]= write_in_wrapper("WARNING: NOT USED!!","strong")
+  if (length(notdefined) > 0) 
+    output$notused= paste(
+      write_in_wrapper("WARNING: NOT DEFINED!!", "strong"), 
+      write_quiz_html_mb_highlight_variables(questionvariables[notdefined])$text
+    )
+  if ((max(stri_length(output$rowwarnings)) > 0) | (!is.null(output$notused)))
+    output$warningmessage= write_in_wrapper("WARNING: UNUSED OR UNDEFINED VARIABLES IN MB QUESTION", "strong", "style=\"color:red\"")
+  return(output)
+}
+
+
 write_quiz_html_mb= function(question) {
   # initialize: three part table with heading, question, answers
   output= list()
@@ -178,27 +212,33 @@ write_quiz_html_mb= function(question) {
   # write the table heading
   output$heading= write_in_wrapper(c(question$q, sprintf("(question type: %s)", question$type)), "p")
   # write answer part
-  output$answer= write_quiz_html_mb_highlight_variables(paste(
-    question$answernames, ": ", question$answer, sep=""))$text
-  correct= rep(TRUE, length(question$answernames))
-  notused= which(!(question$answernames %in% mb_core$variables))
-  notdefined= which(!(mb_core$variables %in% question$answernames))
-  if (length(notused) > 0) {
-    output$answer[notused]= paste(
-      write_in_wrapper("WARNING: NOT USED!!","strong"), output$answer[notused])
-    correct[notused]= FALSE
-  }
-  if (length(notdefined) > 0) {
-    output$answer= c(output$answer, 
-                     paste(write_in_wrapper("WARNING: NOT DEFINED!!", "strong"), 
-                           write_quiz_html_mb_highlight_variables(mb_core$variables[notdefined])$text)
-    )
-    correct= c(correct, rep(FALSE, length(notdefined)))
-  }
-  output$answer= write_as_html_ul_color(output$answer, correct, truecolor = "black")
+  check= check_mb_answers(question, mb_core$variables)
+  output$answer= write_as_html_ul_color(
+    c(paste(check$rowwarnings,
+          write_quiz_html_mb_highlight_variables(paste(
+            question$answernames, ": ", question$answer, sep=""))$text
+    ),
+    check$notused),
+    c((stri_length(check$rowwarnings) == 0), rep(FALSE, length(check$notused))),
+    truecolor = "black"
+  )
+  output$answer= c(check$warningmessage, output$answer)
   
   # output the table
   output= write_three_part_table(output$heading, output$question, output$answer)
+  return(output)
+}
+
+
+check_num_answers= function(question) {
+  answer= matrix(c(question$answer), ncol=3)
+  correct= (answer[ , 2] <= answer[ , 1]) & (answer[ , 1] <= answer[ , 3])
+  i_false= sum(as.integer(correct))
+  output= list(warningmessage=NULL, rowwarnings=rep("", nrow(answer)))
+  if (sum(as.integer(correct)) > 0) {
+    output$warningmessage= write_in_wrapper("WARNING: NUMERICAL QUESTION BOUND VIOLATION", "strong", "style=\"color:red\"")
+    output$rowwarnings= c(write_in_wrapper("WARNING: BOUND VIOLATION", "strong", "style=\"color:red\""), "")[1+correct]
+  }
   return(output)
 }
 
@@ -212,23 +252,21 @@ write_quiz_html_num= function(question) {
   # write the table heading
   output$heading= write_in_wrapper(c(question$q, sprintf("(question type: %s)", question$type)), "p")
   # check answers
-  correct = 
-    # lower bound below answer
-    (question$answer[ , 2] <= question$answer[ , 1]) &
-    # answer below upper bound
-    (question$answer[ , 1] <= question$answer[ , 3])
+  check= check_num_answers(question)
   # write answers in table
-  output$answer= write_as_html_table(
-    rbind(
-      c("Value", "Lower", "Upper", "Check"),
-      cbind(
-        matrix(c(question$answer), ncol = 3),
-        c(write_in_wrapper("WARNING: BOUND VIOLATION", "strong", "style=\"color:red\""), "")[1+correct]
-      )
-    ),
-    firstrowheader = TRUE
+  output$answer= c(
+    check$warningmessage,
+    write_as_html_table(
+      rbind(
+        c("Value", "Lower", "Upper", "Check"),
+        cbind(
+          matrix(c(question$answer), ncol = 3),
+          check$rowwarnings
+        )
+      ),
+      firstrowheader = TRUE
+    )
   )
-  
   # output the table
   output= write_three_part_table(output$heading, output$question, output$answer)
   return(output)
@@ -336,3 +374,6 @@ write_quiz_html_test= function() {
   write_quiz_html("write_quiz_html_test.html", testquiz)
 }
 
+
+
+write_quiz_html_test()
