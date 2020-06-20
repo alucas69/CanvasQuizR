@@ -128,17 +128,6 @@ DigitDecimalWarning <- function(iDigits = NULL) {
 }
 
 
-EscapeHtml <- function(vStrings, ampersand = TRUE) {
-  for (i1 in 1:length(vStrings)) {
-    if (ampersand) vStrings[i1] <- stri_replace_all(vStrings[i1], "&amp;", regex = "&")
-    vStrings[i1] <- stri_replace_all(vStrings[i1], "&lt;", regex = "<")
-    vStrings[i1] <- stri_replace_all(vStrings[i1], "&gt;", regex = ">")
-  }
-  return(vStrings)
-}
-
-
-
 BlueCourier <- function(sString) {
   return(sprintf("<b style=\"font-family:'Courier New'; color:blue\">%s</b>", sString))
   
