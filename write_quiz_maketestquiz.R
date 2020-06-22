@@ -5,7 +5,7 @@ write_quiz_maketestquiz= function(qtype=NULL, blocks=3, questions=3, witherrors=
     testblock= list()
     for (questioncounter in 1:questions) {
       
-      if (is.null(qtype)) type_i= sample(c("mc","ma","num","alpha","upl"))
+      if (is.null(qtype)) type_i= sample(c("mc","ma","num","alph","upl"), 1)
       else type_i = qtype
       
       testquestion= list()

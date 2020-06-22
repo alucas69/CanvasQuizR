@@ -1,4 +1,5 @@
 check_mb_answers= function(question, questionvariables=NULL) {
+  if (question$type != "mb") stop(sprintf("ERROR: check_mb_answers() for \"%s\" question", question$type))
   if ((length(question$answer) != length(question$answernames)) | (length(question$answer) != length(question$correct))) {
     stop(sprintf("ERROR IN MB QUESTION \"%s\": WRONG LENGTHS OF ANSWER VECTORS\nanswer:\n%s\nanswernames:\n%s\ncorrect:\n%s", question$q, paste(question$answer, collapse = ", "), paste(question$answernames, collapse = ", "), paste(question$correct, collapse = ", ")))    
   }
