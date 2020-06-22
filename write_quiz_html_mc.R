@@ -8,7 +8,7 @@ write_quiz_html_mc= function(question, minimumcorrect=1, maximumcorrect=1) {
   output$heading= write_in_wrapper(c(question$q, sprintf("(question type: %s)", question$type)), "p")
   # write color coded answers
   output$answer= c(
-    check_mc_answers(question, minimumcorrect=1, maximumcorrect=1)$warningmessage,
+    check_mc_answers(question, minimumcorrect, maximumcorrect)$warningmessage,
     write_as_html_ul_color(question$answer, as.logical(question$correct))
   )
   
