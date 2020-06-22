@@ -1,6 +1,9 @@
 # l_quiz is a quiz list of blocks, each block a list of questions
-write_quiz_canvas= function(quiz_key, l_quiz, quiz_name="R generated quiz", subdir=".", 
+write_quiz_canvas= function(l_quiz, quiz_name="R generated quiz", subdir=".", quiz_key=NULL,  
                             zip=TRUE, deletexml=TRUE) {
+  # initialize
+  if (is.null(quiz_key)) quiz_key= generate_key()
+  
   # compile the quiz
   output= NULL
   output_question= list(answer_counter=100000)
