@@ -5,7 +5,7 @@
 #' @param answer_counter is an integer, used to identify subanswers in other type questions.
 #' @keywords numerical answer question for canvas quiz
 #' @export list A list structure holding $output a vector of strings with the <xml> code for the question, and $answer_counter the updated answer_counter.
-write_quiz_canvas_alph= function(question, answer_counter) {
+write_quiz_canvas_num= function(question, answer_counter) {
   
   # check html correctness of question text
   simple_html_checker(question$text)
