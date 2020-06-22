@@ -2,6 +2,10 @@ write_quiz_html_mc= function(question, minimumcorrect=1, maximumcorrect=1) {
   # initialize: three part table with heading, question, answers
   output= list()
   
+  # check html
+  simple_html_checker(question$text)
+  simple_html_checker(question$answer)
+  
   # write the question part as paragraphs
   output$question= write_in_wrapper(question$text, "p")
   # write the table heading

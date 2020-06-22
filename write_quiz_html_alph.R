@@ -2,6 +2,9 @@ write_quiz_html_alph= function(question) {
   # initialize: three part table with heading, question, answers
   output= list()
   
+  # check html
+  simple_html_checker(question$text)
+
   # write the question part as paragraphs
   output$question= write_in_wrapper(question$text, "p")
   # write the table heading

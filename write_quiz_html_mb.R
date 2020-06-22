@@ -2,6 +2,10 @@ write_quiz_html_mb= function(question) {
   # initialize: three part table with heading, question, answers
   output= list()
   
+  # check html
+  simple_html_checker(question$text)
+  simple_html_checker(question$answer)
+  
   # write the question part as paragraphs
   mb_core= write_quiz_html_mb_highlight_variables(question$text)
   output$question= write_in_wrapper(mb_core$text, "p")
