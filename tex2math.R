@@ -312,27 +312,27 @@ tex2mathml <- function(sIn){
       print ("Warning: empty element found")
       sA= ""
     } else if (asIn[i]=="<"){
-      sA= "<mo>&amp;lt;</mo>"
+      sA= "<mo>&lt;</mo>"
     } else if (asIn[i]==">"){
-      sA= "<mo>&amp;gt;</mo>"
+      sA= "<mo>&gt;</mo>"
     } else if ((asIn[i] == "\\") & ((asIn[i+1] == "ge") | (asIn[i+1] == "geq"))) {
-      sA= "<mo>&amp;ge;</mo>"
+      sA= "<mo>&ge;</mo>"
       i= i+1
     } else if ((asIn[i] == "\\") & ((asIn[i+1] == "le") | (asIn[i+1] == "leq"))) {
-      sA= "<mo>&amp;le;</mo>"
+      sA= "<mo>&le;</mo>"
       i= i+1
     } else if ((asIn[i] == "\\") & (asIn[i+1] == "infty")) {
-      sA= "<mo>&amp;infin;</mo>"
+      sA= "<mo>&infin;</mo>"
       i= i+1
     } else if ((asIn[i] == "\\") & (asIn[i+1] == "not") & (asIn[i+2] == "=")) {
-      sA= "<mo>&amp;ne;</mo>"
+      sA= "<mo>&ne;</mo>"
       i= i+2
     } else if ((asIn[i] == "\\") & ((asIn[i+1] == "hat") | (asIn[i+1] == "overline") | (asIn[i+1] == "sqrt"))) {
       lA= getblock(asIn, i+2)
 
       iOHS= which(asIn[i+1] == c("hat", "overline", "sqrt"))
       if (iOHS <= 2)
-        sA= sprintf("<mover accent=\"true\"><mrow>%s</mrow><mo stretchy=\"true\">%s</mo></mover>", lA$sA, c("^", "&amp;oline;")[iOHS])
+        sA= sprintf("<mover accent=\"true\"><mrow>%s</mrow><mo stretchy=\"true\">%s</mo></mover>", lA$sA, c("^", "&oline;")[iOHS])
       else
         sA= sprintf("<msqrt><mrow>%s</mrow></msqrt>", lA$sA)
       i= lA$i2
@@ -342,7 +342,7 @@ tex2mathml <- function(sIn){
       sA= sprintf("<mfrac><mrow>%s</mrow><mrow>%s</mrow></mfrac>", lA$sA, lB$sA)
       i= lB$i2
     } else if (asIn[i] == "\\") {
-      sA= sprintf("<mi>&amp;%s;</mi>", asIn[i+1])
+      sA= sprintf("<mi>&%s;</mi>", asIn[i+1])
       i= i+1
     } else if (any(vIss)) {
       iS= length(asOut)
