@@ -1,14 +1,16 @@
-#' construct Canvas xml code for an essay question
+#' construct Canvas xml code for a numerical answer question
 #'
-#' This function constructs Canvas xml code for an essay question
+#' This function constructs Canvas xml code for a numerical answer question
 #' @param question is a list structure with $text the question text,  $points_possible the number of points for this question (if absent, then 1pt), $question_key (if absent, randomly geneerated).
 #' @param answer_counter is an integer, used to identify subanswers in other type questions.
-#' @keywords essay question for canvas quiz
+#' @keywords numerical answer question for canvas quiz
 #' @export list A list structure holding $output a vector of strings with the <xml> code for the question, and $answer_counter the updated answer_counter.
 write_quiz_canvas_alph= function(question, answer_counter) {
   
   # check html correctness of question text
   simple_html_checker(question$text)
+  # check answers
+  check_num_answers(question)
   
   # initialize identifiers
   if (is.null(question$question_key)) question_key= generate_key()
@@ -31,20 +33,33 @@ write_quiz_canvas_alph= function(question, answer_counter) {
   # add wrappers for canvas
   output2= write_in_wrapper(output2, "mattext", s_wrappertag="texttype=\"text/html\"", block=TRUE)
   output2= write_in_wrapper(output2, "material", block=TRUE)
-  
   # add response part
-  output3= write_in_wrapper("<response_label ident=\"answer1\" rshuffle=\"No\"/>", "render_fib", block=TRUE)
+  output3= write_in_wrapper("<response_label ident=\"answer1\"/>", "render_fib", s_wrappertag="fibtype=\"Decimal\"", block=TRUE)
   output2= c(output2, write_in_wrapper(output3, "response_str", s_wrappertag="ident=\"response1\" rcardinality=\"Single\"", block=TRUE))
+  # complete presentation part and add to output
   output2= write_in_wrapper(output2, "presentation", block=TRUE)
   output= c(output, output2)
   
-  # add upload field in canvas wrappers
-  output2= "<decvar maxvalue=\"100\" minvalue=\"0\" varname=\"SCORE\" vartype=\"Decimal\"/>"
-  output2= write_in_wrapper(output2, "outcomes", block=TRUE)
-  output2= c(output2, write_in_wrapper(write_in_wrapper("<other/>", "conditionvar", block=TRUE), "respcondition", s_wrappertag="continue=\"No\"", block=TRUE))
-  output2= write_in_wrapper(output2, "resprocessing", block=TRUE)
-  output= c(output, output2)
-
+  # construct the answer processing part
+  output2= write_in_wrapper("<decvar maxvalue=\"100\" minvalue=\"0\" varname=\"SCORE\" vartype=\"Decimal\"/>", "outcomes", block=TRUE)
+  # add the individual answers
+  for (i1 in 1:iNumberOfAnswers) {
+    output3= write_in_wrapper(
+      write_in_wrapper(
+        c(
+          write_in_wrapper(sprintf("%f",answers[i1,1]), "varequal", s_wrappertag="respident=\"response1\""),
+          write_in_wrapper(c(
+            write_in_wrapper(sprintf("%f",answers[i1,2]), "vargte", s_wrappertag="respident=\"response1\""),
+            write_in_wrapper(sprintf("%f",answers[i1,3]), "varlte", s_wrappertag="respident=\"response1\""),
+          ), "and", block=TRUE)
+        ), "or", block=TRUE), 
+      "conditionvar", block=TRUE)
+    output3= c(output3, write_in_wrapper("100", "setvar", s_wrappertag="action=\"Set\" varname=\"SCORE\""))
+    output3= write_in_wrapper(output3, "respcondition", s_wrappertag="continue=\"No\"", block=TRUE)
+  }
+  # put total answer(s) in canvas answer processing wrapper
+  output= c(output, write_in_wrapper(output2, "resprocessing", block=TRUE))
+  
   # add total question wrapper
   output= write_in_wrapper(output, "item", s_wrappertag=sprintf("ident=\"%s\" title=\"%s\"", question_key, question$q), block=TRUE)
   return(list(output=output, answer_counter=answer_counter))
