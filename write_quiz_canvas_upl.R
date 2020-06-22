@@ -1,66 +1,25 @@
 #' construct Canvas xml code for an upload question
 #'
 #' This function constructs Canvas xml code for an upload question
-#' @param question is a list structure with $text the question text,  $points_possible the number of points for this question (if absent, then 1pt).
+#' @param question is a list structure with $text the question text,  $points_possible the number of points for this question (if absent, then 1pt), $question_key (if absent, randomly geneerated).
 #' @param answer_counter is an integer, used to identify subanswers in other type questions.
-#' @param question_key is an identifier for the question. If not present, a random key is generated using generate_key().
 #' @keywords upload question for canvas quiz
 #' @export list A list structure holding $output a vector of strings with the <xml> code for the question, and $answer_counter the updated answer_counter.
-write_quiz_canvas_upl= function(question, answer_counter, question_key=NULL) {
+write_quiz_canvas_upl= function(question, answer_counter) {
   
   # check html correctness of question text
   simple_html_checker(question$text)
   
   # initialize identifiers
-  if (is.null(question_key)) question_key= generate_key()
+  if (is.null(question$question_key)) question_key= generate_key()
+  if (is.null(question$points_possible)) points_possible= 1 else points_possible= question$points_possible
   i_number_of_answers= 1
   v_answer_identifiers= paste(answer_counter + (1:i_number_of_answers))
   answer_counter= answer_counter + i_number_of_answers
-  if (is.null(question$points_possible)) points_possible= 1 else points_possible= question$points_possible
   
   # initialize output
-  output= NULL
-  
-  # write the question type in canvas wrapper
-  output2= write_in_wrapper(
-    c(
-      write_in_wrapper("question_type", "fieldlabel"),
-      write_in_wrapper("file_upload_question", "fieldentry")
-    ), "qtimetadatafield", block=TRUE
-  )
-  output= c(output, output2)
-  
-  # allocate the points in canvas wrapper
-  output2= write_in_wrapper(
-    c(
-      write_in_wrapper("points_possible", "fieldlabel"),
-      write_in_wrapper(sprintf("%1.1f", possible_points), "fieldentry")
-    ), "qtimetadatafield", block=TRUE
-  )
-  output= c(output, output2)
-  
-  # introduce unique identifiers for the answers step1 in canvas wrapper
-  output2= write_in_wrapper(
-    c(
-      write_in_wrapper("original_answer_ids", "fieldlabel"),
-      write_in_wrapper("", "fieldentry")
-    ), "qtimetadatafield", block=TRUE
-  )
-  output= c(output, output2)
-  
-  # introduce unique identifiers for the answers step2 in canvas wrapper
-  output2= write_in_wrapper(
-    c(
-      write_in_wrapper("assessment_question_identifierref", "fieldlabel"),
-      write_in_wrapper(sprintf("%s", paste(question_key, "a", sep = "")), "fieldentry")
-    ), "qtimetadatafield", block=TRUE
-  )
-  output= c(output, output2)
-  
-  # add wrappers for canvas
-  output= write_in_wrapper(output, "qtimetadata", block=TRUE)
-  output= write_in_wrapper(output, "itemmetadata", block=TRUE)
-  
+  output= write_quiz_canvas_question_preamble("file_upload_question", points_possible, v_answer_identifiers, question_key)
+
   # write html the question in <div> wrapper, and then escape it
   output2= html_escape(
     write_in_wrapper(
