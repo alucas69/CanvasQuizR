@@ -15,7 +15,7 @@ write_quiz_canvas_num= function(question, answer_counter) {
   # initialize identifiers
   if (is.null(question$question_key)) question_key= generate_key()
   if (is.null(question$points_possible)) points_possible= 1 else points_possible= question$points_possible
-  iNumberOfAnswers <- nrow(answers)
+  i_number_of_answers= nrow(question$answer)
   v_answer_identifiers= paste(answer_counter + (1:i_number_of_answers))
   answer_counter= answer_counter + i_number_of_answers
 
@@ -43,14 +43,14 @@ write_quiz_canvas_num= function(question, answer_counter) {
   # construct the answer processing part
   output2= write_in_wrapper("<decvar maxvalue=\"100\" minvalue=\"0\" varname=\"SCORE\" vartype=\"Decimal\"/>", "outcomes", block=TRUE)
   # add the individual answers
-  for (i1 in 1:iNumberOfAnswers) {
+  for (i1 in 1:i_number_of_answers) {
     output3= write_in_wrapper(
       write_in_wrapper(
         c(
-          write_in_wrapper(sprintf("%f",answers[i1,1]), "varequal", s_wrappertag="respident=\"response1\""),
+          write_in_wrapper(sprintf("%f",question$answer[i1,1]), "varequal", s_wrappertag="respident=\"response1\""),
           write_in_wrapper(c(
-            write_in_wrapper(sprintf("%f",answers[i1,2]), "vargte", s_wrappertag="respident=\"response1\""),
-            write_in_wrapper(sprintf("%f",answers[i1,3]), "varlte", s_wrappertag="respident=\"response1\""),
+            write_in_wrapper(sprintf("%f",question$answer[i1,2]), "vargte", s_wrappertag="respident=\"response1\""),
+            write_in_wrapper(sprintf("%f",question$answer[i1,3]), "varlte", s_wrappertag="respident=\"response1\"")
           ), "and", block=TRUE)
         ), "or", block=TRUE), 
       "conditionvar", block=TRUE)
@@ -62,6 +62,7 @@ write_quiz_canvas_num= function(question, answer_counter) {
   
   # add total question wrapper
   output= write_in_wrapper(output, "item", s_wrappertag=sprintf("ident=\"%s\" title=\"%s\"", question_key, question$q), block=TRUE)
+  
   return(list(output=output, answer_counter=answer_counter))
 }
 
