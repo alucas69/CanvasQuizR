@@ -1,4 +1,14 @@
+# clean up
 rm(list=ls())
+
+
+# libraries
+library(stringi)
+library(psych)
+library(car)
+
+
+# load engine
 engine_sources= c(
   #
   # auxiliary functions
@@ -30,12 +40,17 @@ engine_sources= c(
 for (subsource in engine_sources) eval(parse(text=sprintf("source(\"%s\")", subsource)))
 
 
-# set up the quiz
+
+# load quiz sources
 qdir= "./2020resitv_1/questions"
 numbervariations= 1
+exam_sources= c(
+  "Q20200629_1nw-core.R"
+)
+for (subsource in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", qdir, subsource)))
 questions= matrix(c(
-  numbervariations, "Q20200629_1a", 
-  numbervariations, "Q20200629_1b", 
+  numbervariations, "Q20200629_1a",
+  numbervariations, "Q20200629_1b",
   numbervariations, "Q20200629_1c",
   numbervariations, "Q20200629_1d",
   numbervariations, "Q20200629_1e",
@@ -44,38 +59,45 @@ questions= matrix(c(
   numbervariations, "Q20200629_1i",
   numbervariations, "Q20200629_1j",
   numbervariations, "Q20200629_1l",
-  numbervariations, "Q20200629_1m"
+  numbervariations, "Q20200629_1m",
+  numbervariations, "Q20200629_1n",
+  numbervariations, "Q20200629_1o",
+  numbervariations, "Q20200629_1p",
+  numbervariations, "Q20200629_1q",
+  numbervariations, "Q20200629_1r",
+  numbervariations, "Q20200629_1s",
+  numbervariations, "Q20200629_1t",
+  numbervariations, "Q20200629_1u",
+  numbervariations, "Q20200629_1v",
+  numbervariations, "Q20200629_1w",
+  numbervariations, "Q20200629_1x",
+  numbervariations, "Q20200629_1y",
+  numbervariations, "Q20200629_1z"
 ), nrow=2)
-
-# load the sources
 for (blockcounter in 1:ncol(questions)) {
-  print(sprintf("source(\"%s/%s.R\")", qdir, questions[2, blockcounter]))
   eval(parse(text = sprintf("source(\"%s/%s.R\")", qdir, questions[2, blockcounter])))
 }
 
-# draw the quiz
+
+
+# construct the exam
 exam = list()
 for (blockcounter in 1:ncol(questions)) {
   block = list()
   for (questioncounter in 1:questions[1, blockcounter]) {
     print(sprintf("Question %d.%d", blockcounter, questioncounter))
+    # print(questions[2,blockcounter])
     eval(parse(text = sprintf("question_tmp= %s()", questions[2, blockcounter])))
     question_tmp$q= sprintf("Q%d", blockcounter)
     block= append(block, list(question_tmp))
-    
-    #check html
-    print("Checking html of question")
-    print(question_tmp$text)
-    simple_html_checker(question_tmp$text)
-    print("Checking html of answer")
-    if ((question_tmp$type == "ma") | (question_tmp$type == "mb") | (question_tmp$type == "mc")) simple_html_checker(question_tmp$answer)
   }
   exam= append(exam, list(block))
 }
 
-# write the quiz
-write_quiz_html(exam)
-write_quiz_canvas(exam)
+
+# write the exam
+write_quiz_html(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
+write_quiz_canvas(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
 
 
 
