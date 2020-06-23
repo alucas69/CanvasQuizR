@@ -100,7 +100,7 @@ assessment_meta <- function(quiz_key, subdir = ".", title = "R generated quiz",
   }
   
   output1= c(output1, 
-             write_in_wrapper(output2, "quiz", s_wrappertag=sprintf("identifier=\"%s\" xmlns=\"http://canvas.instructure.com/xsd/cccv1p0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://canvas.instructure.com/xsd/cccv1p0 https://canvas.instructure.com/xsd/cccv1p0.xsd\">", quiz_key),
+             write_in_wrapper(output2, "quiz", s_wrappertag=sprintf("identifier=\"%s\" xmlns=\"http://canvas.instructure.com/xsd/cccv1p0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://canvas.instructure.com/xsd/cccv1p0 https://canvas.instructure.com/xsd/cccv1p0.xsd\"", quiz_key),
                               block=TRUE))
 
   # write the file
