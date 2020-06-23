@@ -422,7 +422,7 @@ tex2math <- function(sIn, init=FALSE, math=FALSE){
   iS= length(sIn)
   if (iS > 1)
     { # If this is a vector, transform each vector
-      asOut= list()
+      asOut= NULL
       for (sInI in sIn){
         asOut= c(asOut, tex2math(sInI, init, math))
       }
