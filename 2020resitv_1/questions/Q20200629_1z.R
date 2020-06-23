@@ -1,9 +1,6 @@
-Q20200629_1z <- function(QuizFile, Counters, NumberOfVariations) {
+Q20200629_1z <- function() {
 
-  for (i1 in 1:NumberOfVariations) {
-    #
-    # generate data with insignificant Levene test
-    #
+  qtype= "ma"
     QuestionText <- matrix(c(
       # # regression
       # 1, "For a sample of students the following data are available: the individual's 
@@ -50,12 +47,6 @@ Q20200629_1z <- function(QuizFile, Counters, NumberOfVariations) {
     Answers <- cbind(Answers, c(0, "None of the above"))
     Answers[1,] <- 0 + (as.numeric(Answers[1,]) == CorrectAnswer)
     if (max(as.numeric(Answers[1,])) == 0) Answers[1,ncol(Answers)] <- 1
-    #
-    # pose the question
-    #
-    Counters <- MAquestion(QuizFile, "(testing)", QuestionText,
-                            Answers[2,], (as.numeric(Answers[1,]) == 1), Counters, texify = TRUE)
-  }
-  
-  return(Counters)
+
+    return(list(type=qtype, text=QuestionText, answer=Answers))    
 }

@@ -1,4 +1,4 @@
-Q20200629_1nw_core <- function(QuizFile, Counters, NumberOfVariations) {
+Q20200629_1nw_core <- function() {
   
   # make the dgp
   dMean1 <- sample(30:100, 1)
