@@ -1,5 +1,5 @@
 # l_quiz is a quiz list of blocks, each block a list of questions
-write_quiz_html= function(l_quiz, s_filename="write_quiz_html.html", s_dirname=".") {
+write_quiz_html= function(l_quiz, s_filename="write_quiz_html.html", subdir=".") {
   # compile the quiz
   output= NULL
   for (i0 in 1:length(l_quiz)) {
@@ -16,6 +16,6 @@ write_quiz_html= function(l_quiz, s_filename="write_quiz_html.html", s_dirname="
       output= c(output, "&nbsp;<br>&nbsp;<br>")
     }
   }
-  write_quiz_html_file(s_filename, output, s_dirname)  
+  write_quiz_html_file(s_filename, output, subdir)  
 }
 
