@@ -5,7 +5,7 @@
 #' @param answer_counter is an integer, used to identify subanswers in other type questions.
 #' @keywords multiple answer question for canvas quiz
 #' @export list A list structure holding $output a vector of strings with the <xml> code for the question, and $answer_counter the updated answer_counter.
-write_quiz_canvas_mc= function(question, answer_counter) {
+write_quiz_canvas_ma= function(question, answer_counter) {
   
   # check html correctness of question text
   simple_html_checker(question$text)
@@ -16,7 +16,7 @@ write_quiz_canvas_mc= function(question, answer_counter) {
   # initialize identifiers
   if (is.null(question$question_key)) question_key= generate_key()
   if (is.null(question$points_possible)) points_possible= 1 else points_possible= question$points_possible
-  iNumberOfAnswers <- length(question$answer)
+  i_number_of_answers <- length(question$answer)
   v_answer_identifiers= paste(answer_counter + (1:i_number_of_answers))
   answer_counter= answer_counter + i_number_of_answers
 
@@ -36,13 +36,13 @@ write_quiz_canvas_mc= function(question, answer_counter) {
   output2= write_in_wrapper(output2, "material", block=TRUE)
   # add responses part
   output3= NULL
-  for (i1 in 1:iNumberOfAnswers) {
+  for (i1 in 1:i_number_of_answers) {
     output3= c(output3,
                write_in_wrapper(
                  write_in_wrapper(
                    write_in_wrapper(html_escape(question$answer[i1]), "mattext", s_wrappertag="texttype=\"text/html\""),
                    "material", block=TRUE
-                 ), "response_label", s_wrappertag=sprintf("ident=\"%s\"", vAnswerIdentifiers[i1])
+                 ), "response_label", s_wrappertag=sprintf("ident=\"%s\"", v_answer_identifiers[i1]), block=TRUE
                ))
   }
   output3= write_in_wrapper(output3, "render_choice", block=TRUE)
@@ -54,17 +54,16 @@ write_quiz_canvas_mc= function(question, answer_counter) {
   # construct the answer processing part
   output2= write_in_wrapper("<decvar maxvalue=\"100\" minvalue=\"0\" varname=\"SCORE\" vartype=\"Decimal\"/>", "outcomes", block=TRUE)
   # add the correct answer indicator and add canvas wrappers
-#  output3= write_in_wrapper(answer_tmp[1], "varequal", s_wrappertag="respident=\"response1\"")
   output3= NULL
-  for (i1 in 1:iNumberOfAnswers) 
-    output3= c(output3,
-               write_in_wrapper(
-                 write_in_wrapper(v_answer_identifiers[i1], "varequal", s_wrappertag="respident=\"response1\""),
-                 c("not","")[1+question$correct[i1]]))
-  output3= write_in_wrapper(output3, "and")
-  output3= write_in_wrapper(output3, "conditionvar")
+  for (i1 in 1:i_number_of_answers) {
+    output4= write_in_wrapper(v_answer_identifiers[i1], "varequal", s_wrappertag="respident=\"response1\"")
+    if (!question$correct[i1]) output4= write_in_wrapper(output4, "not", block=TRUE)
+    output3= c(output3, output4)
+  }
+  output3= write_in_wrapper(output3, "and", block=TRUE)
+  output3= write_in_wrapper(output3, "conditionvar", block=TRUE)
   output3= c(output3, write_in_wrapper("100", "setvar", s_wrappertag="action=\"Set\" varname=\"SCORE\""))
-  output3= write_in_wrapper(output3, "respcondition")
+  output3= write_in_wrapper(output3, "respcondition", s_wrappertag="continue=\"No\"", block=TRUE)
   output2= c(output2, output3)
   output2= write_in_wrapper(output2, "resprocessing", block=TRUE)
   output= c(output, output2)

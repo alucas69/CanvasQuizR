@@ -47,7 +47,7 @@ myprettytableprint <- function(s, digits = 3, title = NULL, floatcolumn = NULL) 
     }
     outtable <- sprintf("%s%s\n",outtable, outline)
   }
-  return(EscapeHtml(outtable, ampersand = FALSE))
+  return(html_escape(outtable, convert_ampersand = FALSE))
 }
 
 
@@ -59,7 +59,7 @@ myprettyleveneprint <- function(tb, digits = 3) {
                               len1, digits, len2, digits),
                       "Levene's Test for Homogeneity of Variance",
                       "F value", "P(>F)", tb$`F value`[1], tb$`Pr(>F)`[1])
-  return(outtable)
+  return(html_escape(outtable, convert_ampersand = FALSE))
 }
 
 
@@ -80,7 +80,7 @@ myprettyttestprint <- function(tb, digits = 3, withalternative = TRUE, withnullv
                                 true difference in means is %s %%1.0f", digits, alttext),
                         outtable, tb$p.value, tb$null.value)
   }
-  return(outtable)
+  return(html_escape(outtable, convert_ampersand = FALSE))
 }
 
 

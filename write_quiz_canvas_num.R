@@ -15,6 +15,7 @@ write_quiz_canvas_num= function(question, answer_counter) {
   # initialize identifiers
   if (is.null(question$question_key)) question_key= generate_key()
   if (is.null(question$points_possible)) points_possible= 1 else points_possible= question$points_possible
+  question$answer= matrix(c(question$answer), ncol=3)
   i_number_of_answers= nrow(question$answer)
   v_answer_identifiers= paste(answer_counter + (1:i_number_of_answers))
   answer_counter= answer_counter + i_number_of_answers
@@ -58,6 +59,7 @@ write_quiz_canvas_num= function(question, answer_counter) {
     output3= write_in_wrapper(output3, "respcondition", s_wrappertag="continue=\"No\"", block=TRUE)
   }
   # put total answer(s) in canvas answer processing wrapper
+  output2= c(output2, output3)
   output= c(output, write_in_wrapper(output2, "resprocessing", block=TRUE))
   
   # add total question wrapper

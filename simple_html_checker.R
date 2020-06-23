@@ -10,8 +10,8 @@ simple_html_checker= function(vs_text) {
   position2= stri_locate_all(text, regex = "<[^<]+>")[[1]]
   number_tags= nrow(position2) - is.na(position2[1,1])
   # check for stray < or >
-  if (number_lt != number_tags) stop("ERROR: STRAY < IN HTML")
-  if (number_gt != number_tags) stop("ERROR: STRAY > IN HTML")
+  if (number_lt != number_tags) stop(c("ERROR: STRAY < IN HTML", vs_text))
+  if (number_gt != number_tags) stop(c("ERROR: STRAY > IN HTML", vs_text))
   if (number_tags == 0) return()
   # get html tags
   tag= rep(NA, number_tags)
