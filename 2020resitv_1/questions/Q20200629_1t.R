@@ -2,10 +2,10 @@ Q20200629_1t <- function() {
   
   # generate data with insignificant Levene test
   iDigits <- 3
-  qtype= "num"
+  qtype= "mc"
   dLevenePval <- 0
   while (dLevenePval < 0.10) {
-    Sample <- Q20200629_1nw_core(QuizeFile, Counters, NumberOfVariations)
+    Sample <- Q20200605_1nw_core()
     y <- c(Sample$Sample1, Sample$Sample2)
     Smpl <- y
     Smpl[1:nrow(Sample)] <- "Sample1"
@@ -39,7 +39,8 @@ Q20200629_1t <- function() {
     -1, "$H_1: \\mu_1 < \\mu_2$",
     0, "None of the above"),
     nrow = 2)[, c(sample(1:3, 3), 4)]
-  Answers
+  Answers[2,]= tex2math(Answers[2,])
+  Answers[1,]= as.numeric(as.numeric(Answers[1,]) == iDirection)
   
-  return(list(type=qtype, text=QuestionText, answer=Answers))    
+  return(list(type=qtype, text=QuestionText, answer=Answers[2,], correct=(as.numeric(Answers[1,])==1)))    
 }

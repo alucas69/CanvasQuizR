@@ -14,3 +14,6 @@ Q20200629_1nw_core <- function() {
   # return
   return( Sample )
 }
+
+Q20200605_1nw_core <- function() return(Q20200629_1nw_core())
+  

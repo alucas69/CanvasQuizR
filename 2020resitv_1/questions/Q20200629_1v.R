@@ -3,7 +3,7 @@ Q20200629_1v <- function() {
   # generate data with insignificant Levene test
   iDigits <- 3
   qtype= "num"
-  Sample <- Q20200629_1nw_core(QuizeFile, Counters, NumberOfVariations)
+  Sample <- Q20200605_1nw_core()
   dAlpha <- sample(c(0.01,0.05,0.10), 1)
   iN <- nrow(Sample)
   dMean <- mean(Sample$Sample1)

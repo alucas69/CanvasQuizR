@@ -5,7 +5,7 @@ Q20200629_1q <- function() {
   qtype= "num"
   dLevenePval <- 0
   while (dLevenePval < 0.10) {
-    Sample <- Q20200629_1nw_core(QuizeFile, Counters, NumberOfVariations)
+    Sample <- Q20200605_1nw_core()
     y <- c(Sample$Sample1, Sample$Sample2)
     Smpl <- y
     Smpl[1:nrow(Sample)] <- "Sample1"

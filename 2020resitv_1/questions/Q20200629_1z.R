@@ -1,6 +1,6 @@
 Q20200629_1z <- function() {
 
-  qtype= "ma"
+  qtype= "mc"
     QuestionText <- matrix(c(
       # # regression
       # 1, "For a sample of students the following data are available: the individual's 
@@ -48,5 +48,5 @@ Q20200629_1z <- function() {
     Answers[1,] <- 0 + (as.numeric(Answers[1,]) == CorrectAnswer)
     if (max(as.numeric(Answers[1,])) == 0) Answers[1,ncol(Answers)] <- 1
 
-    return(list(type=qtype, text=QuestionText, answer=Answers))    
+    return(list(type=qtype, text=QuestionText, answer=Answers[2,], correct=(as.numeric(Answers[1,])==1)))    
 }
