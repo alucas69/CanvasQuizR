@@ -43,7 +43,7 @@ for (subsource in engine_sources) eval(parse(text=sprintf("source(\"%s\")", subs
 
 # load quiz sources
 qdir= "./2020resitv_1/questions"
-numbervariations= 50
+numbervariations= 10
 exam_sources= c(
   "ID_question.R", "Q20200629_1nw-core.R", 
   "Q20200629_1a.R", "Q20200629_1b.R", "Q20200629_1c.R", "Q20200629_1d.R",
@@ -80,11 +80,47 @@ questions= matrix(c(
   # numbervariations, "Q20200629_1x",
   # numbervariations, "Q20200629_1y",
   # numbervariations, "Q20200629_1z",
-  numbervariations, "Q_5step_anova.1_step1a"
+  # numbervariations, "Q_5step_anova.1_step1a",
+  # numbervariations, "Q_5step_anova.1_step2a",
+  # numbervariations, "Q_5step_anova.1_step3a",
+  # numbervariations, "Q_5step_anova.1_step3b",
+  # numbervariations, "Q_5step_anova.1_step3c",
+  numbervariations, "Q_5step_anova.1_step5a"
+  # numbervariations, "Q_5step_anova.1_step5b"
 ), nrow=2)
 
 
-set.seed(55)
+#set.seed(55)
+
+# myprettycapture= function(s_command, l.aov, collapse=NULL, htmlescape=TRUE, convert_ampersand=FALSE) {
+#   # TODO: next line should work, but does not; if it does, eliminate l.aov argument
+#   # then also change myprettyaovprint()
+#   # output= paste(capture.output(eval.parent(parse(text = s_command), n=1)), collapse=collapse)
+#   output= capture.output(eval(parse(text = s_command)))
+#   output= stri_replace_all(output, "&apos;", regex="[‘’']")
+#   output= stri_replace_all(output, "&quot;", regex="[\"]")
+#   output= paste(output, collapse=collapse)
+#   if (htmlescape) output= html_escape(output, convert_ampersand=convert_ampersand)
+#   return(output)
+# }
+# 
+# myprettyaovprint <- function(l.aov) {
+#   # Output: list of 4 tables, 
+#   #   $aov, with output of aov print
+#   #   $aov_summary, with output of summary(aov) print
+#   #   $aov_levene, with output of leveneTest(aov) print
+#   #   $aov_tukey, with output of TukeyHSD(aov) print
+#   aov=myprettycapture("l.aov", l.aov, collapse="\n")
+#   aov_summary=myprettycapture("summary(l.aov)", l.aov, collapse="\n")
+#   aov_levene=myprettycapture("leveneTest(l.aov)", l.aov, collapse="\n")
+#   aov_tukey=myprettycapture("TukeyHSD(l.aov)", l.aov, collapse="\n")
+#   output=list(aov=aov, aov_summary=aov_summary, aov_levene=aov_levene, aov_tukey=aov_tukey)
+#   return(output)
+# }
+
+
+
+
 
 
 # construct the exam
@@ -104,7 +140,7 @@ for (blockcounter in 1:ncol(questions)) {
 
 # write the exam
 write_quiz_html(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
-# write_quiz_canvas(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
+write_quiz_canvas(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
 
 
 
