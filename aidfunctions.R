@@ -63,6 +63,32 @@ myprettyleveneprint <- function(tb, digits = 3) {
 }
 
 
+myprettycapture= function(s_command, l.aov, collapse=NULL, htmlescape=TRUE, convert_ampersand=FALSE) {
+  # TODO: next line should work, but does not; if it does, eliminate l.aov argument
+  # then also change myprettyaovprint()
+#  output= paste(capture.output(eval.parent(parse(text = s_command), n=1)), collapse=collapse)
+  output= paste(capture.output(eval(parse(text = s_command))), collapse=collapse)
+  if (htmlescape) output= html_escape(output, convert_ampersand=convert_ampersand)
+  return(output)
+}
+
+
+myprettyaovprint <- function(l.aov) {
+# Output: list of 4 tables, 
+#   $aov, with output of aov print
+#   $aov_summary, with output of summary(aov) print
+#   $aov, with output of leveneTest(aov) print
+#   $aov, with output of TukeyHSD(aov) print
+  output= list(
+    aov=myprettycapture("l.aov", l.aov, collapse="\n"),
+    aov_summary=myprettycapture("summary(l.aov)", l.aov, collapse="\n"),
+    aov_levene=myprettycapture("leveneTest(l.aov)", l.aov, collapse="\n"),
+    aov_tukey=myprettycapture("TukeyHSD(l.aov)", l.aov, collapse="\n")
+  )
+  return(output)
+}
+
+
 
 myprettyttestprint <- function(tb, digits = 3, withalternative = TRUE, withnullvalue = TRUE) {
   # print title
@@ -143,3 +169,6 @@ HtmlUlList <- function(vStrings) {
   Out <- paste(Out, "</ul>", sep = "")
   return(Out)
 }
+
+
+  
