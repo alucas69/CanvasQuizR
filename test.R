@@ -91,6 +91,67 @@ questions= matrix(c(
 
 
 #set.seed(55)
+# myprettycapture= function(s_command, l.aov, collapse=NULL, htmlescape=TRUE, convert_ampersand=FALSE, debug=FALSE, omitlast=0) {
+#   # TODO: next line should work, but does not; if it does, eliminate l.aov argument
+#   # then also change myprettyaovprint()
+#   # output= paste(capture.output(eval.parent(parse(text = s_command), n=1)), collapse=collapse)
+#   output=capture.output(eval(parse(text=s_command)))
+#   if (debug) {
+#     print("AFTER CAPTURE 1")
+#     print(output)
+#     print(typeof(output))
+#     print(str(output))
+#   }
+#   outputp= stri_replace_all(output, "&apos;", regex="[‘’]")
+#   if (debug) {
+#     print("AFTER CAPTURE 2")
+#     print(outputp)
+#     print(typeof(outputp))
+#     print(str(outputp))
+#   }
+#   output= stri_replace_all(output, "&quot;", regex="[\"]")
+#   if (debug) {
+#     print("AFTER CAPTURE 3")
+#     print(output)
+#     print(typeof(output))
+#   }
+#   if (omitlast > 0) output= output[1:(length(output)-omitlast)]
+#   if (debug) {
+#     print("AFTER CAPTURE 3b")
+#     print(output)
+#     print(typeof(output))
+#   }
+#   output= paste(output, collapse=collapse)
+#   if (htmlescape) output= html_escape(output, convert_ampersand=convert_ampersand)
+#   if (debug) {
+#     print("AFTER CAPTURE 4")
+#     print(output)
+#     print(typeof(output))
+#   }
+#   if (debug) {print("IN PRETTYCAPTURE 5"); print(output)}
+#   return(output)
+# }
+# 
+# myprettyaovprint <- function(l.aov) {
+#   # Output: list of 4 tables, 
+#   #   $aov, with output of aov print
+#   #   $aov_summary, with output of summary(aov) print
+#   #   $aov_levene, with output of leveneTest(aov) print
+#   #   $aov_tukey, with output of TukeyHSD(aov) print
+#   aov=myprettycapture("l.aov", l.aov, collapse="\n")
+#   # MYSTERY: this works in console
+#   # a=data.frame(cbind(rnorm(50), sample(c(1,2),50, replace = TRUE))); a["X1"]=3*a["X2"]; b=aov(X1 ~ X2, data=a); o=capture.output(eval(parse(text="summary(b)"))); oo=stri_replace_all(o, "&apos;", regex="[‘’']"); oo
+#   aov_summary=myprettycapture("summary(l.aov)", l.aov, collapse="\n", debug=TRUE, omitlast=TRUE)
+#   print("IN AOVPRINT")
+#   print(aov_summary)
+#   aov_levene=myprettycapture("leveneTest(l.aov)", l.aov, collapse="\n")
+#   aov_tukey=myprettycapture("TukeyHSD(l.aov)", l.aov, collapse="\n")
+#   output=list(aov=aov, aov_summary=aov_summary, aov_levene=aov_levene, aov_tukey=aov_tukey)
+#   return(output)
+# }
+
+
+
 
 # myprettycapture= function(s_command, l.aov, collapse=NULL, htmlescape=TRUE, convert_ampersand=FALSE) {
 #   # TODO: next line should work, but does not; if it does, eliminate l.aov argument
@@ -119,6 +180,14 @@ questions= matrix(c(
 # }
 
 
+a=data.frame(cbind(rnorm(50), sample(c(1,2),50, replace = TRUE)))
+a["X1"]=3*a["X2"]; 
+b=aov(X1 ~ X2, data=a)
+o=capture.output(eval(parse(text="summary(b)")))
+print(o)
+oo=stri_replace_all(o, "&apos;", regex="[‘’']"); 
+print(oo)
+stop(0)
 
 
 

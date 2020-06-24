@@ -67,18 +67,19 @@ myprettycapture= function(s_command, l.aov, collapse=NULL, htmlescape=TRUE, conv
   # TODO: next line should work, but does not; if it does, eliminate l.aov argument
   # then also change myprettyaovprint()
   # output= paste(capture.output(eval.parent(parse(text = s_command), n=1)), collapse=collapse)
-  output= capture.output(eval(parse(text = s_command)))
+  output=capture.output(eval(parse(text=s_command)))
   if (debug) {
     print("AFTER CAPTURE 1")
     print(output)
     print(typeof(output))
     print(str(output))
   }
-  outputp= stri_replace_all(output, "&apos;", regex="[‘’']")
+  outputp= stri_replace_all(output, "&apos;", regex="[‘’]")
   if (debug) {
     print("AFTER CAPTURE 2")
     print(outputp)
     print(typeof(outputp))
+    print(str(outputp))
   }
   output= stri_replace_all(output, "&quot;", regex="[\"]")
   if (debug) {
@@ -104,7 +105,7 @@ myprettycapture= function(s_command, l.aov, collapse=NULL, htmlescape=TRUE, conv
 }
 
 myprettyaovprint <- function(l.aov) {
-  # Output: list of 4 tables, 
+  # Output: list of 4 tables,
   #   $aov, with output of aov print
   #   $aov_summary, with output of summary(aov) print
   #   $aov_levene, with output of leveneTest(aov) print
@@ -120,6 +121,8 @@ myprettyaovprint <- function(l.aov) {
   output=list(aov=aov, aov_summary=aov_summary, aov_levene=aov_levene, aov_tukey=aov_tukey)
   return(output)
 }
+
+
 
 
 
