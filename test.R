@@ -14,7 +14,7 @@ engine_sources= c(
   # auxiliary functions
   #
   "FloorDfT.R", "aidfunctions.R", "generate_key.R", "quizzip.R",
-  "sprintf_indent.R", "tex2math.R",
+  "sprintf_indent.R", "tex2math.R", "answer_select.R",
   #
   # general quiz routines
   #
@@ -43,41 +43,48 @@ for (subsource in engine_sources) eval(parse(text=sprintf("source(\"%s\")", subs
 
 # load quiz sources
 qdir= "./2020resitv_1/questions"
-numbervariations= 1
+numbervariations= 50
 exam_sources= c(
-  "Q20200629_1nw-core.R"
+  "ID_question.R", "Q20200629_1nw-core.R", 
+  "Q20200629_1a.R", "Q20200629_1b.R", "Q20200629_1c.R", "Q20200629_1d.R",
+  "Q20200629_1e.R", "Q20200629_1g.R", "Q20200629_1h.R", "Q20200629_1i.R",
+  "Q20200629_1j.R", "Q20200629_1l.R", "Q20200629_1m.R", "Q20200629_1n.R",
+  "Q20200629_1o.R", "Q20200629_1p.R", "Q20200629_1q.R", "Q20200629_1r.R",
+  "Q20200629_1s.R", "Q20200629_1u.R", "Q20200629_1v.R", "Q20200629_1w.R",
+  "Q20200629_1x.R", "Q20200629_1y.R", "Q20200629_1z.R", 
+  "Q_5step_anova.1.R"
 )
 for (subsource in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", qdir, subsource)))
 questions= matrix(c(
-  numbervariations, "Q20200629_1a",
-  numbervariations, "Q20200629_1b",
-  numbervariations, "Q20200629_1c",
-  numbervariations, "Q20200629_1d",
-  numbervariations, "Q20200629_1e",
-  numbervariations, "Q20200629_1g",
-  numbervariations, "Q20200629_1h",
-  numbervariations, "Q20200629_1i",
-  numbervariations, "Q20200629_1j",
-  numbervariations, "Q20200629_1l",
-  numbervariations, "Q20200629_1m",
-  numbervariations, "Q20200629_1n",
-  numbervariations, "Q20200629_1o",
-  numbervariations, "Q20200629_1p",
-  numbervariations, "Q20200629_1q",
-  numbervariations, "Q20200629_1r",
-  numbervariations, "Q20200629_1s",
-  numbervariations, "Q20200629_1t",
-  numbervariations, "Q20200629_1u",
-  numbervariations, "Q20200629_1v",
-  numbervariations, "Q20200629_1w",
-  numbervariations, "Q20200629_1x",
-  numbervariations, "Q20200629_1y",
-  numbervariations, "Q20200629_1z"
+  # numbervariations, "Q20200629_1a",
+  # numbervariations, "Q20200629_1b",
+  # numbervariations, "Q20200629_1c",
+  # numbervariations, "Q20200629_1d",
+  # numbervariations, "Q20200629_1e",
+  # numbervariations, "Q20200629_1g",
+  # numbervariations, "Q20200629_1h",
+  # numbervariations, "Q20200629_1i",
+  # numbervariations, "Q20200629_1j",
+  # numbervariations, "Q20200629_1l",
+  # numbervariations, "Q20200629_1m",
+  # numbervariations, "Q20200629_1n",
+  # numbervariations, "Q20200629_1o",
+  # numbervariations, "Q20200629_1p",
+  # numbervariations, "Q20200629_1q",
+  # numbervariations, "Q20200629_1r",
+  # numbervariations, "Q20200629_1s",
+  # numbervariations, "Q20200629_1t",
+  # numbervariations, "Q20200629_1u",
+  # numbervariations, "Q20200629_1v",
+  # numbervariations, "Q20200629_1w",
+  # numbervariations, "Q20200629_1x",
+  # numbervariations, "Q20200629_1y",
+  # numbervariations, "Q20200629_1z",
+  numbervariations, "Q_5step_anova.1_step1a"
 ), nrow=2)
-for (blockcounter in 1:ncol(questions)) {
-  eval(parse(text = sprintf("source(\"%s/%s.R\")", qdir, questions[2, blockcounter])))
-}
 
+
+set.seed(55)
 
 
 # construct the exam
@@ -97,7 +104,7 @@ for (blockcounter in 1:ncol(questions)) {
 
 # write the exam
 write_quiz_html(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
-write_quiz_canvas(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
+# write_quiz_canvas(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
 
 
 
