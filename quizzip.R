@@ -11,6 +11,7 @@ quizzip <- function(subdir = ".", quiz_key, deleteold = FALSE) {
 
   currentdir = getwd()
   setwd(subdir)
+  unlink(sprintf("%s.zip", quiz_key))
   zip(
     sprintf("%s.zip", quiz_key),
     c("imsmanifest.xml", sprintf("%s", quiz_key), "non_cc_assessments")
