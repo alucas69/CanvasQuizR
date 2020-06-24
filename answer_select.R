@@ -4,7 +4,7 @@
 #   Select iAlt of the answers, ensuring that at least mincorrect of the correct answers
 #   are included, and at most maxcorrect answers.
 #   Add a 'none of the above', unless ruled out.
-answer_select <- function(vAnswers, vCorrect, iAlt=NULL, addnone=TRUE, maxcorrect=NULL, mincorrect=NULL){
+answer_select <- function(vAnswers, vCorrect, iAlt=NULL, addnone=TRUE, maxcorrect=NULL, mincorrect=NULL, alphorder=FALSE){
   
   iA= length(vAnswers)
   if (is.null(iAlt)) iAlt=iA
@@ -71,10 +71,19 @@ answer_select <- function(vAnswers, vCorrect, iAlt=NULL, addnone=TRUE, maxcorrec
   vAnswers=vAnswers[index]
   vCorrect=vCorrect[index]
   
+  # order for easier readability
+  if (alphorder) {
+    nlen= length(vAnswers)
+    order= sort.list(vAnswers)
+    vAnswers= vAnswers[order]
+    vCorrect= vCorrect[order]
+  }
+
   # add none of the above
   if (addnone){
     vAnswers= c(vAnswers, "None of the above")
     vCorrect= c(vCorrect, (iC == 0))
   }
+  
   return (list(answer=vAnswers, correct=vCorrect))
 }
