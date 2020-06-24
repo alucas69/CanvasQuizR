@@ -248,15 +248,8 @@ Q_5step_anova.1_step3c <- function() {
 ########################################
 Q_5step_anova.1_step5a <- function() {
   # generate the question
-  reject=FALSE
-  while (!reject) {
-    Q= Q_5step_anova.1_core()
-    reject= (Q$sample$results$aov_summary[[1]][1,5] < Q$alpha)
-  }
-  print(Q$sample$tables$aov_summary)
-  print(Q$sample$tables$aov_summary[[1]])
-  stop(0)
-  
+  Q= Q_5step_anova.1_core()
+
   # initialize
   qtype= "ma"
   
@@ -264,9 +257,7 @@ Q_5step_anova.1_step5a <- function() {
   Text= paste(Q$setting$TotalIntro, sprintf(". You perform the 5-step test plan for an ANOVA with %s. The results are below.", tex2math(sprintf("$\\alpha=%4.2f$", Q$alpha))), sep="")
   Text= c(Text, write_in_wrapper(paste(Q$sample$tables$aov, Q$sample$tables$aov_summary, sep="\n"), "pre"))
   Text= c(Text, write_in_wrapper(sprintf("What is your conclusion regarding the means of the %d groups and why? Check *ALL* correct answers.", length(Q$sample$vi_N)), "b", s_wrappertag="style=\"color:blue\""))
-  print("EN NU ZIJN WE HIER")
-  print(Q$sample$tables$aov_summary)
-  
+
   # answers
   Answers= matrix(tex2math(c(
     2, "we *reject* the null hypothesis of equal means, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
