@@ -37,8 +37,8 @@ answer_select <- function(vAnswers, vCorrect, iAlt=NULL, addnone=TRUE, maxcorrec
   if (mincorrect > maxcorrect) stop(sprintf("ERROR: mincorrect (%d) > maxcorrect (%d)", mincorrect, maxcorrect))
 
   # draw indices
-  iCorrect= mysample( (mincorrect:maxcorrect), maxcorrect-mincorrect+1 )
-  index= c(mysample(which(vCorrect), iCorrect), mysample(which(!vCorrect), iAlt-iCorrect))
+  iCorrect= vectorsample( (mincorrect:maxcorrect), maxcorrect-mincorrect+1 )
+  index= c(vectorsample(which(vCorrect), iCorrect), vectorsample(which(!vCorrect), iAlt-iCorrect))
   index= sample(index) # randomize the answer order
   vAnswers=vAnswers[index]
   vCorrect=vCorrect[index]

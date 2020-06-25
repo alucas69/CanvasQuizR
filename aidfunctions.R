@@ -1,4 +1,4 @@
-mysample= function(x, size, replace=FALSE) {
+vectorsample= function(x, size, replace=FALSE) {
   if (length(x) == 1) {
     if (size == 1) return(x) else 
       if (!replace) stop(sprintf("ERROR: mysample, sampling %d from vector of size %d", size, length(x)))
