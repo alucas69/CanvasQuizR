@@ -14,7 +14,7 @@ write_quiz_canvas= function(l_quiz, quiz_name="R generated quiz", subdir=".", qu
       question= block[[i1]]
       if (texify) {
         question$text= tex2math(question$text)
-        if ("answer" %in% names(question)) question$answer= tex2math(question$answer)
+        if (("answer" %in% names(question)) & (question$type != "num")) question$answer= tex2math(question$answer)
       }
       if (question$type == "mc") output_question= write_quiz_canvas_mc(question, output_question$answer_counter)
       else if (question$type == "ma") output_question= write_quiz_canvas_ma(question, output_question$answer_counter)

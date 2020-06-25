@@ -9,7 +9,7 @@ write_quiz_html= function(l_quiz, s_filename="write_quiz_html.html", subdir=".",
       question= block[[i1]]
       if (texify) {
         question$text= tex2math(question$text)
-        if ("answer" %in% names(question)) question$answer= tex2math(question$answer)
+        if (("answer" %in% names(question)) & (question$type != "num")) question$answer= tex2math(question$answer)
       }
       if (question$type == "mc") output= c(output, write_quiz_html_mc(question))
       else if (question$type == "ma") output= c(output, write_quiz_html_ma(question))
