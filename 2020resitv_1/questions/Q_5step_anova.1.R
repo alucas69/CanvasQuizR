@@ -71,7 +71,7 @@ Q_5step_anova.1_core <- function(f_cc=1) {
   TotalIntro= sprintf("%s You gathered %s for %d different samples:", Setting$Topic, Setting$Subject, length(Sample$vi_N))
   Setting$Groups= Setting$Groups[sample(1:length(Setting$Groups), length(Sample$vi_N))]
   for (i1 in 1:length(Setting$Groups)) TotalIntro= paste(TotalIntro, c(" ",", ")[1+(i1>1)], sprintf("%s (sample %d)", Setting$Groups[i1], i1), sep="")
-  Setting$TotalIntro= paste(TotalIntro, sprintf(". You perform the 5-step test plan for an ANOVA with $\\alpha=%4.2f$.", Q$alpha), sep="")
+  Setting$TotalIntro= paste(TotalIntro, sprintf(". You perform the 5-step test plan for an ANOVA with $\\alpha=%4.2f$.", dAlpha), sep="")
 
   return(list(setting=Setting, sample=Sample, alpha=dAlpha))
 }
@@ -287,7 +287,7 @@ Q_5step_anova.1_step5b <- function() {
     reject= (Q$sample$results$aov_summary[[1]][1,"Pr(>F)"] < Q$alpha)
   }
   alphaT= 0.05
-  
+
   # initialize
   qtype= "ma"
   
