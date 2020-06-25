@@ -1,7 +1,9 @@
 vectorsample= function(x, size, replace=FALSE) {
+  size= as.integer(size)
+  if (size<=0) return(NULL)
   if (length(x) == 1) {
     if (size == 1) return(x) else 
-      if (!replace) stop(sprintf("ERROR: mysample, sampling %d from vector of size %d", size, length(x)))
+      if (!replace) stop(sprintf("ERROR: vectorsample, sampling %d from vector of size %d", size, length(x)))
       else return(rep(x, size))
   } else return(sample(x, size, replace=replace))
 }
@@ -169,6 +171,12 @@ DigitDecimalWarning <- function(iDigits = NULL) {
 BlueCourier <- function(sString) {
   return(sprintf("<b style=\"font-family:'Courier New'; color:blue\">%s</b>", sString))
   
+}
+
+
+
+ColorBold <- function(sString, col="blue") {
+  return(write_in_wrapper(sString, "b", s_wrappertag = sprintf("style=\"color:%s\"", col)))
 }
 
 
