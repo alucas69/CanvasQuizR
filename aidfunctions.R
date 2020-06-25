@@ -1,3 +1,12 @@
+mysample= function(x, size, replace=FALSE) {
+  if (length(x) == 1) {
+    if (size == 1) return(x) else 
+      if (!replace) stop(sprintf("ERROR: mysample, sampling %d from vector of size %d", size, length(x)))
+      else return(rep(x, size))
+  } else return(sample(x, size, replace=replace))
+}
+
+
 myfloor <- function(x, digits = 0) {
   iSide <- 1
   if (x < 0) {
