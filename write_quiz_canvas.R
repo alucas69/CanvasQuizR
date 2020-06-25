@@ -1,6 +1,6 @@
 # l_quiz is a quiz list of blocks, each block a list of questions
 write_quiz_canvas= function(l_quiz, quiz_name="R generated quiz", subdir=".", quiz_key=NULL,  
-                            zip=TRUE, deletexml=TRUE) {
+                            zip=TRUE, deletexml=TRUE, texify=TRUE) {
   # initialize
   if (is.null(quiz_key)) quiz_key= generate_key()
   
@@ -12,6 +12,10 @@ write_quiz_canvas= function(l_quiz, quiz_name="R generated quiz", subdir=".", qu
     output_block= NULL
     for (i1 in 1:length(block)) {
       question= block[[i1]]
+      if (texify) {
+        question$text= tex2math(question$text)
+        if ("answer" %in% names(question)) question$answer= tex2math(question$answer)
+      }
       if (question$type == "mc") output_question= write_quiz_canvas_mc(question, output_question$answer_counter)
       else if (question$type == "ma") output_question= write_quiz_canvas_ma(question, output_question$answer_counter)
       else if (question$type == "mb") output_question= write_quiz_canvas_mb(question, output_question$answer_counter)
