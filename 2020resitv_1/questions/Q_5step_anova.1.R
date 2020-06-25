@@ -62,6 +62,7 @@ Q_5step_anova.1_core <- function(f_cc=1) {
 
   # generate the data
   Sample= Q_5step_anova.1_gendata(f_cc)
+  Sample$sample$y1= Sample$sample$y + Setting$OverallMean
   
   # generate test settings
   dAlpha= sample(c(0.1, 0.05, 0.01), 1)
