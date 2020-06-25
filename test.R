@@ -44,7 +44,7 @@ for (subsource in engine_sources) eval(parse(text=sprintf("source(\"%s\")", subs
 
 # load quiz sources
 qdir= "./2020resitv_1/questions"
-numbervariations= 10
+numbervariations= 1
 exam_sources= c(
   "ID_question.R", "Q20200629_1nw-core.R", 
   "Q20200629_1a.R", "Q20200629_1b.R", "Q20200629_1c.R", "Q20200629_1d.R",
@@ -53,7 +53,7 @@ exam_sources= c(
   "Q20200629_1o.R", "Q20200629_1p.R", "Q20200629_1q.R", "Q20200629_1r.R",
   "Q20200629_1s.R", "Q20200629_1u.R", "Q20200629_1v.R", "Q20200629_1w.R",
   "Q20200629_1x.R", "Q20200629_1y.R", "Q20200629_1z.R", 
-  "Q_5step_anova.1.R"
+  "Q_5step_2pi.1.R", "Q_5step_anova.1.R"
 )
 for (subsource in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", qdir, subsource)))
 questions= matrix(c(
@@ -81,13 +81,21 @@ questions= matrix(c(
   # numbervariations, "Q20200629_1x",
   # numbervariations, "Q20200629_1y",
   # numbervariations, "Q20200629_1z",
-  numbervariations, "Q_5step_anova.1_step1a",
-  numbervariations, "Q_5step_anova.1_step2a",
-  numbervariations, "Q_5step_anova.1_step3a",
-  numbervariations, "Q_5step_anova.1_step3b",
-  numbervariations, "Q_5step_anova.1_step3c",
-  numbervariations, "Q_5step_anova.1_step5a",
-  numbervariations, "Q_5step_anova.1_step5b"
+  # numbervariations, "Q_5step_anova.1_step1a",
+  # numbervariations, "Q_5step_anova.1_step2a",
+  # numbervariations, "Q_5step_anova.1_step3a",
+  # numbervariations, "Q_5step_anova.1_step3b",
+  # numbervariations, "Q_5step_anova.1_step3c",
+  # numbervariations, "Q_5step_anova.1_step5a",
+  # numbervariations, "Q_5step_anova.1_step5b",
+  numbervariations, "Q_5step_2pi.1_step1a",
+  numbervariations, "Q_5step_2pi.1_step2a",
+  numbervariations, "Q_5step_2pi.1_step3a",
+  numbervariations, "Q_5step_2pi.1_step3b",
+  numbervariations, "Q_5step_2pi.1_step3c",
+  numbervariations, "Q_5step_2pi.1_step4a",
+  numbervariations, "Q_5step_2pi.1_step4b",
+  numbervariations, "Q_5step_2pi.1_step5a"
 ), nrow=2)
 
 
@@ -111,7 +119,7 @@ for (blockcounter in 1:ncol(questions)) {
 
 # write the exam
 write_quiz_html(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
-write_quiz_canvas(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
+#write_quiz_canvas(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
 
 
 
