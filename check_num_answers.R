@@ -1,6 +1,6 @@
 check_num_answers= function(question) {
   if (question$type != "num") stop(sprintf("ERROR: check_num_answers() for \"%s\" question", question$type))
-  answer= matrix(c(question$answer), ncol=3)
+  answer= matrix(as.double(c(question$answer)), ncol=3)
   is_false= (answer[ , 2] > answer[ , 1]) | (answer[ , 1] > answer[ , 3])
   output= list(warningmessage=NULL, rowwarnings=rep("", nrow(answer)))
   if (sum(as.integer(is_false)) > 0) {
