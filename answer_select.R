@@ -59,3 +59,7 @@ answer_select <- function(vAnswers, vCorrect, iAlt=NULL, addnone=TRUE, maxcorrec
   
   return (list(answer=vAnswers, correct=vCorrect))
 }
+
+
+# testcase
+# answer_select(letters[1:5], c(T,T,F,F,F), iAlt=4, mincorrect=1, maxcorrect=3, addnone = FALSE)
