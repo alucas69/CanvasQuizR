@@ -425,15 +425,17 @@ tex2math <- function(sIn, init=FALSE, math=FALSE, ignorepre=TRUE){
     { # If this is a vector, transform each vector
       asOut= NULL
       for (sInI in sIn){
-        asOut= c(asOut, tex2math(sInI, init, math))
+        asOut= c(asOut, tex2math(sInI, init, math, ignorepre))
       }
       return (asOut)
     }
   # replace everything between <pre>...</pre> by key as it it literal 
   # and should not be latex'd
   if (ignorepre) { 
-    pre_key= generate_key()
-    pre_store= stri_extract_all(sIn, pre_key, regex = "<(p|P)(r|R)(e|E)>(.*?)</(p|P)(r|R)(e|E)>")
+    pre_key= generate_key(keylength = 8)
+    n_key= generate_key(keylength = 8)
+    sIn= gsub("\n", n_key, sIn)  # replace \n
+    pre_store= c(stri_extract_all(sIn, regex = "<(p|P)(r|R)(e|E)>(.*?)</(p|P)(r|R)(e|E)>"))
     sIn= stri_replace_all(sIn, pre_key, regex = "<(p|P)(r|R)(e|E)>(.*?)</(p|P)(r|R)(e|E)>")
   }
   
@@ -466,8 +468,11 @@ tex2math <- function(sIn, init=FALSE, math=FALSE, ignorepre=TRUE){
     sOut= paste(sOut, sMathML, sep="")
   }
 
-  # supstitute random keys by original <pre>...</pre>
-  if (ignorepre) for (i1 in pre_store) sOut= stri_replace(sOut, i1, regex = pre_key, mode="first")
+  # substitute random keys by original <pre>...</pre>
+  if (ignorepre) {
+    for (i1 in pre_store) sOut= sub(pre_key, i1, sOut) # restore pre-field
+    sOut= gsub(n_key, "\n", sOut) # restore \n
+  }
 
   return (sOut)
 }
