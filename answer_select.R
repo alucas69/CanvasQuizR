@@ -5,84 +5,56 @@
 #   are included, and at most maxcorrect answers.
 #   Add a 'none of the above', unless ruled out.
 answer_select <- function(vAnswers, vCorrect, iAlt=NULL, addnone=TRUE, maxcorrect=NULL, mincorrect=NULL, alphorder=FALSE){
-  
-  iA= length(vAnswers)
-  if (is.null(iAlt)) iAlt=iA
+
+  # initialize
   vCorrect= as.logical(vCorrect)
+  iTotal= length(vAnswers)
+  iTotalTrue= sum(as.integer(vCorrect))
+  iTotalFalse= sum(1 - as.integer(vCorrect))
   
-  if (is.null(maxcorrect))
-    maxcorrect= iAlt-(addnone==FALSE)
-  if (is.null(mincorrect))
-    mincorrect= 0+(addnone==FALSE)
-  if (mincorrect < 0+(addnone==FALSE)) {
-    print("WARNING: added minimim of 1 correct answers (incl. none of the above)")
-    mincorrect= 1
+  # set null arguments if needed
+  if (is.null(iAlt)) iAlt=iTotal
+  if (is.null(mincorrect)) mincorrect= as.integer(addnone==FALSE)
+  if (is.null(maxcorrect)) maxcorrect= iAlt-(addnone==FALSE)
+
+  # minimum one correct, and one false answer; warn if change implemented
+  if (mincorrect < as.integer(addnone==FALSE)) {
+    warning("WARNING: increased mincorrect to have at least one correct answer", immediate. = TRUE)
+    mincorrect= as.integer(addnone==FALSE)
   }
   if (maxcorrect > iAlt-(addnone==FALSE)) {
-    print("WARNING: decreased maximum number of correct answers (incl. none of the above)")
+    warning("WARNING: decreased maxcorrect to have at least one false answer", immediate. = TRUE)
     maxcorrect= iAlt-(addnone==FALSE)
   }
-  if (maxcorrect < mincorrect) {
-    print("WARNING: mincorrect > maxcorrect")
-    maxcorrect= mincorrect
-  }
-  if (mincorrect > maxcorrect) {
-    print("WARNING: mincorrect < maxcorrect")
-    mincorrect= maxcorrect
-  }
-  if ((iAlt < mincorrect)) {
-    print(cbind(vAnswers, vCorrect))
-    stop(sprintf("ERROR: too few alternatives requested, iAlt=%d, mincorrect=%d", iAlt, mincorrect))
-  }
-  if (sum(as.integer(vCorrect)) < mincorrect){
-    print(cbind(vAnswers, vCorrect))
-    stop(sprintf("Warning: insufficient correct (%d) answers possible", mincorrect))
-  }
-  if (sum(1-as.integer(vCorrect)) < iAlt-maxcorrect){
-    print(cbind(vAnswers, vCorrect))
-    stop(sprintf("Warning: insufficient incorrect (%d) answers possible", iA-maxcorrect))
-  }
 
-  # first draw minimum correct answers  
-  vCorrect= as.logical(vCorrect)
-  vTrack= vCorrect
-  index= NULL
-  iC= 0
-  if (mincorrect > 0) {
-    index= which(vTrack)
-    if (length(index) > 1) index= sample(index, 1)
-    vTrack[index]= NA
-    iC= mincorrect
-  }
-  # then draw until maxcorrect is reached or iAlt is reached
-  while ((iC < maxcorrect) & (length(index) < iAlt)) {
-    tmp= which(!is.na(vTrack))
-    if (length(tmp) > 1) tmp= sample(tmp, 1)
-    index= c(tmp, index)
-    vTrack[index[1]]= NA
-    iC= iC+as.integer(vCorrect[index[1]])
-  }
-  # if not iAlt reached, complete with incorrect answers
-  if (length(index) < iAlt) 
-    tmp= which(!vTrack)
-    if (length(tmp) > 1) tmp= sample(tmp, iAlt-length(index))
-    index= c(tmp, index)
-  index=sample(index)
+  # check formats and possibility
+  if (length(vAnswers) != length(vCorrect)) stop("ERROR: vAnswers and vCorrect of unequal size\n", paste(vAnswers, collapse = ","), "\n", paste(vCorrect, collapse = ","))
+  if (iAlt <= 1) stop("ERROR: only one alternative possible")
+  if (mincorrect > iTotalTrue) stop(sprintf("ERROR: mincorrect (%d) > #correct answers\n", mincorrect), paste(vAnswers, collapse = ","), "\n", paste(vCorrect, collapse = ","))
+  if (iAlt-maxcorrect > iTotalFalse) stop(sprintf("ERROR: iAlt-maxcorrect (%d) > #incorrect answers\n", iAlt-maxcorrect), paste(vAnswers, collapse = ","), "\n", paste(vCorrect, collapse = ","))
+  mincorrect= max(as.integer(addnone==FALSE), mincorrect, iAlt-iTotalFalse)
+  maxcorrect= min(iAlt-as.integer(addnone==FALSE), maxcorrect, iTotalTrue)
+  if (mincorrect > maxcorrect) stop(sprintf("ERROR: mincorrect (%d) > maxcorrect (%d)", mincorrect, maxcorrect))
+
+  # draw indices
+  iCorrect= mysample( (mincorrect:maxcorrect), maxcorrect-mincorrect+1 )
+  index= c(mysample(which(vCorrect), iCorrect), mysample(which(!vCorrect), iAlt-iCorrect))
+  index= sample(index) # randomize the answer order
   vAnswers=vAnswers[index]
   vCorrect=vCorrect[index]
-  
+
   # order for easier readability
   if (alphorder) {
     nlen= length(vAnswers)
-    order= sort.list(vAnswers)
-    vAnswers= vAnswers[order]
-    vCorrect= vCorrect[order]
+    index= sort.list(vAnswers)
+    vAnswers=vAnswers[index]
+    vCorrect=vCorrect[index]
   }
 
   # add none of the above
   if (addnone){
     vAnswers= c(vAnswers, "None of the above")
-    vCorrect= c(vCorrect, (iC == 0))
+    vCorrect= c(vCorrect, (sum(as.integer(vCorrect)) == 0))
   }
   
   return (list(answer=vAnswers, correct=vCorrect))
