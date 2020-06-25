@@ -71,8 +71,8 @@ Q_5step_anova.1_core <- function(f_cc=1) {
   TotalIntro= sprintf("%s You gathered %s for %d different samples:", Setting$Topic, Setting$Subject, length(Sample$vi_N))
   Setting$Groups= Setting$Groups[sample(1:length(Setting$Groups), length(Sample$vi_N))]
   for (i1 in 1:length(Setting$Groups)) TotalIntro= paste(TotalIntro, c(" ",", ")[1+(i1>1)], sprintf("%s (sample %d)", Setting$Groups[i1], i1), sep="")
-  Setting$TotalIntro= TotalIntro
-  
+  Setting$TotalIntro= paste(TotalIntro, sprintf(". You perform the 5-step test plan for an ANOVA with $\\alpha=%4.2f$.", Q$alpha), sep="")
+
   return(list(setting=Setting, sample=Sample, alpha=dAlpha))
 }
 
@@ -87,8 +87,7 @@ Q_5step_anova.1_step1a <- function() {
   Hypothesis= sample(c(0,1), 1)
   
   # question text
-  Text= paste(Q$setting$TotalIntro, sprintf(". You perform the 5-step test plan for an ANOVA with %s.", tex2math(sprintf("$\\alpha=%4.2f$", Q$alpha))), sep="")
-  Text= c(Text, write_in_wrapper(sprintf("What is your %s hypothesis?", c("*null*","*alternative*")[Hypothesis+1]), "b", s_wrappertag="style=\"color:blue\""))
+  Text= c(Q$setting$TotalIntro, write_in_wrapper(sprintf("What is your %s hypothesis?", c("*null*","*alternative*")[Hypothesis+1]), "b", s_wrappertag="style=\"color:blue\""))
   
   # answers
   Answers= matrix(c(
@@ -122,8 +121,7 @@ Q_5step_anova.1_step2a <- function() {
   qtype= "mc"
   
   # question text
-  Text= paste(Q$setting$TotalIntro, sprintf(". You perform the 5-step test plan for an ANOVA with %s.", tex2math(sprintf("$\\alpha=%4.2f$", Q$alpha))), sep="")
-  Text= c(Text, write_in_wrapper(sprintf("What is your statistic and rejection region?"), "b", s_wrappertag="style=\"color:blue\""))
+  Text= c(Q$setting$TotalIntro, write_in_wrapper(sprintf("What is your statistic and rejection region?"), "b", s_wrappertag="style=\"color:blue\""))
   
   # answers
   Answers= matrix(c(
@@ -157,8 +155,7 @@ Q_5step_anova.1_step3a <- function() {
   qtype= "num"
   
   # question text
-  Text= paste(Q$setting$TotalIntro, sprintf(". You perform the 5-step test plan for an ANOVA with %s.", tex2math(sprintf("$\\alpha=%4.2f$", Q$alpha))), sep="")
-  Text= c(Text, tex2math(sprintf("The number of observations in the three samples equals $n_1=%d$, $n_2=%d$, and $n_3=%d$. You perform an F-test.", Q$sample$vi_N[1], Q$sample$vi_N[2], Q$sample$vi_N[3])))
+  Text= c(Q$setting$TotalIntro, sprintf("The number of observations in the three samples equals $n_1=%d$, $n_2=%d$, and $n_3=%d$. You perform an F-test.", Q$sample$vi_N[1], Q$sample$vi_N[2], Q$sample$vi_N[3]))
   Text= c(Text, write_in_wrapper(sprintf("What are the degrees of freedom corresponding to your test statistic under the null hypothesis? If there is more than one degree-of-freedom parameter, separate the two by a decimal point, e.g., 5 and 12 becomes 5.12. Do not worry if Canvas removes a trailing zero, e.g. replacing 5.120 by 5.12."), "b", s_wrappertag="style=\"color:blue\""))
 
   # answers
@@ -180,8 +177,7 @@ Q_5step_anova.1_step3b <- function() {
   qtype= "ma"
   
   # question text
-  Text= paste(Q$setting$TotalIntro, sprintf(". You perform the 5-step test plan for an ANOVA with %s.", tex2math(sprintf("$\\alpha=%4.2f$", Q$alpha))), sep="")
-  Text= c(Text, tex2math(sprintf("The number of observations in the three samples equals $n_1=%d$, $n_2=%d$, and $n_3=%d$. You perform an F-test.", Q$sample$vi_N[1], Q$sample$vi_N[2], Q$sample$vi_N[3])))
+  Text= c(Q$setting$TotalIntro, sprintf("The number of observations in the three samples equals $n_1=%d$, $n_2=%d$, and $n_3=%d$. You perform an F-test.", Q$sample$vi_N[1], Q$sample$vi_N[2], Q$sample$vi_N[3]))
   Text= c(Text, write_in_wrapper(sprintf("Which of the below assumptions are required for your test statistic to have an F-distribution under the null hypothesis? Choose *ALL* correct answers."), "b", s_wrappertag="style=\"color:blue\""))
   
   # answers
@@ -215,13 +211,12 @@ Q_5step_anova.1_step3c <- function() {
   alphaL= 0.05
   
   # question text
-  Text= paste(Q$setting$TotalIntro, sprintf(". You perform the 5-step test plan for an ANOVA with %s.", tex2math(sprintf("$\\alpha=%4.2f$", Q$alpha))), sep="")
-  Text= c(Text, tex2math(sprintf("Using a Levene test, you test at $\\alpha_{Levene}=%4.2f$ whether the variances are equal across the %d populations corresponding to the different groups. The output of this test is given below.", alphaL, length(Q$sample$vi_N))))
+  Text= c(Q$setting$TotalIntro, sprintf("Using a Levene test, you test at $\\alpha_{Levene}=%4.2f$ whether the variances are equal across the %d populations corresponding to the different groups. The output of this test is given below.", alphaL, length(Q$sample$vi_N)))
   Text= c(Text, write_in_wrapper(Q$sample$tables$aov_levene, "pre"))
   Text= c(Text, write_in_wrapper(sprintf("What is your conclusion regarding the variances of the %d groups and why? Check *ALL* correct answers.", length(Q$sample$vi_N)), "b", s_wrappertag="style=\"color:blue\""))
   
   # answers
-  Answers= matrix(tex2math(c(
+  Answers= matrix(c(
     2, "we *reject* the null hypothesis of equal variances, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
     0, "we do *not reject* the null hypothesis of equal variances, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
     0, "we *reject* the null hypothesis of equal variances, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
@@ -234,7 +229,7 @@ Q_5step_anova.1_step3c <- function() {
     0, "all variances are different, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
     0, "all variances are different, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
     0, "all variances are different, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$"
-  )), nrow=2)
+  ), nrow=2)
   reject= (Q$sample$results$aov_levene$`Pr(>F)`[1] < alphaL)
   
   # correct
@@ -255,12 +250,11 @@ Q_5step_anova.1_step5a <- function() {
   qtype= "ma"
   
   # question text
-  Text= paste(Q$setting$TotalIntro, sprintf(". You perform the 5-step test plan for an ANOVA with %s. The results are below.", tex2math(sprintf("$\\alpha=%4.2f$", Q$alpha))), sep="")
-  Text= c(Text, write_in_wrapper(paste(Q$sample$tables$aov, Q$sample$tables$aov_summary, sep="\n"), "pre"))
+  Text= c(Q$setting$TotalIntro, write_in_wrapper(paste(Q$sample$tables$aov, Q$sample$tables$aov_summary, sep="\n"), "pre"))
   Text= c(Text, write_in_wrapper(sprintf("What is your conclusion regarding the means of the %d groups and why? Check *ALL* correct answers.", length(Q$sample$vi_N)), "b", s_wrappertag="style=\"color:blue\""))
 
   # answers
-  Answers= matrix(tex2math(c(
+  Answers= matrix(c(
     2, "we *reject* the null hypothesis of equal means, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
     0, "we do *not reject* the null hypothesis of equal means, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
     0, "we *reject* the null hypothesis of equal means, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
@@ -273,7 +267,7 @@ Q_5step_anova.1_step5a <- function() {
     0, "all means are different, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
     0, "all means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
     0, "all means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$"
-  )), nrow=2)
+  ), nrow=2)
   reject= (Q$sample$results$aov_summary[[1]][1,"Pr(>F)"] < Q$alpha)
   
   # correct
@@ -298,15 +292,14 @@ Q_5step_anova.1_step5b <- function() {
   qtype= "ma"
   
   # question text
-  Text= paste(Q$setting$TotalIntro, sprintf(". You performed the 5-step test plan for an ANOVA with %s. The results are below.", tex2math(sprintf("$\\alpha=%4.2f$", Q$alpha))), sep="")
-  Text= c(Text, write_in_wrapper(Q$sample$tables$aov, "pre"))
+  Text= c(Q$setting$TotalIntro, write_in_wrapper(Q$sample$tables$aov, "pre"))
   Text= c(Text, write_in_wrapper(Q$sample$tables$aov_summary, "pre"))
-  Text= c(Text, tex2math(sprintf("Next, you applied a Tukey post-hoc analysis with $\\alpha_{Tukey}=%4.2f$. You have the following table.", alphaT)))
+  Text= c(Text, sprintf("Next, you applied a Tukey post-hoc analysis with $\\alpha_{Tukey}=%4.2f$. You have the following table.", alphaT))
   Text= c(Text, write_in_wrapper(paste(Q$sample$tables$aov_tukey, sep="\n"), "pre"))
-  Text= c(Text, write_in_wrapper(tex2math(sprintf("What is your conclusion regarding the means of the %d groups at $\\alpha_{Tukey}=%4.2f$? Check *ALL* correct answers. Remember: you never *accept* a null hypothesis.", length(Q$sample$vi_N), alphaT)), "b", s_wrappertag="style=\"color:blue\""))
+  Text= c(Text, write_in_wrapper(sprintf("What is your conclusion regarding the means of the %d groups at $\\alpha_{Tukey}=%4.2f$? Check *ALL* correct answers. Remember: you never *accept* a null hypothesis.", length(Q$sample$vi_N), alphaT), "b", s_wrappertag="style=\"color:blue\""))
   
   # answers
-  Answers= matrix(tex2math(c(
+  Answers= matrix(c(
     0, "mean of group 1 is unequal to that of of group 2",
     0, "mean of group 1 is unequal to that of of group 3",
     0, "mean of group 2 is unequal to that of of group 3",
@@ -316,7 +309,7 @@ Q_5step_anova.1_step5b <- function() {
     0, "mean of group 1 is equal to that of of group 2",
     0, "mean of group 1 is equal to that of of group 3",
     0, "mean of group 2 is equal to that of of group 3"
-  )), nrow=2)
+  ), nrow=2)
   rownames(Q$sample$results$aov_tukey)  
   # get positions
   pos= which(!is.na(stri_locate(rownames(Q$sample$results$aov_tukey[[1]]), regex=sprintf("[%s].+[%s]", "12", "12"))[,1]))
