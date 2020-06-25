@@ -418,7 +418,13 @@ tex2mathml <- function(sIn){
 #   Notably missing is stuff like
 #     * don't know?... More advanced math, of course, like integrals, sums etc.
 ########################################
-tex2math <- function(sIn, init=FALSE, math=FALSE){
+tex2math <- function(sIn, init=FALSE, math=FALSE, removepre=TRUE){
+  
+  # remove everything between <pre>...</pre> as it it literal and should not be 
+  # latex'd
+  if (removepre) { 
+    sIn= stri_replace_all(sIn, "", regex = "<(p|P)(r|R)(e|E)>(.*?)</(p|P)(r|R)(e|E)>")
+  }
   iS= length(sIn)
   if (iS > 1)
     { # If this is a vector, transform each vector
