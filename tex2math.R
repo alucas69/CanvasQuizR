@@ -418,13 +418,8 @@ tex2mathml <- function(sIn){
 #   Notably missing is stuff like
 #     * don't know?... More advanced math, of course, like integrals, sums etc.
 ########################################
-tex2math <- function(sIn, init=FALSE, math=FALSE, removepre=TRUE){
+tex2math <- function(sIn, init=FALSE, math=FALSE, ignorepre=TRUE){
   
-  # remove everything between <pre>...</pre> as it it literal and should not be 
-  # latex'd
-  if (removepre) { 
-    sIn= stri_replace_all(sIn, "", regex = "<(p|P)(r|R)(e|E)>(.*?)</(p|P)(r|R)(e|E)>")
-  }
   iS= length(sIn)
   if (iS > 1)
     { # If this is a vector, transform each vector
@@ -434,7 +429,14 @@ tex2math <- function(sIn, init=FALSE, math=FALSE, removepre=TRUE){
       }
       return (asOut)
     }
-
+  # replace everything between <pre>...</pre> by key as it it literal 
+  # and should not be latex'd
+  if (ignorepre) { 
+    pre_key= generate_key()
+    pre_store= stri_extract_all(sIn, pre_key, regex = "<(p|P)(r|R)(e|E)>(.*?)</(p|P)(r|R)(e|E)>")
+    sIn= stri_replace_all(sIn, pre_key, regex = "<(p|P)(r|R)(e|E)>(.*?)</(p|P)(r|R)(e|E)>")
+  }
+  
   # print (sprintf("Entering tex2math, init=%i, math=%i, in=%s", init, math, sIn))
   sMathStart= "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow>"
   sMathStop= "</mrow></math>"
@@ -463,6 +465,9 @@ tex2math <- function(sIn, init=FALSE, math=FALSE, removepre=TRUE){
     sMathML= paste(asMathML, collapse='')
     sOut= paste(sOut, sMathML, sep="")
   }
+
+  # supstitute random keys by original <pre>...</pre>
+  if (ignorepre) for (i1 in pre_store) sOut= stri_replace(sOut, i1, regex = pre_key, mode="first")
 
   return (sOut)
 }
