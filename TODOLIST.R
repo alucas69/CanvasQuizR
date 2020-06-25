@@ -12,3 +12,4 @@
 #       use vectorsample()
 #   iAlt in answer_select works incorrectly, if I give 7, it gives 8 options plus noneoftheabove
 #   put check on non-asci in html checker
+#   add requires to individual routines
