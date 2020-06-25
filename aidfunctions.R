@@ -163,7 +163,7 @@ DigitDecimalWarning <- function(iDigits = NULL) {
   if (is.null(iDigits)) {
     return(sprintf("(Use a decimal point, *not* a comma and only round your *final* answer and not any intermediate results.)"))    
   } else {
-    return(sprintf("(Use %d decimals behind the decimal point in your answer. Also, use a decimal point, *not* a comma and only round your *final* answer and not any intermediate results.)", iDigits))    
+    return(sprintf("(Use %s behind the decimal point in your answer. Also, use a decimal point, *not* a comma and only round your *final* answer and not any intermediate results.)", ColorBold(sprintf("%d decimals", iDigits)) ))    
   }
 }
 
