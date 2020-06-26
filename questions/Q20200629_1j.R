@@ -12,7 +12,7 @@ Q20200629_1j <- function() {
   QuestionText <- c(
     tex2math(sprintf("In a sample of size %d from a normally $N(\\mu, \\sigma^2)$ distributed 
       population, we find a sample mean of %d.0 and a sample standard deviation of 
-      %3.1f. Give the lower bound of the %d%% confidence interval for $\\sigma^2$ in %d decimals.",
+      %3.1f. Give the lower bound of the %d%% confidence interval for $\\sigma^2$ (so *not* $\\mu$) in %d decimals.",
                      iN, dMu, dSigma, 100 - dQuantile, iDigits)),
     DigitDecimalWarning(iDigits)
   )
