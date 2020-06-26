@@ -432,11 +432,18 @@ tex2math <- function(sIn, init=FALSE, math=FALSE, ignorepre=TRUE){
   # replace everything between <pre>...</pre> by key as it it literal 
   # and should not be latex'd
   if (ignorepre) { 
+    # code \n and <pre>...</pre>
     pre_key= generate_key(keylength = 8)
     n_key= generate_key(keylength = 8)
     sIn= gsub("\n", n_key, sIn)  # replace \n
     pre_store= c(stri_extract_all(sIn, regex = "<(p|P)(r|R)(e|E)>(.*?)</(p|P)(r|R)(e|E)>"))
     sIn= stri_replace_all(sIn, pre_key, regex = "<(p|P)(r|R)(e|E)>(.*?)</(p|P)(r|R)(e|E)>")
+    # process coded string
+    sOut= tex2math(sIn, init, math, ignorepre=FALSE)
+    # substitute random keys by original <pre>...</pre>
+    for (i1 in pre_store[[1]]) sOut= sub(pre_key, i1, sOut) # restore pre-field
+    sOut= gsub(n_key, "\n", sOut) # restore \n
+    return(sOut)
   }
   
   # print (sprintf("Entering tex2math, init=%i, math=%i, in=%s", init, math, sIn))
@@ -466,12 +473,6 @@ tex2math <- function(sIn, init=FALSE, math=FALSE, ignorepre=TRUE){
     asMathML= tex2mathml(sIn)
     sMathML= paste(asMathML, collapse='')
     sOut= paste(sOut, sMathML, sep="")
-  }
-
-  # substitute random keys by original <pre>...</pre>
-  if (ignorepre) {
-    for (i1 in pre_store) sOut= sub(pre_key, i1, sOut) # restore pre-field
-    sOut= gsub(n_key, "\n", sOut) # restore \n
   }
 
   return (sOut)
