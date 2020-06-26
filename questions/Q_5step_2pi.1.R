@@ -318,7 +318,7 @@ Q_5step_2pi.1_step4b <- function() {
   if (Q$direction == -1) dZ=-dZ
 
   # question text
-  Text= c(Q$setting$TotalIntro, sprintf("You test $H_0: \\pi_1 %s \\pi_2$ using a test statistic that is normally distributed under the null hypothesis. Based on your sample, you computed $z^{calc} = %4.2f$.", c("\\geq", "=", "\\leq")[2+Q$direction], dZ))
+  Text= c(Q$setting$TotalIntro, sprintf("You test $H_0: \\pi_1 %s \\pi_2$ using a test statistic that is normally distributed under the null hypothesis. Based on your sample, you computed $z_{calc} = %4.2f$.", c("\\geq", "=", "\\leq")[2+Q$direction], dZ))
   Text= c(
     Text, 
     ColorBold("Compute the p-value of your test statistic."),
@@ -360,7 +360,7 @@ Q_5step_2pi.1_step5a <- function() {
   }
 
   # question text
-  Text= c(Q$setting$TotalIntro, sprintf("You test $H_0: \\pi_1 %s \\pi_2$ using a test statistic $z$ that is normally distributed under the null hypothesis. Based on your sample, you computed $z^{calc} = %4.2f$. %s", 
+  Text= c(Q$setting$TotalIntro, sprintf("You test $H_0: \\pi_1 %s \\pi_2$ using a test statistic $z$ that is normally distributed under the null hypothesis. Based on your sample, you computed $z_{calc} = %4.2f$. %s", 
                                         c("\\geq", "=", "\\leq")[2+Q$direction], dZ, sRegion))
   Text= c(
     Text, 
