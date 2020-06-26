@@ -1,4 +1,0 @@
-CanvasConversionTable <-
-  c(
-    "a", "a",
-  )
