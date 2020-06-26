@@ -50,7 +50,7 @@ for (subsource in engine_sources) eval(parse(text=sprintf("source(\"%s/%s\")", e
 
 
 # load quiz sources
-numbervariations= 1
+numbervariations= 3
 exam_sources= c(
   "ID_question.R", "Q20200629_1nw-core.R", 
   "Q20200629_1a.R", "Q20200629_1b.R", "Q20200629_1c.R", "Q20200629_1d.R",
@@ -65,42 +65,42 @@ exam_sources= c(
 for (subsource in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", questiondir, subsource)))
 
 questions= matrix(c(
-  # numbervariations, "Q20200629_1a",
-  # numbervariations, "Q20200629_1b",
-  # numbervariations, "Q20200629_1e",
-  # numbervariations, "Q20200629_1h",
-  # numbervariations, "Q20200629_1i",
-  # numbervariations, "Q20200629_1j",
-  # numbervariations, "Q20200629_1o",
-  # numbervariations, "Q20200629_1q",
-  # numbervariations, "Q20200629_1t",
-  # numbervariations, "Q20200629_1u",
-  # numbervariations, "Q20200629_1w",
-  # numbervariations, "Q_5step_anova.1_step1a",
-  # numbervariations, "Q_5step_anova.1_step2a",
-  # numbervariations, "Q_5step_anova.1_step3a",
-  # numbervariations, "Q_5step_anova.1_step3b",
-  # numbervariations, "Q_5step_anova.1_step3c",
-  # numbervariations, "Q_5step_anova.1_step5a",
-  # numbervariations, "Q_5step_anova.1_step5b",
-  # numbervariations, "Q_5step_2pi.1_step1a",
-  # numbervariations, "Q_5step_2pi.1_step2a",
-  # numbervariations, "Q_5step_2pi.1_step3a",
-  # numbervariations, "Q_5step_2pi.1_step3b",
-  # numbervariations, "Q_5step_2pi.1_step3c",
-  # numbervariations, "Q_5step_2pi.1_step4a",
-  # numbervariations, "Q_5step_2pi.1_step4b",
-  # numbervariations, "Q_5step_2pi.1_step5a",
+  numbervariations, "Q20200629_1a",
+  numbervariations, "Q20200629_1b",
+  numbervariations, "Q20200629_1e",
+  numbervariations, "Q20200629_1h",
+  numbervariations, "Q20200629_1i",
+  numbervariations, "Q20200629_1j",
+  numbervariations, "Q20200629_1o",
+  numbervariations, "Q20200629_1q",
+  numbervariations, "Q20200629_1t",
+  numbervariations, "Q20200629_1u",
+  numbervariations, "Q20200629_1w",
+  numbervariations, "Q_5step_anova.1_step1a",
+  numbervariations, "Q_5step_anova.1_step2a",
+  numbervariations, "Q_5step_anova.1_step3a",
+  numbervariations, "Q_5step_anova.1_step3b",
+  numbervariations, "Q_5step_anova.1_step3c",
+  numbervariations, "Q_5step_anova.1_step5a",
+  numbervariations, "Q_5step_anova.1_step5b",
+  numbervariations, "Q_5step_2pi.1_step1a",
+  numbervariations, "Q_5step_2pi.1_step2a",
+  numbervariations, "Q_5step_2pi.1_step3a",
+  numbervariations, "Q_5step_2pi.1_step3b",
+  numbervariations, "Q_5step_2pi.1_step3c",
+  numbervariations, "Q_5step_2pi.1_step4a",
+  numbervariations, "Q_5step_2pi.1_step4b",
+  numbervariations, "Q_5step_2pi.1_step5a",
   numbervariations, "Q_5step_regression.1.a1",
-  # numbervariations, "Q_5step_regression.1.a2",
-  # numbervariations, "Q_5step_regression.1.a3",
-  # numbervariations, "Q_5step_regression.1.c2",
-  # numbervariations, "Q_5step_regression.1.c3",
-  # numbervariations, "Q_5step_regression.1.c4",
-  # numbervariations, "Q_5step_regression.1.c5",
-  # numbervariations, "Q_5step_regression.1.c6",
-  # numbervariations, "Q_5step_regression.1.c7",
-  # numbervariations, "Q_5step_regression.1.c8",
+  numbervariations, "Q_5step_regression.1.a2",
+  #! numbervariations, "Q_5step_regression.1.a3",
+  numbervariations, "Q_5step_regression.1.c2",
+  numbervariations, "Q_5step_regression.1.c3",
+  #! numbervariations, "Q_5step_regression.1.c4",
+  numbervariations, "Q_5step_regression.1.c5",
+  #w numbervariations, "Q_5step_regression.1.c6",
+  #w numbervariations, "Q_5step_regression.1.c7",
+  numbervariations, "Q_5step_regression.1.c8",
   NULL
 ), nrow=2)
 
@@ -136,5 +136,5 @@ for (blockcounter in 1:ncol(questions)) {
 
 
 # write the exam
-write_quiz_html(exam)
-#write_quiz_canvas(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
+write_quiz_html(exam, subdir="../../tmp")
+#write_quiz_canvas(exam, subdir="../../tmp")
