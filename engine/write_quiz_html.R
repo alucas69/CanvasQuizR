@@ -1,5 +1,6 @@
-write_quiz_html_h1warning= function(x, message) {
+write_quiz_html_h1warning= function(x, message, below=FALSE) {
   if (is.null(x)) output= write_in_wrapper(paste(message, "(not set)"), "h1", s_wrappertag = "style=\"color:red\"")
+  else if (below) output= c(write_in_wrapper(message, "h1"), write_in_wrapper(paste("", x), "p"))
   else output= write_in_wrapper(paste(message, x), "h1")
   return(output)
 }
@@ -18,8 +19,7 @@ write_quiz_html= function(l_quiz, s_filename="", subdir=".", texify=TRUE) {
   output= c(output, write_quiz_html_h1warning(l_quiz$name, "Quiz name:"))
   output= c(output, write_quiz_html_h1warning(l_quiz$seed, "Quiz rnd seed:"))
   output= c(output, write_quiz_html_h1warning(l_quiz$key, "Quiz canvas identifier key:"))
-  output= c(output, write_quiz_html_h1warning(l_quiz$emergency_html, "Quiz canvas emergency message:"), 
-            paste("<p>", l_quiz$emergency_html, "</p>"))
+  output= c(output, write_quiz_html_h1warning(l_quiz$emergency_html, "Quiz canvas emergency message:", below=TRUE))
 
   # compile the quiz
   for (i0 in 1:length(l_quiz$blocks)) {
