@@ -15,6 +15,7 @@ assessment_meta <- function(quiz_key, subdir = ".", title = "R generated quiz",
                             intro_text = "", randomizeMC = FALSE) {
 
   # check intro text on correct html
+  if (is.null(intro_text)) intro_text= ""
   simple_html_checker(intro_text)
   
   # generate auxiliary keys
