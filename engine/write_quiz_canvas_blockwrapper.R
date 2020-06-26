@@ -8,12 +8,13 @@
 #' @keywords block canvas quiz section
 #' @export vs_output holds a vector of strings with the xml code for this whole section.
 
-write_quiz_canvas_blockwrapper= function(vs_text, blockname="",
+write_quiz_canvas_blockwrapper= function(vs_text, blockname=NULL,
                                          selection_number=1, points_per_item=1) {
 
   # generate random key identifier
   keylength = 33
   block_key = stri_rand_strings(1, keylength)
+  if (is.null(blockname)) blockname=""
   
   # start at level 2 (level one is the section wrapper)
   {
