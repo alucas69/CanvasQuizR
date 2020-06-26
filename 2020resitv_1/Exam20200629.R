@@ -5,13 +5,6 @@ questiondir="../questions"
 rndseed= 55
 emergency_message= "In case of emergency, mail a.lucas@vu.nl."
 
-# set seed and retain for storage if set
-if (exists("rndseed")) {
-  rndseed= abs(as.integer(rndseed))
-  set.seed(abs(rndseed))
-} else rndseed= NULL
-
-
 # check for emergency message 
 if (!exists("emergency_message")) stop("FULL STOP: an emergency message needs to be set for students to contact you")
 
@@ -100,12 +93,22 @@ questions= matrix(c(
 ), nrow=2)
 
 
+# set the exam key
+examkey= paste("E_IBA1_BS_20200629_", generate_key(4), "_rnd", rndseed, sep="")
+
+
+# set seed and retain for storage if set
+if (exists("rndseed")) {
+  rndseed= abs(as.integer(rndseed))
+  set.seed(abs(rndseed))
+} else rndseed= NULL
+
 
 # construct the exam
 exam = list(blocks=list(), 
             seed=rndseed, 
             emergency_html=emergency_message, 
-            key = paste("E_IBA1_BS_20200629-v1", generate_key(5), "_seed", rndseed, sep=""), 
+            key = examkey, 
             name="R generated quiz")
 for (blockcounter in 1:ncol(questions)) {
   block = list(questions=list(), name=sprintf("Question %d", blockcounter))
@@ -122,4 +125,4 @@ for (blockcounter in 1:ncol(questions)) {
 
 # write the exam
 write_quiz_html(exam)
-write_quiz_canvas(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
+#write_quiz_canvas(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
