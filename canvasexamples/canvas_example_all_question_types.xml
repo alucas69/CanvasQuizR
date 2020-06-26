@@ -1,0 +1,1133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/xsd/ims_qtiasiv1p2p1.xsd">
+  <assessment ident="g127f984209fd7e9babba9b089938df7a" title="Example R quiz with all question types">
+    <qtimetadata>
+      <qtimetadatafield>
+        <fieldlabel>cc_maxattempts</fieldlabel>
+        <fieldentry>1</fieldentry>
+      </qtimetadatafield>
+    </qtimetadata>
+    <section ident="root_section">
+      <section ident="g818728e1d706008523f199e87bb6b2bb" title="Group">
+        <selection_ordering>
+          <selection>
+            <selection_number>1</selection_number>
+            <selection_extension>
+              <points_per_item>1.0</points_per_item>
+            </selection_extension>
+          </selection>
+        </selection_ordering>
+        <item ident="g0ae5026cb2af94f8545af6b0466ea20b" title="mc">
+          <itemmetadata>
+            <qtimetadata>
+              <qtimetadatafield>
+                <fieldlabel>question_type</fieldlabel>
+                <fieldentry>multiple_choice_question</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>points_possible</fieldlabel>
+                <fieldentry>1.0</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>original_answer_ids</fieldlabel>
+                <fieldentry>7229,4315,4483</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>assessment_question_identifierref</fieldlabel>
+                <fieldentry>gbb71cba76f2107e860e4d8e34c00c38d</fieldentry>
+              </qtimetadatafield>
+            </qtimetadata>
+          </itemmetadata>
+          <presentation>
+            <material>
+              <mattext texttype="text/html">&lt;div&gt;&lt;p&gt;MC q&lt;/p&gt;&lt;/div&gt;</mattext>
+            </material>
+            <response_lid ident="response1" rcardinality="Single">
+              <render_choice>
+                <response_label ident="7229">
+                  <material>
+                    <mattext texttype="text/plain">a</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="4315">
+                  <material>
+                    <mattext texttype="text/plain">bb</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="4483">
+                  <material>
+                    <mattext texttype="text/plain">ccc</mattext>
+                  </material>
+                </response_label>
+              </render_choice>
+            </response_lid>
+          </presentation>
+          <resprocessing>
+            <outcomes>
+              <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+            </outcomes>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <other/>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="general_fb"/>
+            </respcondition>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <varequal respident="response1">7229</varequal>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="7229_fb"/>
+            </respcondition>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <varequal respident="response1">4315</varequal>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="4315_fb"/>
+            </respcondition>
+            <respcondition continue="No">
+              <conditionvar>
+                <varequal respident="response1">7229</varequal>
+              </conditionvar>
+              <setvar action="Set" varname="SCORE">100</setvar>
+              <displayfeedback feedbacktype="Response" linkrefid="correct_fb"/>
+            </respcondition>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <other/>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="general_incorrect_fb"/>
+            </respcondition>
+          </resprocessing>
+          <itemfeedback ident="general_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;don't know what this comment is (gray)&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="correct_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;don't know what this comment is (green)&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="general_incorrect_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;don't know what this comment is (red)&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="7229_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;this is a good choice&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="4315_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;this is a bad choice&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+        </item>
+        <item ident="g4f0ee9803de249ba718e3287c6216495" title="num">
+          <itemmetadata>
+            <qtimetadata>
+              <qtimetadatafield>
+                <fieldlabel>question_type</fieldlabel>
+                <fieldentry>numerical_question</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>points_possible</fieldlabel>
+                <fieldentry>1.0</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>original_answer_ids</fieldlabel>
+                <fieldentry>1774,145</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>assessment_question_identifierref</fieldlabel>
+                <fieldentry>gad45c13db8bb7db1fcd02ec16aa7d907</fieldentry>
+              </qtimetadatafield>
+            </qtimetadata>
+          </itemmetadata>
+          <presentation>
+            <material>
+              <mattext texttype="text/html">&lt;div&gt;&lt;p&gt;1+33&lt;/p&gt;&lt;/div&gt;</mattext>
+            </material>
+            <response_str ident="response1" rcardinality="Single">
+              <render_fib fibtype="Decimal">
+                <response_label ident="answer1"/>
+              </render_fib>
+            </response_str>
+          </presentation>
+          <resprocessing>
+            <outcomes>
+              <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+            </outcomes>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <other/>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="general_fb"/>
+            </respcondition>
+            <respcondition continue="No">
+              <conditionvar>
+                <or>
+                  <varequal respident="response1">0.2</varequal>
+                  <and>
+                    <vargte respident="response1">-33.8</vargte>
+                    <varlte respident="response1">34.2</varlte>
+                  </and>
+                </or>
+              </conditionvar>
+              <setvar action="Set" varname="SCORE">100</setvar>
+              <displayfeedback feedbacktype="Response" linkrefid="1774_fb"/>
+              <displayfeedback feedbacktype="Response" linkrefid="correct_fb"/>
+            </respcondition>
+            <respcondition continue="No">
+              <conditionvar>
+                <or>
+                  <varequal respident="response1">0.3</varequal>
+                  <and>
+                    <vargte respident="response1">0.0</vargte>
+                    <varlte respident="response1">0.6</varlte>
+                  </and>
+                </or>
+              </conditionvar>
+              <setvar action="Set" varname="SCORE">100</setvar>
+              <displayfeedback feedbacktype="Response" linkrefid="145_fb"/>
+              <displayfeedback feedbacktype="Response" linkrefid="correct_fb"/>
+            </respcondition>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <other/>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="general_incorrect_fb"/>
+            </respcondition>
+          </resprocessing>
+          <itemfeedback ident="general_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;don't know what this comment is (gray)&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="correct_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;don't know what this comment is (green)&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="general_incorrect_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;don't know what this comment is (red)&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="1774_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;Comment if the student chooses this answer: well done&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="145_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;Comment if the student chooses this answer: also well done&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+        </item>
+        <item ident="g1db5cff9287ec9d4cc17451102b020dd" title="ma">
+          <itemmetadata>
+            <qtimetadata>
+              <qtimetadatafield>
+                <fieldlabel>question_type</fieldlabel>
+                <fieldentry>multiple_answers_question</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>points_possible</fieldlabel>
+                <fieldentry>1.0</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>original_answer_ids</fieldlabel>
+                <fieldentry>1821,8428,3889,701</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>assessment_question_identifierref</fieldlabel>
+                <fieldentry>g8f346f0606f44192d1bd63afa4f5630c</fieldentry>
+              </qtimetadatafield>
+            </qtimetadata>
+          </itemmetadata>
+          <presentation>
+            <material>
+              <mattext texttype="text/html">&lt;div&gt;&lt;p&gt;hi you all&lt;/p&gt;&lt;/div&gt;</mattext>
+            </material>
+            <response_lid ident="response1" rcardinality="Multiple">
+              <render_choice>
+                <response_label ident="1821">
+                  <material>
+                    <mattext texttype="text/plain">hi</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="8428">
+                  <material>
+                    <mattext texttype="text/plain">ni tao</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="3889">
+                  <material>
+                    <mattext texttype="text/plain">hello</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="701">
+                  <material>
+                    <mattext texttype="text/plain">auf wiedersehen</mattext>
+                  </material>
+                </response_label>
+              </render_choice>
+            </response_lid>
+          </presentation>
+          <resprocessing>
+            <outcomes>
+              <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+            </outcomes>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <other/>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="general_fb"/>
+            </respcondition>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <varequal respident="response1">1821</varequal>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="1821_fb"/>
+            </respcondition>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <varequal respident="response1">8428</varequal>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="8428_fb"/>
+            </respcondition>
+            <respcondition continue="No">
+              <conditionvar>
+                <and>
+                  <varequal respident="response1">1821</varequal>
+                  <not>
+                    <varequal respident="response1">8428</varequal>
+                  </not>
+                  <varequal respident="response1">3889</varequal>
+                  <not>
+                    <varequal respident="response1">701</varequal>
+                  </not>
+                </and>
+              </conditionvar>
+              <setvar action="Set" varname="SCORE">100</setvar>
+              <displayfeedback feedbacktype="Response" linkrefid="correct_fb"/>
+            </respcondition>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <other/>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="general_incorrect_fb"/>
+            </respcondition>
+          </resprocessing>
+          <itemfeedback ident="general_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;don't know what this comment is (gray)&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="correct_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;don't know what this comment is (green)&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="general_incorrect_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;don't know what this comment is (red)&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="1821_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;good ma comment&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="8428_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;wrong ma comment&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+        </item>
+        <item ident="g222460fec18e92f23a8713286988f7f1" title="alph">
+          <itemmetadata>
+            <qtimetadata>
+              <qtimetadatafield>
+                <fieldlabel>question_type</fieldlabel>
+                <fieldentry>essay_question</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>points_possible</fieldlabel>
+                <fieldentry>0.0</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>original_answer_ids</fieldlabel>
+                <fieldentry></fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>assessment_question_identifierref</fieldlabel>
+                <fieldentry>gf624cb3ded62b14c6ad382350d98eb1a</fieldentry>
+              </qtimetadatafield>
+            </qtimetadata>
+          </itemmetadata>
+          <presentation>
+            <material>
+              <mattext texttype="text/html">&lt;div&gt;&lt;p&gt;write sth&lt;/p&gt;&lt;/div&gt;</mattext>
+            </material>
+            <response_str ident="response1" rcardinality="Single">
+              <render_fib>
+                <response_label ident="answer1" rshuffle="No"/>
+              </render_fib>
+            </response_str>
+          </presentation>
+          <resprocessing>
+            <outcomes>
+              <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+            </outcomes>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <other/>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="general_fb"/>
+            </respcondition>
+            <respcondition continue="No">
+              <conditionvar>
+                <other/>
+              </conditionvar>
+            </respcondition>
+          </resprocessing>
+          <itemfeedback ident="general_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;Comment for student in essay question&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+        </item>
+        <item ident="g793ac3a99bec7f7a351f31596ad0061a" title="mb">
+          <itemmetadata>
+            <qtimetadata>
+              <qtimetadatafield>
+                <fieldlabel>question_type</fieldlabel>
+                <fieldentry>fill_in_multiple_blanks_question</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>points_possible</fieldlabel>
+                <fieldentry>1.0</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>original_answer_ids</fieldlabel>
+                <fieldentry>8325,2536</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>assessment_question_identifierref</fieldlabel>
+                <fieldentry>g8d99a956b068bb97a17fbfda926992bc</fieldentry>
+              </qtimetadatafield>
+            </qtimetadata>
+          </itemmetadata>
+          <presentation>
+            <material>
+              <mattext texttype="text/html">&lt;div&gt;&lt;p&gt;[x1] + 15 = 7 and -8+15=[x2] ... fill out the blanks&lt;/p&gt;&lt;/div&gt;</mattext>
+            </material>
+            <response_lid ident="response_x1">
+              <material>
+                <mattext>x1</mattext>
+              </material>
+              <render_choice>
+                <response_label ident="8325">
+                  <material>
+                    <mattext texttype="text/plain">-8</mattext>
+                  </material>
+                </response_label>
+              </render_choice>
+            </response_lid>
+            <response_lid ident="response_x2">
+              <material>
+                <mattext>x2</mattext>
+              </material>
+              <render_choice>
+                <response_label ident="2536">
+                  <material>
+                    <mattext texttype="text/plain">7</mattext>
+                  </material>
+                </response_label>
+              </render_choice>
+            </response_lid>
+          </presentation>
+          <resprocessing>
+            <outcomes>
+              <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+            </outcomes>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <other/>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="general_fb"/>
+            </respcondition>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <varequal respident="response_x1">8325</varequal>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="8325_fb"/>
+            </respcondition>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <varequal respident="response_x2">2536</varequal>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="2536_fb"/>
+            </respcondition>
+            <respcondition>
+              <conditionvar>
+                <varequal respident="response_x1">8325</varequal>
+              </conditionvar>
+              <setvar varname="SCORE" action="Add">50.00</setvar>
+            </respcondition>
+            <respcondition>
+              <conditionvar>
+                <varequal respident="response_x2">2536</varequal>
+              </conditionvar>
+              <setvar varname="SCORE" action="Add">50.00</setvar>
+            </respcondition>
+          </resprocessing>
+          <itemfeedback ident="general_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;don't know what this comment is (gray)&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="correct_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;don't know what this comment is (green)&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="general_incorrect_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;don't know what this comment is (red)&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="8325_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;a commentt for this answer x1&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="2536_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;a comment for this answer if correct&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+        </item>
+        <item ident="gf1d655b6d0687665221f1de1cb879921" title="upl">
+          <itemmetadata>
+            <qtimetadata>
+              <qtimetadatafield>
+                <fieldlabel>question_type</fieldlabel>
+                <fieldentry>file_upload_question</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>points_possible</fieldlabel>
+                <fieldentry>1.0</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>original_answer_ids</fieldlabel>
+                <fieldentry></fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>assessment_question_identifierref</fieldlabel>
+                <fieldentry>g18bfd95f1c50389745c063f341dd8f48</fieldentry>
+              </qtimetadatafield>
+            </qtimetadata>
+          </itemmetadata>
+          <presentation>
+            <material>
+              <mattext texttype="text/html">&lt;div&gt;&lt;p&gt;upload sth&lt;/p&gt;&lt;/div&gt;</mattext>
+            </material>
+          </presentation>
+          <resprocessing>
+            <outcomes>
+              <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+            </outcomes>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <other/>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="general_fb"/>
+            </respcondition>
+          </resprocessing>
+          <itemfeedback ident="general_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;comment for student in upload question&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+        </item>
+      </section>
+      <section ident="g36b02a7883324148d872358886e60a52" title="Group 2 (to do)">
+        <selection_ordering>
+          <selection>
+            <selection_number>1</selection_number>
+            <selection_extension>
+              <points_per_item>1.0</points_per_item>
+            </selection_extension>
+          </selection>
+        </selection_ordering>
+        <item ident="gc595eb1755d4d711dd339e3453eed26a" title="T/F">
+          <itemmetadata>
+            <qtimetadata>
+              <qtimetadatafield>
+                <fieldlabel>question_type</fieldlabel>
+                <fieldentry>true_false_question</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>points_possible</fieldlabel>
+                <fieldentry>1.0</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>original_answer_ids</fieldlabel>
+                <fieldentry>9147,164</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>assessment_question_identifierref</fieldlabel>
+                <fieldentry>gf6dc17acae02dd435a3d11954d077146</fieldentry>
+              </qtimetadatafield>
+            </qtimetadata>
+          </itemmetadata>
+          <presentation>
+            <material>
+              <mattext texttype="text/html">&lt;div&gt;&lt;p&gt;T/F quest&lt;/p&gt;&lt;/div&gt;</mattext>
+            </material>
+            <response_lid ident="response1" rcardinality="Single">
+              <render_choice>
+                <response_label ident="9147">
+                  <material>
+                    <mattext texttype="text/plain">True</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="164">
+                  <material>
+                    <mattext texttype="text/plain">False</mattext>
+                  </material>
+                </response_label>
+              </render_choice>
+            </response_lid>
+          </presentation>
+          <resprocessing>
+            <outcomes>
+              <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+            </outcomes>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <varequal respident="response1">9147</varequal>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="9147_fb"/>
+            </respcondition>
+            <respcondition continue="No">
+              <conditionvar>
+                <varequal respident="response1">9147</varequal>
+              </conditionvar>
+              <setvar action="Set" varname="SCORE">100</setvar>
+            </respcondition>
+          </resprocessing>
+          <itemfeedback ident="9147_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;comment for correct&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+        </item>
+        <item ident="ge016ca956641155c01bbd43b981f2ab3" title="Single Blank">
+          <itemmetadata>
+            <qtimetadata>
+              <qtimetadatafield>
+                <fieldlabel>question_type</fieldlabel>
+                <fieldentry>short_answer_question</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>points_possible</fieldlabel>
+                <fieldentry>1.0</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>original_answer_ids</fieldlabel>
+                <fieldentry>9007,8130</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>assessment_question_identifierref</fieldlabel>
+                <fieldentry>ga158bb416584029c84bb71f979aea83e</fieldentry>
+              </qtimetadatafield>
+            </qtimetadata>
+          </itemmetadata>
+          <presentation>
+            <material>
+              <mattext texttype="text/html">&lt;div&gt;&lt;p&gt;Here comes the [x1] blank&lt;/p&gt;&lt;/div&gt;</mattext>
+            </material>
+            <response_str ident="response1" rcardinality="Single">
+              <render_fib>
+                <response_label ident="answer1" rshuffle="No"/>
+              </render_fib>
+            </response_str>
+          </presentation>
+          <resprocessing>
+            <outcomes>
+              <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+            </outcomes>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <varequal respident="response1">answeroption1</varequal>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="9007_fb"/>
+            </respcondition>
+            <respcondition continue="No">
+              <conditionvar>
+                <varequal respident="response1">answeroption1</varequal>
+                <varequal respident="response1">option2</varequal>
+              </conditionvar>
+              <setvar action="Set" varname="SCORE">100</setvar>
+            </respcondition>
+          </resprocessing>
+          <itemfeedback ident="9007_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;with correct comment&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+        </item>
+        <item ident="ge18a703d6304700e461e96abf7bd8e3a" title="multiple dropdown">
+          <itemmetadata>
+            <qtimetadata>
+              <qtimetadatafield>
+                <fieldlabel>question_type</fieldlabel>
+                <fieldentry>multiple_dropdowns_question</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>points_possible</fieldlabel>
+                <fieldentry>1.0</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>original_answer_ids</fieldlabel>
+                <fieldentry>2910,5468,8601,4142,9129,5259</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>assessment_question_identifierref</fieldlabel>
+                <fieldentry>g65abd721c0c96760f31d0530ec7517e5</fieldentry>
+              </qtimetadatafield>
+            </qtimetadata>
+          </itemmetadata>
+          <presentation>
+            <material>
+              <mattext texttype="text/html">&lt;div&gt;&lt;p&gt;roses [are] ... [flowers] ... haha&lt;/p&gt;&lt;/div&gt;</mattext>
+            </material>
+            <response_lid ident="response_are">
+              <material>
+                <mattext>are</mattext>
+              </material>
+              <render_choice>
+                <response_label ident="2910">
+                  <material>
+                    <mattext texttype="text/plain">are</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="5468">
+                  <material>
+                    <mattext texttype="text/plain">be</mattext>
+                  </material>
+                </response_label>
+              </render_choice>
+            </response_lid>
+            <response_lid ident="response_flowers">
+              <material>
+                <mattext>flowers</mattext>
+              </material>
+              <render_choice>
+                <response_label ident="8601">
+                  <material>
+                    <mattext texttype="text/plain">flowers</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="4142">
+                  <material>
+                    <mattext texttype="text/plain">animals</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="9129">
+                  <material>
+                    <mattext texttype="text/plain">pigeons</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="5259">
+                  <material>
+                    <mattext texttype="text/plain">part of creation</mattext>
+                  </material>
+                </response_label>
+              </render_choice>
+            </response_lid>
+          </presentation>
+          <resprocessing>
+            <outcomes>
+              <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+            </outcomes>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <varequal respident="response_are">2910</varequal>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="2910_fb"/>
+            </respcondition>
+            <respcondition continue="Yes">
+              <conditionvar>
+                <varequal respident="response_are">5468</varequal>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="5468_fb"/>
+            </respcondition>
+            <respcondition>
+              <conditionvar>
+                <varequal respident="response_are">2910</varequal>
+              </conditionvar>
+              <setvar varname="SCORE" action="Add">50.00</setvar>
+            </respcondition>
+            <respcondition>
+              <conditionvar>
+                <varequal respident="response_flowers">8601</varequal>
+              </conditionvar>
+              <setvar varname="SCORE" action="Add">50.00</setvar>
+            </respcondition>
+          </resprocessing>
+          <itemfeedback ident="2910_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;correct&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="5468_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;incorrect comment&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+        </item>
+        <item ident="g6eb01e15183684cf2fb813d034a67be8" title="text (no q)">
+          <itemmetadata>
+            <qtimetadata>
+              <qtimetadatafield>
+                <fieldlabel>question_type</fieldlabel>
+                <fieldentry>text_only_question</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>points_possible</fieldlabel>
+                <fieldentry>0</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>original_answer_ids</fieldlabel>
+                <fieldentry></fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>assessment_question_identifierref</fieldlabel>
+                <fieldentry>gf47b767d37e06559ff801f2d253307ba</fieldentry>
+              </qtimetadatafield>
+            </qtimetadata>
+          </itemmetadata>
+          <presentation>
+            <material>
+              <mattext texttype="text/html">&lt;div&gt;&lt;p&gt;here is text&lt;/p&gt;&lt;/div&gt;</mattext>
+            </material>
+          </presentation>
+        </item>
+        <item ident="g8491cece8849ba310eb371f74e344b43" title="match">
+          <itemmetadata>
+            <qtimetadata>
+              <qtimetadatafield>
+                <fieldlabel>question_type</fieldlabel>
+                <fieldentry>matching_question</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>points_possible</fieldlabel>
+                <fieldentry>1.0</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>original_answer_ids</fieldlabel>
+                <fieldentry>2034,2436</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>assessment_question_identifierref</fieldlabel>
+                <fieldentry>ga28135f5090190e7c264aa1b4df4a544</fieldentry>
+              </qtimetadatafield>
+            </qtimetadata>
+          </itemmetadata>
+          <presentation>
+            <material>
+              <mattext texttype="text/html">&lt;div&gt;&lt;p&gt;tray to ifnd [left] and [right] matches&lt;/p&gt;&lt;/div&gt;</mattext>
+            </material>
+            <response_lid ident="response_2034">
+              <material>
+                <mattext texttype="text/plain">left1</mattext>
+              </material>
+              <render_choice>
+                <response_label ident="7684">
+                  <material>
+                    <mattext>left2</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="240">
+                  <material>
+                    <mattext>right2</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="3133">
+                  <material>
+                    <mattext>distractor1</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="317">
+                  <material>
+                    <mattext>distractor2</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="7721">
+                  <material>
+                    <mattext>distractor3</mattext>
+                  </material>
+                </response_label>
+              </render_choice>
+            </response_lid>
+            <response_lid ident="response_2436">
+              <material>
+                <mattext texttype="text/plain">right1</mattext>
+              </material>
+              <render_choice>
+                <response_label ident="7684">
+                  <material>
+                    <mattext>left2</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="240">
+                  <material>
+                    <mattext>right2</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="3133">
+                  <material>
+                    <mattext>distractor1</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="317">
+                  <material>
+                    <mattext>distractor2</mattext>
+                  </material>
+                </response_label>
+                <response_label ident="7721">
+                  <material>
+                    <mattext>distractor3</mattext>
+                  </material>
+                </response_label>
+              </render_choice>
+            </response_lid>
+          </presentation>
+          <resprocessing>
+            <outcomes>
+              <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+            </outcomes>
+            <respcondition>
+              <conditionvar>
+                <varequal respident="response_2034">7684</varequal>
+              </conditionvar>
+              <setvar varname="SCORE" action="Add">50.00</setvar>
+            </respcondition>
+            <respcondition>
+              <conditionvar>
+                <not>
+                  <varequal respident="response_2034">7684</varequal>
+                </not>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="2034_fb"/>
+            </respcondition>
+            <respcondition>
+              <conditionvar>
+                <varequal respident="response_2436">240</varequal>
+              </conditionvar>
+              <setvar varname="SCORE" action="Add">50.00</setvar>
+            </respcondition>
+            <respcondition>
+              <conditionvar>
+                <not>
+                  <varequal respident="response_2436">240</varequal>
+                </not>
+              </conditionvar>
+              <displayfeedback feedbacktype="Response" linkrefid="2436_fb"/>
+            </respcondition>
+          </resprocessing>
+          <itemfeedback ident="2034_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;red comment&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+          <itemfeedback ident="2436_fb">
+            <flow_mat>
+              <material>
+                <mattext texttype="text/html">&lt;p&gt;red comment&lt;/p&gt;</mattext>
+              </material>
+            </flow_mat>
+          </itemfeedback>
+        </item>
+        <item ident="gc2b64a3ab8699a5d4e876e4300672f20" title="formula">
+          <itemmetadata>
+            <qtimetadata>
+              <qtimetadatafield>
+                <fieldlabel>question_type</fieldlabel>
+                <fieldentry>calculated_question</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>points_possible</fieldlabel>
+                <fieldentry>1.0</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>original_answer_ids</fieldlabel>
+                <fieldentry>9039,7364,9744,4996,1561,2546,993,5077</fieldentry>
+              </qtimetadatafield>
+              <qtimetadatafield>
+                <fieldlabel>assessment_question_identifierref</fieldlabel>
+                <fieldentry>g37ba2cb321509440d2fde5185b0f03cf</fieldentry>
+              </qtimetadatafield>
+            </qtimetadata>
+          </itemmetadata>
+          <presentation>
+            <material>
+              <mattext texttype="text/html">&lt;div&gt;
+&lt;p&gt;This is [x1fload] the [x2int] formula question to deal with (8 versions, error margin 0.032)&lt;/p&gt;
+&lt;p&gt;y = x1fload + 5&lt;/p&gt;
+&lt;p&gt;z = 3 + 15&lt;/p&gt;
+&lt;p&gt;x2int * y + z&lt;/p&gt;
+&lt;/div&gt;</mattext>
+            </material>
+            <response_str ident="response1" rcardinality="Single">
+              <render_fib fibtype="Decimal">
+                <response_label ident="answer1"/>
+              </render_fib>
+            </response_str>
+          </presentation>
+          <resprocessing>
+            <outcomes>
+              <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal"/>
+            </outcomes>
+            <respcondition title="correct">
+              <conditionvar>
+                <other/>
+              </conditionvar>
+              <setvar varname="SCORE" action="Set">100</setvar>
+            </respcondition>
+            <respcondition title="incorrect">
+              <conditionvar>
+                <not>
+                  <other/>
+                </not>
+              </conditionvar>
+              <setvar varname="SCORE" action="Set">0</setvar>
+            </respcondition>
+          </resprocessing>
+          <itemproc_extension>
+            <calculated>
+              <answer_tolerance>0.032</answer_tolerance>
+              <formulas decimal_places="3">
+                <formula>y = x1fload + 5</formula>
+                <formula>z = 3 + 15</formula>
+                <formula>x2int * y + z</formula>
+              </formulas>
+              <vars>
+                <var name="x1fload" scale="2">
+                  <min>1.0</min>
+                  <max>10.0</max>
+                </var>
+                <var name="x2int" scale="0">
+                  <min>1.0</min>
+                  <max>10.0</max>
+                </var>
+              </vars>
+              <var_sets>
+                <var_set ident="9039">
+                  <var name="x1fload">9.69</var>
+                  <var name="x2int">10</var>
+                  <answer>164.9</answer>
+                </var_set>
+                <var_set ident="7364">
+                  <var name="x1fload">4.40</var>
+                  <var name="x2int">3</var>
+                  <answer>46.2</answer>
+                </var_set>
+                <var_set ident="9744">
+                  <var name="x1fload">4.46</var>
+                  <var name="x2int">5</var>
+                  <answer>65.3</answer>
+                </var_set>
+                <var_set ident="4996">
+                  <var name="x1fload">9.06</var>
+                  <var name="x2int">2</var>
+                  <answer>46.12</answer>
+                </var_set>
+                <var_set ident="1561">
+                  <var name="x1fload">6.76</var>
+                  <var name="x2int">5</var>
+                  <answer>76.8</answer>
+                </var_set>
+                <var_set ident="2546">
+                  <var name="x1fload">5.23</var>
+                  <var name="x2int">7</var>
+                  <answer>89.61</answer>
+                </var_set>
+                <var_set ident="993">
+                  <var name="x1fload">2.63</var>
+                  <var name="x2int">4</var>
+                  <answer>48.52</answer>
+                </var_set>
+                <var_set ident="5077">
+                  <var name="x1fload">4.13</var>
+                  <var name="x2int">3</var>
+                  <answer>45.39</answer>
+                </var_set>
+              </var_sets>
+            </calculated>
+          </itemproc_extension>
+        </item>
+      </section>
+    </section>
+  </assessment>
+</questestinterop>
