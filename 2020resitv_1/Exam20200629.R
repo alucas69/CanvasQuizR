@@ -1,193 +1,124 @@
-###############################
-###############################
-## Set my working directory
-###############################
-###############################
-# setwd("C:/Users/me/surfdrive/BSTAT/exams/May2020/")
-# EnginePath = "/home/cbs310/vu/busstat20/writtenexams/ElectronicMarkingTest"
-# getwd()
-# setwd("..")
-EnginePath = ".."
-ExamPath = paste(EnginePath, "2020resitv_1", sep="/")
-ExamDate= "20200629"
-
-
-###############################
-###############################
-## Set email address for 
-## emergency
-###############################
-###############################
-# sEmailaddress = "c.s.bos@vu.nl"
-sEmailaddress = "a.lucas@vu.nl"
-if (!exists("sEmailaddress")) stop("Set the email address as a global first !!")
-
-
-###############################
-###############################
-## load R libraries (required)
-###############################
-###############################
-library("stringi")
-library("crayon")
-library("car")
-library("psych")
-
-###############################
-###############################
-## Load Canvas Quiz R code
-###############################
-###############################
-source(sprintf("%s/%s",EnginePath,"aidfunctions.R"))
-source(sprintf("%s/%s",EnginePath,"WLprint.R"))
-source(sprintf("%s/%s",EnginePath,"imsmanifest.R"))
-source(sprintf("%s/%s",EnginePath,"assessment_meta.R"))
-source(sprintf("%s/%s",EnginePath,"testheader.R"))
-source(sprintf("%s/%s",EnginePath,"opennewquizfile.R"))
-source(sprintf("%s/%s",EnginePath,"startnewblock.R"))
-source(sprintf("%s/%s",EnginePath,"mathformats.R"))
-source(sprintf("%s/%s",EnginePath,"MAquestion.R"))
-source(sprintf("%s/%s",EnginePath,"MCquestion.R"))
-source(sprintf("%s/%s",EnginePath,"ALPHquestion.R"))
-source(sprintf("%s/%s",EnginePath,"NUMquestion.R"))
-source(sprintf("%s/%s",EnginePath,"UPLOADquestion.R"))
-source(sprintf("%s/%s",EnginePath,"closeblock.R"))
-source(sprintf("%s/%s",EnginePath,"quizzip.R"))
-source(sprintf("%s/%s",EnginePath,"closequizfile.R"))
-source(sprintf("%s/%s",EnginePath,"tex2math.R"))
-source(sprintf("%s/%s",EnginePath,"RoundAnswer.R"))
-source(sprintf("%s/%s",EnginePath,"FloorDfT.R"))
-source(sprintf("%s/%s",EnginePath,"WriteQ.R"))
-source(sprintf("%s/%s",EnginePath,"Qselect.R"))
-source(sprintf("%s/%s",EnginePath,"WriteQuizHtml.R"))
-#source(sprintf("%s/%s%s%s", ExamPath, "questions/Q", ExamDate, "_0core.R"))
-source(sprintf("%s/%s%s%s", ExamPath, "questions/Q", ExamDate, "_1nw-core.R"))
-source(sprintf("%s/%s%s%s", ExamPath, "questions/Q", ExamDate, "_2core.R"))
-source(sprintf("%s/%s%s%s", ExamPath, "questions/Q", ExamDate, "_3core.R"))
-source(sprintf("%s/%s%s", ExamPath, "questions/", "ID_question.R"))
-
-###############################
-###############################
-## Set my working subdirectory
-## to save the quiz archive in.
-## Also initialize the counters
-## for questions and answers.
-###############################
-###############################
-mydir = sprintf("%s/%s", EnginePath, "tmp")
-Counters <- list(AnswerCounter = 100000, QuestionCounter = 1)
+# clean up
+rm(list=ls())
+enginedir=".."
+questionsdir="./questions"
 
 
 
-###############################
-###############################
-## Open the new quiz file
-###############################
-###############################
-QuizFile <- OpenNewQuizFile(subdir = mydir,
-                            TestName = "TEST Business Statistics 2020/06/29",
-#                            TestName = "NORMAL TIME Business Statistics 2020/06/29",
-#                            TestName = "EXTRA TIME Business Statistics 2020/06/29",
-#                            TestName = "CRASH VERSION Business Statistics 2020/06/29",
-                            IntroText = c(sprintf("For emergency questions during the exam, send an email to %s", sEmailaddress)
-                                          )
-                            )
-BaseFileName <- sprintf("Q%s", ExamDate)
+# libraries
+library(stringi)
+library(psych)
+library(car)
+# library(tools)
 
 
-#######################################################################################
-#######################################################################################
-#######################################################################################
-####
-####  HERE FOLLOW THE ACTUAL EXAM QUESTIONS (PER BLOCK)
-####
-#######################################################################################
-#######################################################################################
-#######################################################################################
-
-#
-# Initialize question counter and
-# set number of variations per question
-#
-QuestionNumber <- 1
-NumberOfVariations <- 2
-WhichQuestions <- NULL
-# WhichQuestions <- c(WhichQuestions,
-#                     "1a", "1b", "1c", "1d", "1e", "1g", "1h", "1i", "1j",
-#                     "1l", "1m", "1n", "1o", "1p", "1q", "1r", "1s", "1t",
-#                     "1u", "1v", "1w", "1x", "1y", "1z")
-WhichQuestions <- c(WhichQuestions,
-                    "1b", "1e", "1h", "1j", "1m", "1o", 
-                    "1q", "1t", "1u", "1w", "1y", "1r")
-# WhichQuestions <- c(WhichQuestions,
-#                     "2core")
-WhichQuestions <- c(WhichQuestions, "Selfie")
-# WhichQuestions <- c(WhichQuestions,
-#                     sprintf('2a%i', 1:7), '2b1')
-# WhichQuestions <- c(WhichQuestions,
-#                     "3a1", "3a2", "3a3",
-#                     "3b1", "3b2",
-#                     "3c1", "3c2", "3c3", "3c4", "3c5", "3c6", "3c7", "3c8")
-WhichQuestions <- c(WhichQuestions, "IntegrityExit")
-
-# integrity question with email address
-blockkey <- startnewblock(QuizFile, "Integrity check")
-Counters <- WriteQ(Q_Integrity(sEmailaddress), Counters)
-closeblock(QuizFile)
+# load engine
+engine_sources= c(
+  #
+  # auxiliary functions
+  #
+  "FloorDfT.R", "aidfunctions.R", "generate_key.R", "quizzip.R",
+  "sprintf_indent.R", "tex2math.R", "answer_select.R",
+  #
+  # general quiz routines
+  #
+  "check_mb_answers.R", "check_mc_answers.R", "check_num_answers.R",
+  "write_quiz_maketestquiz.R", "write_quiz_to_dataframe.R", "write_quiz_html_test.R", 
+  #
+  # canvas wrapper files
+  #
+  "assessment_meta.R", "imsmanifest.R", "write_quiz_canvas.R",
+  "write_quiz_canvas_alph.R", "write_quiz_canvas_blockwrapper.R",
+  "write_quiz_canvas_ma.R", "write_quiz_canvas_mc.R", "write_quiz_canvas_num.R",
+  "write_quiz_canvas_question_preamble.R", "write_quiz_canvas_upl.R",
+  #
+  # html related
+  #
+  "html_escape.R", "simple_html_checker.R", "simple_html_matching_tag_checker.R",
+  "write_as_html_table.R", "write_as_html_ul.R", "write_as_html_ul_color.R",
+  "write_in_wrapper.R", "write_quiz_html.R", "write_quiz_html_alph.R",
+  "write_quiz_html_file.R", "write_quiz_html_ma.R", "write_quiz_html_mb.R",
+  "write_quiz_html_mb_highlight_variables.R", "write_quiz_html_mc.R",
+  "write_quiz_html_num.R", "write_quiz_html_upl.R", "write_three_part_table.R"
+)
+for (subsource in engine_sources) eval(parse(text=sprintf("source(%s\"%s\")", enginedir, subsource)))
 
 
 
-# #
-# # Build the exam part 1
-# #
-for (i1 in 1:length(WhichQuestions)) {
-  print(sprintf("Question %s", WhichQuestions[i1]))
-  # QuestionTitle <- sprintf("Question %d", i1)
-  QuestionTitle <- sprintf("Question %s", WhichQuestions[i1])
-  blockkey <- startnewblock(QuizFile, QuestionTitle)
+# load quiz sources
+numbervariations= 1
+exam_sources= c(
+  "ID_question.R", "Q20200629_1nw-core.R", 
+  "Q20200629_1a.R", "Q20200629_1b.R", "Q20200629_1c.R", "Q20200629_1d.R",
+  "Q20200629_1e.R", "Q20200629_1g.R", "Q20200629_1h.R", "Q20200629_1i.R",
+  "Q20200629_1j.R", "Q20200629_1l.R", "Q20200629_1m.R", "Q20200629_1n.R",
+  "Q20200629_1o.R", "Q20200629_1p.R", "Q20200629_1q.R", "Q20200629_1r.R",
+  "Q20200629_1s.R", "Q20200629_1t.R", "Q20200629_1u.R", "Q20200629_1v.R", 
+  "Q20200629_1w.R", "Q20200629_1x.R", "Q20200629_1y.R", "Q20200629_1z.R", 
+  "Q_5step_2pi.1.R", "Q_5step_anova.1.R"
+)
+for (subsource in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", qdir, subsource)))
+questions= matrix(c(
+  numbervariations, "Q20200629_1a",
+  numbervariations, "Q20200629_1b",
+  numbervariations, "Q20200629_1c",
+  numbervariations, "Q20200629_1d",
+  numbervariations, "Q20200629_1e",
+  numbervariations, "Q20200629_1g",
+  numbervariations, "Q20200629_1h",
+  numbervariations, "Q20200629_1i",
+  numbervariations, "Q20200629_1j",
+  numbervariations, "Q20200629_1l",
+  numbervariations, "Q20200629_1m",
+  numbervariations, "Q20200629_1n",
+  numbervariations, "Q20200629_1o",
+  numbervariations, "Q20200629_1p",
+  numbervariations, "Q20200629_1q",
+  numbervariations, "Q20200629_1r",
+  numbervariations, "Q20200629_1s",
+  numbervariations, "Q20200629_1t",
+  numbervariations, "Q20200629_1u",
+  numbervariations, "Q20200629_1v",
+  numbervariations, "Q20200629_1w",
+  numbervariations, "Q20200629_1x",
+  numbervariations, "Q20200629_1y",
+  numbervariations, "Q20200629_1z",
+  numbervariations, "Q_5step_anova.1_step1a",
+  numbervariations, "Q_5step_anova.1_step2a",
+  numbervariations, "Q_5step_anova.1_step3a",
+  numbervariations, "Q_5step_anova.1_step3b",
+  numbervariations, "Q_5step_anova.1_step3c",
+  numbervariations, "Q_5step_anova.1_step5a",
+  numbervariations, "Q_5step_anova.1_step5b",
+  numbervariations, "Q_5step_2pi.1_step1a",
+  numbervariations, "Q_5step_2pi.1_step2a",
+  numbervariations, "Q_5step_2pi.1_step3a",
+  numbervariations, "Q_5step_2pi.1_step3b",
+  numbervariations, "Q_5step_2pi.1_step3c",
+  numbervariations, "Q_5step_2pi.1_step4a",
+  numbervariations, "Q_5step_2pi.1_step4b",
+  numbervariations, "Q_5step_2pi.1_step5a"
+), nrow=2)
 
-  if ((stri_sub(WhichQuestions[i1], 1, 1) == "1")){
-    # import the question code
-    source(sprintf("%s/questions/%s_%s.R", ExamPath, BaseFileName, WhichQuestions[i1]))
-    # evaluate and write the question
-    eval(parse(text = sprintf("Counters <- %s_%s(QuizFile, Counters, NumberOfVariations)", BaseFileName, WhichQuestions[i1])))
-    # drop the question code from memory
-    eval(parse(text = sprintf("rm(%s_%s)", BaseFileName, WhichQuestions[i1])))
-    # drop the question code from memory
-    # eval(parse(text = sprintf("rm(%s_%s)", BaseFileName, WhichQuestions[i1])))
-  } else {
-    for (j in 1:NumberOfVariations){
-      sQi= sprintf("Qi= Q_%s()", WhichQuestions[i1])
-      eval(parse(text=sQi))
-      Counters <- WriteQ(Qi, Counters)
-    }
+
+#set.seed(55)
+
+
+# construct the exam
+exam = list()
+for (blockcounter in 1:ncol(questions)) {
+  block = list()
+  for (questioncounter in 1:questions[1, blockcounter]) {
+    print(sprintf("Question %d.%d", blockcounter, questioncounter))
+    # print(questions[2,blockcounter])
+    eval(parse(text = sprintf("question_tmp= %s()", questions[2, blockcounter])))
+    question_tmp$q= sprintf("Q%d", blockcounter)
+    block= append(block, list(question_tmp))
   }
-  closeblock(QuizFile)
+  exam= append(exam, list(block))
 }
 
 
-#######################################################################################
-#######################################################################################
-#######################################################################################
-####
-####  END OF THE ACTUAL EXAM QUESTIONS (PER BLOCK)
-####
-#######################################################################################
-#######################################################################################
-#######################################################################################
-
-
-
-
-###############################
-###############################
-## Close the quiz file, zip it,
-## and deletet the original files.
-###############################
-###############################
-CloseQuizFile(QuizFile)
-quizzip(mydir, QuizFile$key, deleteold = TRUE)
-
-warnings()
-
-sprintf("\n\nEmails are sent to %s", sEmailaddress)
+# write the exam
+write_quiz_html(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
+write_quiz_canvas(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
