@@ -7,11 +7,11 @@ write_quiz_canvas= function(l_quiz, quiz_name="R generated quiz", subdir=".", qu
   # compile the quiz
   output= NULL
   output_question= list(answer_counter=100000)
-  for (i0 in 1:length(l_quiz)) {
-    block= l_quiz[[i0]]
+  for (i0 in 1:length(l_quiz$blocks)) {
+    block= l_quiz$blocks[[i0]]
     output_block= NULL
-    for (i1 in 1:length(block)) {
-      question= block[[i1]]
+    for (i1 in 1:length(block$questions)) {
+      question= block$questions[[i1]]
       if (texify) {
         question$text= tex2math(question$text)
         if (("answer" %in% names(question)) & (question$type != "num")) question$answer= tex2math(question$answer)
