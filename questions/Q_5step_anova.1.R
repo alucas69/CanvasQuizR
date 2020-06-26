@@ -71,7 +71,7 @@ Q_5step_anova.1_core <- function(f_cc=1) {
   TotalIntro= sprintf("%s You gathered %s for %d different samples:", Setting$Topic, Setting$Subject, length(Sample$vi_N))
   Setting$Groups= Setting$Groups[sample(1:length(Setting$Groups), length(Sample$vi_N))]
   for (i1 in 1:length(Setting$Groups)) TotalIntro= paste(TotalIntro, c(" ",", ")[1+(i1>1)], sprintf("%s (sample %d)", Setting$Groups[i1], i1), sep="")
-  Setting$TotalIntro= paste(TotalIntro, sprintf(". You perform the 5-step test plan for an ANOVA with $\\alpha=%4.2f$.", dAlpha), sep="")
+  Setting$TotalIntro= paste(TotalIntro, sprintf(". You perform the 5-step testing plan for an ANOVA with $\\alpha=%4.2f$.", dAlpha), sep="")
 
   return(list(setting=Setting, sample=Sample, alpha=dAlpha))
 }
@@ -87,7 +87,7 @@ Q_5step_anova.1_step1a <- function() {
   Hypothesis= sample(c(0,1), 1)
   
   # question text
-  Text= c(Q$setting$TotalIntro, write_in_wrapper(sprintf("What is your %s hypothesis?", c("*null*","*alternative*")[Hypothesis+1]), "b", s_wrappertag="style=\"color:blue\""))
+  Text= c(Q$setting$TotalIntro, write_in_wrapper(sprintf("What is your %s hypothesis in this ANOVA?", c("*null*","*alternative*")[Hypothesis+1]), "b", s_wrappertag="style=\"color:blue\""))
   
   # answers
   Answers= matrix(c(
@@ -178,7 +178,7 @@ Q_5step_anova.1_step3b <- function() {
   
   # question text
   Text= c(Q$setting$TotalIntro, sprintf("The number of observations in the three samples equals $n_1=%d$, $n_2=%d$, and $n_3=%d$. You perform an F-test.", Q$sample$vi_N[1], Q$sample$vi_N[2], Q$sample$vi_N[3]))
-  Text= c(Text, write_in_wrapper(sprintf("Which of the below assumptions are required for your test statistic to have an F-distribution under the null hypothesis? Choose *ALL* correct answers."), "b", s_wrappertag="style=\"color:blue\""))
+  Text= c(Text, write_in_wrapper(sprintf("Which of the below assumptions are required for your test statistic to have an F-distribution under the null hypothesis? Choose *ALL* correct answers. The list may not be complete."), "b", s_wrappertag="style=\"color:blue\""))
   
   # answers
   Answers= matrix(c(
@@ -262,11 +262,14 @@ Q_5step_anova.1_step5a <- function() {
     2, "at least 2 means are different, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
     0, "at least 2 means are different, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
     0, "at least 2 means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
-    1, "at least 2 means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
+    0, "at least 2 means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
     0, "all means are different, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
     0, "all means are different, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
     0, "all means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
-    0, "all means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$"
+    0, "all means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
+    1, "there is insufficient empirical evidence that the means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
+    2, "at least 2 means are different, as the calculated ANOVA F-test is larger than its critical value",
+    1, "there is insufficient empirical evidence that the means are different, as the calculated ANOVA F-test is below its critical value"
   ), nrow=2)
   reject= (Q$sample$results$aov_summary[[1]][1,"Pr(>F)"] < Q$alpha)
   

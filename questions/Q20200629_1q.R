@@ -31,7 +31,7 @@ Q20200629_1q <- function() {
     tex2math(sprintf("For a quality control study, you measure the temperature of an item right after 
       production in two different facilities. You want to test 
       $H_0: \\mu_1 - \\mu_2 = %1.1f$ at $\\alpha = %4.2f$. Compute the CRITICAL VALUE 
-      of the usual test statistic to test this hypothesis, using %d decimal places.",  
+      of the usual (standardized) test statistic to test this hypothesis, using %d decimal places.",  
                      dDiffNull, dAlpha, iDigits)),
     DigitDecimalWarning(iDigits),
     sprintf("<pre>%s</pre>", myprettytableprint(tbSummary, floatcolumn = c(0,1,1))),

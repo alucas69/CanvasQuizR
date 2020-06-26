@@ -19,7 +19,7 @@ Q20200629_1u <- function() {
     tex2math(sprintf("For a quality control study, you measure the temperature of an item right after 
       production in two different facilities. Summary statistics are in the table below. 
       You want to test $H_0: \\mu_1 %s %d$ versus $H_1: \\mu_1 %s %d$. 
-      Compute the value of the usual test statistic using %d decimal places and 
+      Compute the value of the usual (standardized) test statistic using %d decimal places and 
       $\\alpha = %1.2f$.", sNullIneq, iNullValue, sAltIneq, iNullValue, iDigits, dAlpha)),
     DigitDecimalWarning(iDigits),
     sprintf("<pre>%s</pre>", myprettytableprint(tbSummary, floatcolumn = c(0,1,1)))
