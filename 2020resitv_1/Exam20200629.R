@@ -6,8 +6,8 @@ rndseed= 55
 emergency_message= "In case of emergency, mail a.lucas@vu.nl."
 
 # set seed and retain for storage if set
-if (exists("rndseed") & (is.integer(rndseed))) {
-  rndseed= abs(rndseed)
+if (exists("rndseed")) {
+  rndseed= abs(as.integer(rndseed))
   set.seed(abs(rndseed))
 } else rndseed= NULL
 
@@ -71,40 +71,44 @@ exam_sources= c(
 for (subsource in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", questiondir, subsource)))
 
 questions= matrix(c(
-  numbervariations, "Q20200629_1a"
-  # numbervariations, "Q20200629_1b",
-  # numbervariations, "Q20200629_1e",
-  # numbervariations, "Q20200629_1h",
-  # numbervariations, "Q20200629_1i",
-  # numbervariations, "Q20200629_1j",
-  # numbervariations, "Q20200629_1o",
-  # numbervariations, "Q20200629_1q",
-  # numbervariations, "Q20200629_1t",
-  # numbervariations, "Q20200629_1u",
-  # numbervariations, "Q20200629_1w",
-  # numbervariations, "Q_5step_anova.1_step1a",
-  # numbervariations, "Q_5step_anova.1_step2a",
-  # numbervariations, "Q_5step_anova.1_step3a",
-  # numbervariations, "Q_5step_anova.1_step3b",
-  # numbervariations, "Q_5step_anova.1_step3c",
-  # numbervariations, "Q_5step_anova.1_step5a",
-  # numbervariations, "Q_5step_anova.1_step5b",
-  # numbervariations, "Q_5step_2pi.1_step1a",
-  # numbervariations, "Q_5step_2pi.1_step2a",
-  # numbervariations, "Q_5step_2pi.1_step3a",
-  # numbervariations, "Q_5step_2pi.1_step3b",
-  # numbervariations, "Q_5step_2pi.1_step3c",
-  # numbervariations, "Q_5step_2pi.1_step4a",
-  # numbervariations, "Q_5step_2pi.1_step4b",
-  # numbervariations, "Q_5step_2pi.1_step5a"
+  numbervariations, "Q20200629_1a",
+  numbervariations, "Q20200629_1b",
+  numbervariations, "Q20200629_1e",
+  numbervariations, "Q20200629_1h",
+  numbervariations, "Q20200629_1i",
+  numbervariations, "Q20200629_1j",
+  numbervariations, "Q20200629_1o",
+  numbervariations, "Q20200629_1q",
+  numbervariations, "Q20200629_1t",
+  numbervariations, "Q20200629_1u",
+  numbervariations, "Q20200629_1w",
+  numbervariations, "Q_5step_anova.1_step1a",
+  numbervariations, "Q_5step_anova.1_step2a",
+  numbervariations, "Q_5step_anova.1_step3a",
+  numbervariations, "Q_5step_anova.1_step3b",
+  numbervariations, "Q_5step_anova.1_step3c",
+  numbervariations, "Q_5step_anova.1_step5a",
+  numbervariations, "Q_5step_anova.1_step5b",
+  numbervariations, "Q_5step_2pi.1_step1a",
+  numbervariations, "Q_5step_2pi.1_step2a",
+  numbervariations, "Q_5step_2pi.1_step3a",
+  numbervariations, "Q_5step_2pi.1_step3b",
+  numbervariations, "Q_5step_2pi.1_step3c",
+  numbervariations, "Q_5step_2pi.1_step4a",
+  numbervariations, "Q_5step_2pi.1_step4b",
+  numbervariations, "Q_5step_2pi.1_step5a"
 ), nrow=2)
 
 
 
 # construct the exam
-exam = list(blocks=list(), seed=rndseed, emergency_html=emergency_message)
+exam = list(blocks=list(), 
+            seed=rndseed, 
+            emergency_html=emergency_message, 
+            key = paste("E_IBA1_BS_20200629-v1", generate_key(5), "_seed", rndseed, sep=""), 
+            name="R generated quiz")
 for (blockcounter in 1:ncol(questions)) {
-  block = list(questions=list(), name=sprintf("block %d", blockcounter))
+  block = list(questions=list(), name=sprintf("Question %d", blockcounter))
   for (questioncounter in 1:questions[1, blockcounter]) {
     print(sprintf("Question %d.%d", blockcounter, questioncounter))
     # print(questions[2,blockcounter])
