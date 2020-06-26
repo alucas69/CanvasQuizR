@@ -1,8 +1,19 @@
 # clean up
 rm(list=ls())
-enginedir=".."
-questionsdir="./questions"
+enginedir="../engine"
+questiondir="../questions"
+rndseed= 55
+emergency_message= "In case of emergency, mail a.lucas@vu.nl."
 
+# set seed and retain for storage if set
+if (exists("rndseed") & (is.integer(rndseed))) {
+  rndseed= abs(rndseed)
+  set.seed(abs(rndseed))
+} else rndseed= NULL
+
+
+# check for emergency message 
+if (!exists("emergency_message")) stop("FULL STOP: an emergency message needs to be set for students to contact you")
 
 
 # libraries
@@ -41,7 +52,7 @@ engine_sources= c(
   "write_quiz_html_mb_highlight_variables.R", "write_quiz_html_mc.R",
   "write_quiz_html_num.R", "write_quiz_html_upl.R", "write_three_part_table.R"
 )
-for (subsource in engine_sources) eval(parse(text=sprintf("source(%s\"%s\")", enginedir, subsource)))
+for (subsource in engine_sources) eval(parse(text=sprintf("source(\"%s/%s\")", enginedir, subsource)))
 
 
 
@@ -57,68 +68,54 @@ exam_sources= c(
   "Q20200629_1w.R", "Q20200629_1x.R", "Q20200629_1y.R", "Q20200629_1z.R", 
   "Q_5step_2pi.1.R", "Q_5step_anova.1.R"
 )
-for (subsource in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", qdir, subsource)))
+for (subsource in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", questiondir, subsource)))
+
 questions= matrix(c(
-  numbervariations, "Q20200629_1a",
-  numbervariations, "Q20200629_1b",
-  numbervariations, "Q20200629_1c",
-  numbervariations, "Q20200629_1d",
-  numbervariations, "Q20200629_1e",
-  numbervariations, "Q20200629_1g",
-  numbervariations, "Q20200629_1h",
-  numbervariations, "Q20200629_1i",
-  numbervariations, "Q20200629_1j",
-  numbervariations, "Q20200629_1l",
-  numbervariations, "Q20200629_1m",
-  numbervariations, "Q20200629_1n",
-  numbervariations, "Q20200629_1o",
-  numbervariations, "Q20200629_1p",
-  numbervariations, "Q20200629_1q",
-  numbervariations, "Q20200629_1r",
-  numbervariations, "Q20200629_1s",
-  numbervariations, "Q20200629_1t",
-  numbervariations, "Q20200629_1u",
-  numbervariations, "Q20200629_1v",
-  numbervariations, "Q20200629_1w",
-  numbervariations, "Q20200629_1x",
-  numbervariations, "Q20200629_1y",
-  numbervariations, "Q20200629_1z",
-  numbervariations, "Q_5step_anova.1_step1a",
-  numbervariations, "Q_5step_anova.1_step2a",
-  numbervariations, "Q_5step_anova.1_step3a",
-  numbervariations, "Q_5step_anova.1_step3b",
-  numbervariations, "Q_5step_anova.1_step3c",
-  numbervariations, "Q_5step_anova.1_step5a",
-  numbervariations, "Q_5step_anova.1_step5b",
-  numbervariations, "Q_5step_2pi.1_step1a",
-  numbervariations, "Q_5step_2pi.1_step2a",
-  numbervariations, "Q_5step_2pi.1_step3a",
-  numbervariations, "Q_5step_2pi.1_step3b",
-  numbervariations, "Q_5step_2pi.1_step3c",
-  numbervariations, "Q_5step_2pi.1_step4a",
-  numbervariations, "Q_5step_2pi.1_step4b",
-  numbervariations, "Q_5step_2pi.1_step5a"
+  numbervariations, "Q20200629_1a"
+  # numbervariations, "Q20200629_1b",
+  # numbervariations, "Q20200629_1e",
+  # numbervariations, "Q20200629_1h",
+  # numbervariations, "Q20200629_1i",
+  # numbervariations, "Q20200629_1j",
+  # numbervariations, "Q20200629_1o",
+  # numbervariations, "Q20200629_1q",
+  # numbervariations, "Q20200629_1t",
+  # numbervariations, "Q20200629_1u",
+  # numbervariations, "Q20200629_1w",
+  # numbervariations, "Q_5step_anova.1_step1a",
+  # numbervariations, "Q_5step_anova.1_step2a",
+  # numbervariations, "Q_5step_anova.1_step3a",
+  # numbervariations, "Q_5step_anova.1_step3b",
+  # numbervariations, "Q_5step_anova.1_step3c",
+  # numbervariations, "Q_5step_anova.1_step5a",
+  # numbervariations, "Q_5step_anova.1_step5b",
+  # numbervariations, "Q_5step_2pi.1_step1a",
+  # numbervariations, "Q_5step_2pi.1_step2a",
+  # numbervariations, "Q_5step_2pi.1_step3a",
+  # numbervariations, "Q_5step_2pi.1_step3b",
+  # numbervariations, "Q_5step_2pi.1_step3c",
+  # numbervariations, "Q_5step_2pi.1_step4a",
+  # numbervariations, "Q_5step_2pi.1_step4b",
+  # numbervariations, "Q_5step_2pi.1_step5a"
 ), nrow=2)
 
 
-#set.seed(55)
-
 
 # construct the exam
-exam = list()
+exam = list(blocks=list(), seed=rndseed, emergency_html=emergency_message)
 for (blockcounter in 1:ncol(questions)) {
-  block = list()
+  block = list(questions=list(), name=sprintf("block %d", blockcounter))
   for (questioncounter in 1:questions[1, blockcounter]) {
     print(sprintf("Question %d.%d", blockcounter, questioncounter))
     # print(questions[2,blockcounter])
     eval(parse(text = sprintf("question_tmp= %s()", questions[2, blockcounter])))
     question_tmp$q= sprintf("Q%d", blockcounter)
-    block= append(block, list(question_tmp))
+    block$questions= append(block$questions, list(question_tmp))
   }
-  exam= append(exam, list(block))
+  exam$blocks= append(exam$blocks, list(block))
 }
 
 
 # write the exam
-write_quiz_html(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
+write_quiz_html(exam)
 write_quiz_canvas(exam, subdir="C:/Users/me/surfdrive/BSTAT/exams/tmp")
