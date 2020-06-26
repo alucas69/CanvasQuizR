@@ -1,8 +1,8 @@
 # l_quiz is a quiz list of blocks, each block a list of questions
-write_quiz_canvas= function(l_quiz, quiz_name="R generated quiz", subdir=".", quiz_key=NULL,  
+write_quiz_canvas= function(l_quiz, quiz_name="R generated quiz", subdir=".",
                             zip=TRUE, deletexml=TRUE, texify=TRUE) {
   # initialize
-  if (is.null(quiz_key)) quiz_key= generate_key()
+  if (is.null(l_quiz$key)) quiz_key= generate_key() else quiz_key=l_quiz$key
   
   # compile the quiz
   output= NULL
@@ -24,7 +24,7 @@ write_quiz_canvas= function(l_quiz, quiz_name="R generated quiz", subdir=".", qu
       else if (question$type == "upl") output_question= write_quiz_canvas_upl(question, output_question$answer_counter)
       output_block= c(output_block, output_question$output)
     }
-    output= c(output, write_quiz_canvas_blockwrapper(output_block))
+    output= c(output, write_quiz_canvas_blockwrapper(output_block, block$name))
   }
   
   # canvas total quiz sections wrapper
@@ -43,7 +43,7 @@ write_quiz_canvas= function(l_quiz, quiz_name="R generated quiz", subdir=".", qu
   
   # write the files
   imsmanifest(quiz_key, subdir)
-  assessment_meta(quiz_key, subdir=subdir, title=quiz_name)
+  assessment_meta(quiz_key, subdir=subdir, title=quiz_name, intro_text=l_quiz$emergency_html)
   f= file(sprintf("%s/%s/%s.xml", subdir, quiz_key, quiz_key), "w")
   writeLines("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", f)
   writeLines(output, f)
