@@ -172,7 +172,10 @@ Q_5step_regression.1.core <- function(){
   dAlpha= sample(c(0.1, 0.05, 0.01), 1)
 
   # Write intro
-  Setting$Intro= sprintf("Studying the %s, you obtained information on %i %ss of the %s.", Setting$Topic, Setting$N, Setting$Object, tolower(Setting$Vars[1]))
+  Setting$Intro= c(
+    paste("In the following questions, the numbers and setting may change, though questions are related. 
+            Use the numbers of the", ColorBold("question on screen"), "to answer the question."),
+    sprintf("Studying the %s, you obtained information on %i %ss of the %s.", Setting$Topic, Setting$N, Setting$Object, tolower(Setting$Vars[1])))
   Setting$Variables= sprintf("We explain '%s' (%s, in %s) by a constant and the variables '%s' (%s, in %s), '%s' (%s, in %s), '%s' (%s, in %s), '%s' (%s, in %s) and '%s' (%s, in %s).", Setting$Vars[1], Setting$VarsSh[1], Setting$Units[1], Setting$Vars[3], Setting$VarsSh[3], Setting$Units[3], Setting$Vars[4], Setting$VarsSh[4], Setting$Units[4], Setting$Vars[5], Setting$VarsSh[5], Setting$Units[5], Setting$Vars[6], Setting$VarsSh[6], Setting$Units[6], Setting$Vars[7], Setting$VarsSh[7], Setting$Units[7])
   Setting$Alpha= dAlpha
 
@@ -194,6 +197,8 @@ Q_5step_regression.1.core <- function(){
   return (list(setting= Setting, sample= lSetup$sample, results=lSetup$results, select=Select))
 }
 
+
+
 Q_5step_regression.1.a1 <- function() {
     iAa= 6  # Number of answers (excluding 'none-of-the-above' to select)
     iC= 1   # Number of correct answers: Do include the correct answer
@@ -211,11 +216,9 @@ Q_5step_regression.1.a1 <- function() {
     sTab= c("restricted", "unrestricted")[iTab]
 
     QuestionText <- c(
-      "In the following questions, the numbers and setting may
-      change, though questions are related. Use the numbers of the", ColorBold("question on screen"), "to answer the question.",
-      Core$Setting$Intro,
-      Core$Setting$LM01,
-      ColorBold(sprintf("What is the %s model corresponding to the output for the %s model?", sMod, sTab))
+      Core$setting$Intro,
+      Core$setting$LM01,
+      ColorBold(sprintf("What is the %s model corresponding to the output for the **%s** model?", sMod, sTab))
     )
 
     #
@@ -261,11 +264,9 @@ Q_5step_regression.1.a2 <- function() {
     sTab= c("restricted", "unrestricted")[iTab]
 
     QuestionText <- c(
-      "In the following questions, the numbers and setting may
-      change, though questions are related. Use the numbers of the", ColorBold("question on screen"), "to answer the question.",
       Core$setting$Intro,
       Core$setting$LM01,
-      ColorBold(sprintf("What descriptions of variables belong to the model description for the %s model? Select *all* that apply.", sTab))
+      ColorBold(sprintf("What descriptions of variables belong to the model description for the **%s** model? Select *all* that apply.", sTab))
     )
 
     vI= Core$setting$X0
@@ -319,8 +320,6 @@ Q_5step_regression.1.a3 <- function() {
     vB= round(mM[,"Estimate"], 3)
 
     QuestionText <- c(
-      "In the following questions, the numbers and setting may
-      change, though questions are related. Use the numbers of the", ColorBold("question on screen"), "to answer the question.",
       Core$setting$Intro,
       Core$setting$LM01,
       ColorBold(sprintf("Use the output for the %s model to predict the %s of a %s, given that %s=%g, %s= %g, %s= %g, %s= %g, and %s= %g.", sTab, lVars[1], Core$setting$Object,
@@ -467,9 +466,6 @@ Q_5step_regression.1.c1 <- function() {
     sHCorrect= c(sH0, sH1)[iH]
 
     QuestionText <- c(
-      "In the following questions, the numbers and setting may
-      change, though questions are related. Use the numbers of the *question on screen*
-      to answer the question.",
       Core$setting$Intro,
       Core$setting$LM01,
       sQ,
@@ -535,9 +531,6 @@ Q_5step_regression.1.c2 <- function() {
   sQ2= sprintf("To try and prove his point, %s wants to test the null hypothesis %s against the alternative %s, in the %s model. What is the corresponding test statistic?", Core$setting$Person[1], sH0, sH1, sTab)
 
   QuestionText <- c(
-    "In the following questions, the numbers and setting may
-    change, though questions are related. Use the numbers of the *question on screen*
-    to answer the question.",
     Core$Intro,
     sQ1,
     ColorBold(sQ2)
@@ -611,9 +604,6 @@ Q_5step_regression.1.c3 <- function() {
   sQ2= "In this case, the test should reject:"
 
   QuestionText <- c(
-    "In the following questions, the numbers and setting may
-    change, though questions are related. Use the numbers of the *question on screen*
-    to answer the question.",
     Core$setting$Intro,
     sQ1,
     ColorBold(sQ2)
@@ -681,9 +671,6 @@ Q_5step_regression.1.c4 <- function() {
   sQ2= "In this case, if the null hypothesis is true, the test statistic $t$ is distributed as:"
 
   QuestionText <- c(
-    "In the following questions, the numbers and setting may
-    change, though questions are related. Use the numbers of the *question on screen*
-    to answer the question.",
     Core$setting$Intro,
     sQ1,
     ColorBold(sQ2)
@@ -758,9 +745,6 @@ Q_5step_regression.1.c5 <- function() {
   sQ2= "This test statistic will follow a Student-$t$ distribution if the following assumptions hold (select *ALL* which are relevant):"
 
   QuestionText <- c(
-    "In the following questions, the numbers and setting may
-    change, though questions are related. Use the numbers of the *question on screen*
-    to answer the question.",
     Core$setting$Intro,
     sQ1,
     ColorBold(sQ2)
@@ -845,9 +829,6 @@ Q_5step_regression.1.c6 <- function() {
   sQ2= sprintf("What is value of test statistic $t_{calc}$ (in the *%s* model)?", sTab)
 
   QuestionText <- c(
-    "In the following questions, the numbers and setting may
-    change, though questions are related. Use the numbers of the *question on screen*
-    to answer the question.",
     Core$setting$Intro,
     sQ1,
     ColorBold(sQ2),
@@ -908,9 +889,6 @@ Q_5step_regression.1.c7 <- function() {
   sQ3= "(If there are two critical values, report the highest one)"
 
   QuestionText <- c(
-    "In the following questions, the numbers and setting may
-    change, though questions are related. Use the numbers of the *question on screen*
-    to answer the question.",
     Core$setting$Intro,
     sQ1,
     ColorBold(sQ2),
@@ -993,9 +971,6 @@ Q_5step_regression.1.c8 <- function() {
   }
 
   QuestionText <- c(
-    "In the following questions, the numbers and setting may
-    change, though questions are related. Use the numbers of the *question on screen*
-    to answer the question.",
     Core$setting$Intro,
     sQ1,
     sQ2,
