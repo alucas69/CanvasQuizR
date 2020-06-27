@@ -65,7 +65,7 @@ Q_5step_2pi.1_core <- function(f_cc=1) {
       Subject2="the number of times the product is bought",
       Subject3="the number of times the product is *not* bought",
       Text1= "",
-      Groups= c("young people", "old people")
+      Groups= c("young people", "elderly people")
     )
   )
   Setting= sample(Setting, 1)[[1]]
@@ -115,23 +115,23 @@ Q_5step_2pi.1_step1a <- function() {
   Answers= matrix(c(
     -3, "$H_%d: \\mu_1 \\geq \\mu_2$",
     -3, "$H_%d: \\mu_1 = \\mu_2$",
-    -3, "$H_%d: \\mu_1 \\neq \\mu_2$",
+    -3, "$H_%d: \\mu_1 \\ne \\mu_2$",
     -3, "$H_%d: \\mu_1 \\leq \\mu_2$",
     -3, "$H_%d: \\mu_1 = \\mu_2 = \\mu_0$",
     -3, "$H_%d: \\overline{x}_1 \\geq \\overline{x}_2$",
-    -3, "$H_%d: \\overline{x}_1 \\neq \\overline{x}_2$",
+    -3, "$H_%d: \\overline{x}_1 \\ne \\overline{x}_2$",
     -3, "$H_%d: \\overline{x}_1 = \\overline{x}_2$",
     -3, "$H_%d: \\overline{x}_1 \\leq \\overline{x}_2$",
     1.1, "$H_%d: \\pi_1 > \\pi_2$",
     -1.0, "$H_%d: \\pi_1 \\geq \\pi_2$",
     0.0, "$H_%d: \\pi_1 = \\pi_2$",
-    0.1, "$H_%d: \\pi_1 \\neq \\pi_2$",
+    0.1, "$H_%d: \\pi_1 \\ne \\pi_2$",
     1.0, "$H_%d: \\pi_1 \\leq \\pi_2$",
     -1.1, "$H_%d: \\pi_1 < \\pi_2$",
     -3, "$H_%d: p_1 > p_2$",
     -3, "$H_%d: p_1 \\geq p_2$",
     -3, "$H_%d: p_1 = p_2$",
-    -3, "$H_%d: p_1 \\neq p_2$",
+    -3, "$H_%d: p_1 \\ne p_2$",
     -3, "$H_%d: p_1 \\leq p_2$",
     -3, "$H_%d: p_1 < p_2$"
   ), nrow=2)
@@ -161,8 +161,8 @@ Q_5step_2pi.1_step2a <- function() {
     0, "$t = (\\overline{x} - 0) / (s/\\sqrt{n})$",
     0, "$t = (\\overline{x}_1 - \\overline{x}_2) / \\sqrt{s_1^2/n_1 + s_2^2/n_2}$",
     0, "$z = (p - \\pi_0) / \\sqrt{\\pi_0 (1-\\pi_0) / n}$",
-    1, "$z = (p_1 - p_2) / \\sqrt{p_1(1-p_1)/n_1 p_2(1-p_2)/n_2}$",
-    1, "$z = (p_1 - p_2) / \\sqrt{p_c(1-p_c)/n_1 p_c(1-p_c)/n_2}$ with $p_c = (x_1+x_2)/(n_1+n_2)$"
+    1, "$z = (p_1 - p_2) / \\sqrt{p_1(1-p_1)/n_1 + p_2(1-p_2)/n_2}$",
+    1, "$z = (p_1 - p_2) / \\sqrt{p_c(1-p_c)/n_1 + p_c(1-p_c)/n_2}$ with $p_c = (x_1+x_2)/(n_1+n_2)$"
   ), nrow=2)
   tmp= as.logical(as.integer(Answers[1,]))
   Answers= cbind(
@@ -188,7 +188,7 @@ Q_5step_2pi.1_step3a <- function() {
   qtype= "mc"
   
   # question text
-  Text= c(Q$setting$TotalIntro, sprintf("You decide to use the test statistic $z = (p_1 - p_2)/\\sqrt{p_c(1-p_c)/n_1 + p_c(1-p_c)/n_2}$ with $p_c = (x_1+x_2)/(n_1+n_2)$. The summary of the data is as follows: <pre></pre>", Q$sample$tables$table_yy))
+  Text= c(Q$setting$TotalIntro, sprintf("You decide to use the test statistic $z = (p_1 - p_2)/\\sqrt{p_c(1-p_c)/n_1 + p_c(1-p_c)/n_2}$ with $p_c = (x_1+x_2)/(n_1+n_2)$. The summary of the data is as follows: <pre>%s</pre>", Q$sample$tables$table_yy))
   Text= c(Text, ColorBold("What is the distribution of $z$ under the null hypothesis, assuming all relevant conditions hold?"))
   
   # answers
@@ -220,7 +220,7 @@ Q_5step_2pi.1_step3b <- function() {
   qtype= "ma"
   
   # question text
-  Text= c(Q$setting$TotalIntro, sprintf("You decide to use the test statistic $z = (p_1 - p_2)/\\sqrt{p_c(1-p_c)/n_1 + p_c(1-p_c)/n_2}$ with $p_c = (x_1+x_2)/(n_1+n_2)$. The summary of the data is as follows: <pre></pre>", Q$sample$tables$table_yy))
+  Text= c(Q$setting$TotalIntro, sprintf("You decide to use the test statistic $z = (p_1 - p_2)/\\sqrt{p_c(1-p_c)/n_1 + p_c(1-p_c)/n_2}$ with $p_c = (x_1+x_2)/(n_1+n_2)$. The summary of the data is as follows: <pre>%s</pre>", Q$sample$tables$table_yy))
   Text= c(Text, ColorBold("Indicate all of the assumptions below needed for $z$ to have (approximately) a normal distribution under the null hypothesis."))
   
   # answers
@@ -255,7 +255,7 @@ Q_5step_2pi.1_step3c <- function() {
   Text= c(Q$setting$TotalIntro, sprintf("You decide to use the test statistic $z = (p_1 - p_2)/\\sqrt{p_c(1-p_c)/n_1 + p_c(1-p_c)/n_2}$ with $p_c = (x_1+x_2)/(n_1+n_2)$ to test $H_0: \\pi_1 %s \\pi_2$. The summary of the data is as follows: <pre>%s</pre>", c("\\geq", "=", "\\leq")[2+Q$direction], Q$sample$tables$table_yy))
   Text= c(
     Text, 
-    ColorBold("Assuming $z$ has a normal distribution under the null hypothesis, what is the critical value for $z$."),
+    ColorBold("Assuming $z$ has a normal distribution under the null hypothesis, what is the critical value for $z$?"),
     DigitDecimalWarning(iDigits)
   )
   
@@ -383,7 +383,7 @@ Q_5step_2pi.1_step5a <- function() {
   )), nrow=2)
 
   # correct
-  Answers= answer_select(Answers[2,], (as.integer(Answers[1,])==1+as.integer(reject)), iAlt=7, mincorrect = 0, alphorder=TRUE)
+  Answers= answer_select(Answers[2,], (as.integer(Answers[1,])==1+as.integer(reject)), iAlt=6, mincorrect = 0, alphorder=TRUE)
   
   # return
   return(list(type=qtype, text=Text, answer=Answers$answer, correct=Answers$correct))  

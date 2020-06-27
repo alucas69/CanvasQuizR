@@ -20,7 +20,7 @@
 #
 
 source("../questions/Q_5step_regression_aid.R")
-source("../engine/RoundAnswer.R")
+# source("../engine/RoundAnswer.R")
 
 # Regression question (5 step plan) with 3 setups
 
@@ -89,11 +89,11 @@ Q_5step_regression.1.gendata <- function(iN, lSetting){
 #     $N         integer, number of observations
 #     $results   list, for the moment empty
 Q_5step_regression.1.setup <- function(){
-  iN= 10*sample(0:5, 1) + 10
+  iN= 10*sample(0:5, 1) + 40
 
   Range= list(Vars= c('Range', 'Constant', 'Capacity battery', 'Charging speed', 'Width', 'Height', 'Front surface area'),
               VarsSh= c('Range', 'C', 'Cap', 'Charge', 'W', 'H', 'Surf'),
-              Units= c('km', '-', 'kWh', 'kW', 'm', 'm', 'm2'),
+              Units= c('km', '-', 'kWh', 'kW', 'm', 'm', 'm$^2$'),
               Genr= list(0, 1, c(40, 105), c(2, 30), c(160, 200, 100), c(130, 165, 100), c(-1, -2, .9, .4)),
               Pars= c(15, 4, 6, 0, -.01, -.03, -.6),
               Object= 'car',
@@ -101,8 +101,8 @@ Q_5step_regression.1.setup <- function(){
               Topic= 'Range of Battery Electric Vehicles')
 
   Water= list(Vars= c('Water outflow', 'Constant', 'Average rainfall', 'Density of vegetation', 'Width of area', 'Length of area', 'Surface'),
-              VarsSh= c('Outflow', 'C', 'Rain', 'Dens', 'W', 'L', 'Area'),
-              Units= c('m3/month', '-', 'mm/month', 'kg/m3', 'km', 'km', 'km2'),
+              VarsSh= c('Outflow', 'C', 'Rain', 'Dens', 'W', 'L', 'Surf'),
+              Units= c('m3/month', '-', 'mm/month', 'kg/m3', 'km', 'km', 'km$^2$'),
               Genr= list(0, 1, c(40, 105), c(2, 30), c(160, 200, 100), c(130, 165, 100), c(-1, -2, .9, .4)),
               Pars= c(15, 4, 6, -.5, .01, .03, .6),
               Object= 'nature reserve',
@@ -110,15 +110,19 @@ Q_5step_regression.1.setup <- function(){
               Topic= 'Water outflow of nature reserves in Russia')
 
   Corona= list(Vars= c('Detected cases', 'Constant', 'Average temperature', 'Height above sealevel', 'Width of province', 'Length of province', 'Surface'),
-               VarsSh= c('Counts', 'C', 'Temp', 'Height', 'W', 'L', 'Area'),
-               Units= c('thousands', '-', 'C', 'm', 'km', 'km', 'km2'),
+               VarsSh= c('Counts', 'C', 'Temp', 'Height', 'W', 'L', 'Surf'),
+               Units= c('thousands', '-', 'C', 'm', 'km', 'km', 'km$^2$'),
                Genr= list(0, 1, c(5, 25), c(0, 300), c(160, 200, 100), c(130, 165, 100), c(-1, -2, .9, .4)),
                Pars= c(15, 200, 2, 0, .01, .03, .8),
                Object= 'province',
-               Extra= 'square kilometer meter in the province',
-               Topic= 'Corona cases in provinces in France')
+               Extra= 'square kilometer in the province',
+               Topic= 'detected corona cases in provinces in France')
 
-  lSetting= sample(list(Range, Water, Corona), 1)[[1]]
+  # lSetting= sample(list(Range, Water, Corona), 1)[[1]]
+
+  # Don't randomise
+  lSetting= Range
+
   df= Q_5step_regression.1.gendata(iN, lSetting)
 
   asC= colnames(df)
@@ -143,7 +147,7 @@ Q_5step_regression.1.setup <- function(){
   lSetting$f1= f1
   lSetting$X0= aiX0
   lSetting$X1= aiX1
-  lSetting$Person= sample(c('Andre', 'Charles', 'Paolo', 'Hande', 'Anne', 'Geert Jan'), 2)
+  lSetting$Person= sample(c('Maria', 'Ursula', 'Margarita', 'Ana', 'Nina'), 1)
 
   l_tables= list(lm0= myprettylmprint(lm.0, skipcall=TRUE), lm1= myprettylmprint(lm.1, skipcall=TRUE))
 
@@ -173,10 +177,10 @@ Q_5step_regression.1.core <- function(){
 
   # Write intro
   Setting$Intro= c(
-    paste("In the following questions, the numbers and setting may change, though questions are related. 
-            Use the numbers of the", ColorBold("question on screen"), "to answer the question."),
+    # paste("In the following questions, the numbers and setting may change, though questions are related.
+    #         Use the numbers of the", ColorBold("question on screen"), "to answer the question."),
     sprintf("Studying the %s, you obtained information on %i %ss of the %s.", Setting$Topic, Setting$N, Setting$Object, tolower(Setting$Vars[1])))
-  Setting$Variables= sprintf("We explain '%s' (%s, in %s) by a constant and the variables '%s' (%s, in %s), '%s' (%s, in %s), '%s' (%s, in %s), '%s' (%s, in %s) and '%s' (%s, in %s).", Setting$Vars[1], Setting$VarsSh[1], Setting$Units[1], Setting$Vars[3], Setting$VarsSh[3], Setting$Units[3], Setting$Vars[4], Setting$VarsSh[4], Setting$Units[4], Setting$Vars[5], Setting$VarsSh[5], Setting$Units[5], Setting$Vars[6], Setting$VarsSh[6], Setting$Units[6], Setting$Vars[7], Setting$VarsSh[7], Setting$Units[7])
+  Setting$Variables= sprintf("We explain '%s' ($y$, in %s) by a constant and the variables '%s' ($x_1$=%s, in %s), '%s' ($x_2$=%s, in %s), '%s' ($x_3$=%s, in %s), '%s' ($x_4$=%s, in %s) and '%s' ($x_5$=%s, in %s).", Setting$Vars[1], Setting$Units[1], Setting$Vars[3], Setting$VarsSh[3], Setting$Units[3], Setting$Vars[4], Setting$VarsSh[4], Setting$Units[4], Setting$Vars[5], Setting$VarsSh[5], Setting$Units[5], Setting$Vars[6], Setting$VarsSh[6], Setting$Units[6], Setting$Vars[7], Setting$VarsSh[7], Setting$Units[7])
   Setting$Alpha= dAlpha
 
   Setting$LM01= sprintf("The data were processed in R, with output for a restricted and an unrestricted regression model in Tables 1 and 2.\n<pre>%s\n%s</pre>\n<pre>%s\n%s</pre>",
@@ -185,19 +189,21 @@ Q_5step_regression.1.core <- function(){
                 myprettytableprint(summary(lSetup$results$lm1)$coefficients, title="Table 2: Unrestricted model"),
                 myprettyr2fprint(summary(lSetup$results$lm1))
               )
+  Setting$LMsep= c(sprintf("The data were processed in R, with output for a restricted regression model in Table 1.\n<pre>%s\n%s</pre>",
+          myprettytableprint(summary(lSetup$results$lm0)$coefficients, title="Table 1: Restricted model"), myprettyr2fprint(summary(lSetup$results$lm0))),
+          sprintf("The data were processed in R, with output for a unrestricted regression model in Table 2.\n<pre>%s\n%s</pre>", myprettytableprint(summary(lSetup$results$lm1)$coefficients, title="Table 2: Unrestricted model"), myprettyr2fprint(summary(lSetup$results$lm1))))
   iTab= sample(1:2, 1)
   sTab= c("restricted", "unrestricted")[iTab]
   iMod= sample(1:2, 1)
   sMod= c("theoretical", "estimated")[iMod]
   iLim= sample(1:3, 1)
   sLim= c("less than", "something different from", "more than")[iLim]
+  sLimNeg= c("more than", "something different from", "less than")[iLim]
 
-  Select= list(iTab= iTab, iMod= iMod, sTab= sTab, sMod= sMod, iLim= iLim, sLim= sLim)
+  Select= list(iTab= iTab, iMod= iMod, sTab= sTab, sMod= sMod, iLim= iLim, sLim= sLim, sLimNeg= sLimNeg)
 
   return (list(setting= Setting, sample= lSetup$sample, results=lSetup$results, select=Select))
 }
-
-
 
 Q_5step_regression.1.a1 <- function() {
     iAa= 6  # Number of answers (excluding 'none-of-the-above' to select)
@@ -217,8 +223,9 @@ Q_5step_regression.1.a1 <- function() {
 
     QuestionText <- c(
       Core$setting$Intro,
+      Core$setting$Variables,
       Core$setting$LM01,
-      ColorBold(sprintf("What is the %s model corresponding to the output for the **%s** model?", sMod, sTab))
+      ColorBold(sprintf("What is the **%s** model corresponding to the output for the **%s** model?", sMod, sTab))
     )
 
     #
@@ -235,13 +242,31 @@ Q_5step_regression.1.a1 <- function() {
 
     vB= vB0
     vI= Core$setting$X0
-    if (iTab == 2)
+    if (iTab == 2){
       vB= vB1
       vI= Core$setting$X1
+    }
 
     sCorrect= c(Q_theormodel(vI), Q_empmodel(vI, vB))[iMod]
 
-    vAnswers= c(Q_theormodel(Core$setting$X0), Q_theormodel(Core$setting$X1), Q_theormodel(Core$setting$X0, hat=TRUE), Q_theormodel(Core$setting$X1, hat=TRUE), Q_theormodel(Core$setting$X0, par='b'), Q_theormodel(Core$setting$X1, par='b'), Q_empmodel(Core$setting$X0, vB0), Q_empmodel(Core$setting$X1, vB1), Q_empmodel(Core$setting$X0, vS0), Q_empmodel(Core$setting$X1, vS1), Q_empmodel(Core$setting$X0, vS0, hat=FALSE), Q_empmodel(Core$setting$X1, vS1, hat=FALSE), Q_empmodel(Core$setting$X0, vB0, res= TRUE), Q_empmodel(Core$setting$X1, vB1, res= TRUE))
+    vAnswers= list()
+    for (x in list(Core$setting$X0, Core$setting$X1))
+      for (bHat in c(FALSE, TRUE))
+        for (sPar in c('\\beta', 'b'))
+          vAnswers= c(vAnswers, Q_theormodel(x, hat=bHat, par=sPar))
+
+    for (x in 1:2)
+      for (p in 1:2)
+        for (bHat in c(FALSE, TRUE))
+          for (bRes in c(FALSE, TRUE)){
+            vP= list(vB0, vS0, vB1, vS1)[[p+(x-1)*2]]
+            cX= list(Core$setting$X0, Core$setting$X1)[[x]]
+            length(vP)
+            length(cX)
+            vAnswers= c(vAnswers, Q_empmodel(cX, vP, hat=bHat, res=bRes))
+          }
+    sCorrect= Q_doubleminus(sCorrect)
+    vAnswers= Q_doubleminus(vAnswers)
 
     vCorrect= vAnswers == sCorrect
 
@@ -251,7 +276,7 @@ Q_5step_regression.1.a1 <- function() {
 }
 
 Q_5step_regression.1.a2 <- function() {
-    iAa= 10 # Number of answers (excluding 'none-of-the-above' to select)
+    iAa= 12 # Number of answers (excluding 'none-of-the-above' to select)
 
     #
     # generate the random numbers and question core
@@ -265,6 +290,7 @@ Q_5step_regression.1.a2 <- function() {
 
     QuestionText <- c(
       Core$setting$Intro,
+      Core$setting$Variables,
       Core$setting$LM01,
       ColorBold(sprintf("What descriptions of variables belong to the model description for the **%s** model? Select *all* that apply.", sTab))
     )
@@ -314,15 +340,17 @@ Q_5step_regression.1.a3 <- function() {
       vYX[i]= round(vYX[i], digits= c(0, 0, 0, 0, 2, 2, 2)[i])
     mM= summary(Core$results$lm0)$coefficients
     vI= Core$setting$X0
-    if (iTab == 2)
+    if (iTab == 2){
       mM= summary(Core$results$lm1)$coefficients
       vI= Core$setting$X1
+    }
     vB= round(mM[,"Estimate"], 3)
 
     QuestionText <- c(
       Core$setting$Intro,
-      Core$setting$LM01,
-      ColorBold(sprintf("Use the output for the %s model to predict the %s of a %s, given that %s=%g, %s= %g, %s= %g, %s= %g, and %s= %g.", sTab, lVars[1], Core$setting$Object,
+      Core$setting$Variables,
+      Core$setting$LMsep[iTab],
+      ColorBold(sprintf("Use the output for the **%s** model to predict the %s of a %s, given that %s=%g, %s= %g, %s= %g, %s= %g, and %s= %g.", sTab, tolower(lVars[1]), Core$setting$Object,
         lVars[3], vYX[3], lVars[4], vYX[4], lVars[5], vYX[5], lVars[6], vYX[6], lVars[7], vYX[7])),
       sprintf("Give your answer with a precision of %d decimals after the decimal point.", iDigits)
     )
@@ -331,9 +359,10 @@ Q_5step_regression.1.a3 <- function() {
     #
     # Round the answers
     #
-    Answers <- RoundAnswer(dYPred, iDigits)
+    # Be friendly
+    vAnswers <- RoundAnswer(dYPred, iDigits-1)
 
-    return (list(type='num', q='r1a3', text=QuestionText, correct=Answers))
+    return (list(type='num', q='r1a3', text=QuestionText, answer=vAnswers))
 }
 
 # Q_5step_regression.1.b1 <- function() {
@@ -359,7 +388,7 @@ Q_5step_regression.1.a3 <- function() {
 #       "In the following questions, the numbers and setting may
 #       change, though questions are related. Use the numbers of the *question on screen*
 #       to answer the question.",
-#       Core$Intro,
+#       Core$setting$Intro,
 #       sQ,
 #       #DigitDecimalWarning(iDigits)
 #       "(Select *ALL* answers that apply)"
@@ -448,10 +477,10 @@ Q_5step_regression.1.c1 <- function() {
 
     mM= summary(Core$results$lm0)$coefficients
     vI= Core$setting$X0
-    if (iTab == 2)
+    if (iTab == 2){
       mM= summary(Core$results$lm1)$coefficients
       vI= Core$setting$X1
-
+    }
     i= length(Core$setting$Vars)
     sVar= (Core$setting$VarsSh)[i]
     vB= round(mM[,"Estimate"], 3)
@@ -459,7 +488,11 @@ Q_5step_regression.1.c1 <- function() {
 
     dB10= round(vB[sVar] + sample(-2:2, 1)*vS[sVar], 1)
 
-    sQ= sprintf("%s claims that every extra %s will increase the %s with %s %.1f. Can %s's claim be proven by the results of the %s model?", Core$setting$Person[1], Core$setting$Extra, Core$setting$Vars[1], sLim, dB10, Core$setting$Person[1], sTab)
+    sQ1= sprintf("%s claims that every extra %s will increase the %s with %s %.1f.", Core$setting$Person, Core$setting$Extra, Core$setting$Vars[1], sLim, dB10)
+    if (dB10 < 0){
+      sQ1= sprintf("%s claims that every extra %s will decrease the %s with %s %.1f.", Core$setting$Person, Core$setting$Extra, Core$setting$Vars[1], Core$select$sLimNeg, -dB10)
+    }
+    sQ2= sprintf("Can %s's claim be proven by the results of the %s model?",  Core$setting$Person, sTab)
 
     sH0= sprintf("$H_0: \\beta_%i %s %.1f$", (i-2), c("\\ge", "=", "\\le")[iLim], dB10)
     sH1= sprintf("$H_1: \\beta_%i %s %.1f$", (i-2), c("<", "\\not=", ">")[iLim], dB10)
@@ -467,9 +500,10 @@ Q_5step_regression.1.c1 <- function() {
 
     QuestionText <- c(
       Core$setting$Intro,
-      Core$setting$LM01,
-      sQ,
-      ColorBold(sprintf("What is the relevant %s?", sH))
+      Core$setting$Variables,
+      Core$setting$LMsep[iTab],
+      sQ1, sQ2,
+      ColorBold(sprintf("What is the relevant **%s**?", sH))
     )
 
     #
@@ -513,10 +547,10 @@ Q_5step_regression.1.c2 <- function() {
   sLim= Core$select$sLim
   mM= summary(Core$results$lm0)$coefficients
   vI= Core$setting$X0
-  if (iTab == 2)
+  if (iTab == 2){
     mM= summary(Core$results$lm1)$coefficients
     vI= Core$setting$X1
-
+  }
   i= length(Core$setting$Vars)      # Choose last parameter
   iB= i-2   # Note that this is x_{i-2}, or beta_{i-2}
   sVar= (Core$setting$VarsSh)[i]
@@ -527,13 +561,18 @@ Q_5step_regression.1.c2 <- function() {
   sH0= sprintf("$H_0: \\beta_%i %s %.1f$", iB, c("\\ge", "=", "\\le")[iLim], dB10)
   sH1= sprintf("$H_1: \\beta_%i %s %.1f$", iB, c("<", "\\not=", ">")[iLim], dB10)
 
-  sQ1= sprintf("%s claims that every extra %s will increase the %s with %s %.1f.", Core$setting$Person[1], Core$setting$Extra, Core$setting$Vars[1], sLim, dB10)
-  sQ2= sprintf("To try and prove his point, %s wants to test the null hypothesis %s against the alternative %s, in the %s model. What is the corresponding test statistic?", Core$setting$Person[1], sH0, sH1, sTab)
+  sQ1= sprintf("%s claims that every extra %s will increase the %s with %s %.1f.", Core$setting$Person, Core$setting$Extra, Core$setting$Vars[1], sLim, dB10)
+  if (dB10 < 0){
+    sQ1= sprintf("%s claims that every extra %s will decrease the %s with %s %.1f.", Core$setting$Person, Core$setting$Extra, Core$setting$Vars[1], Core$select$sLimNeg, -dB10)
+  }
+  sQ2= sprintf("To try and prove her point, %s wants to test the null hypothesis %s against the alternative %s, in the **%s** model. ", Core$setting$Person, sH0, sH1, sTab)
 
   QuestionText <- c(
-    Core$Intro,
-    sQ1,
-    ColorBold(sQ2)
+    Core$setting$Intro,
+    Core$setting$Variables,
+    Core$setting$LMsep[iTab],
+    sQ1, sQ2,
+    ColorBold("What is the corresponding test statistic?")
   )
 
   #
@@ -542,16 +581,15 @@ Q_5step_regression.1.c2 <- function() {
   sCorrect= sprintf("$t= (b_%i - %g)/s_{b_%i}$", iB, dB10, iB)
 
   vAnswers= list()
-  iWrong= sample(0:(iB-1), 1)
-  for (j in c(iB, iWrong)){
-    for (sE in c("\\beta", "b")){
-      # vAnswers= c(vAnswers, sprintf("$%s_%i$", sE, j))    # Confusing
-      vAnswers= c(vAnswers, sprintf("$t= (%s_%i - %g)/s_{%s_%i}$", sE, j, dB10, sE, j))
-      vAnswers= c(vAnswers, sprintf("$t= %s_%i/s_{%s_%i}$", sE, j, sE, j))
-      vAnswers= c(vAnswers, sprintf("$t= (%s_%i - %g)/s^2_{%s_%i}$", sE, j, dB10, sE, j))
-      vAnswers= c(vAnswers, sprintf("$t= %s_%i/s^2_{%s_%i}$", sE, j, sE, j))
-    }
+  for (sE in c("\\beta", "b")){
+      # vAnswers= c(vAnswers, sprintf("$%s_%i$", sE, iB))    # Confusing
+      vAnswers= c(vAnswers, sprintf("$t= (%s_%i - %g)/s_{%s_%i}$", sE, iB, dB10, sE, iB))
+      vAnswers= c(vAnswers, sprintf("$t= %s_%i/s_{%s_%i}$", sE, iB, sE, iB))
+      vAnswers= c(vAnswers, sprintf("$t= (%s_%i - %g)/s^2_{%s_%i}$", sE, iB, dB10, sE, iB))
+      vAnswers= c(vAnswers, sprintf("$t= %s_%i/s^2_{%s_%i}$", sE, iB, sE, iB))
   }
+  vAnswers= c(vAnswers, "$F$-ANOVA", "$F$-Levene", "$t= \\frac{\\overline x - \\mu}{s/\\sqrt{n}}$")
+
   # Adapt double minusses
   sCorrect= Q_doubleminus(sCorrect)
   vAnswers= Q_doubleminus(unique(vAnswers))
@@ -585,10 +623,10 @@ Q_5step_regression.1.c3 <- function() {
   sLim= Core$select$sLim
   mM= summary(Core$results$lm0)$coefficients
   vI= Core$setting$X0
-  if (iTab == 2)
+  if (iTab == 2){
     mM= summary(Core$results$lm1)$coefficients
     vI= Core$setting$X1
-
+  }
   i= length(Core$setting$Vars)      # Choose last parameter
   iB= i-2   # Note that this is x_{i-2}, or beta_{i-2}
   sVar= (Core$setting$VarsSh)[i]
@@ -600,11 +638,13 @@ Q_5step_regression.1.c3 <- function() {
   sH1= sprintf("$H_1: \\beta_%i %s %.1f$", iB, c("<", "\\not=", ">")[iLim], dB10)
   sTest= Q_doubleminus(sprintf("$t= (b_%i - %g)/s_{b_%i}$", iB, dB10, iB))
 
-  sQ1= sprintf("%s wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person[1], sH0, sTab, sTest)
+  sQ1= sprintf("%s wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person, sH0, sTab, sTest)
   sQ2= "In this case, the test should reject:"
 
   QuestionText <- c(
     Core$setting$Intro,
+    Core$setting$Variables,
+    Core$setting$LMsep[iTab],
     sQ1,
     ColorBold(sQ2)
   )
@@ -644,9 +684,10 @@ Q_5step_regression.1.c4 <- function() {
 
   lmi= Core$results$lm0
   vI= Core$setting$X0
-  if (iTab == 2)
+  if (iTab == 2){
     lmi= Core$results$lm1
     vI= Core$setting$X1
+  }
   mM= summary(lmi)$coefficients
   iDf= lmi$df.residual
 
@@ -667,11 +708,12 @@ Q_5step_regression.1.c4 <- function() {
   sH1= sprintf("$H_1: \\beta_%i %s %.1f$", iB, c("<", "\\not=", ">")[iLim], dB10)
   sTest= Q_doubleminus(sprintf("$t= (b_%i - %g)/s_{b_%i}$", iB, dB10, iB))
 
-  sQ1= sprintf("%s wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person[1], sH0, sTab, sTest)
-  sQ2= "In this case, if the null hypothesis is true, the test statistic $t$ is distributed as:"
+  sQ1= sprintf("%s wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person, sH0, sTab, sTest)
+  sQ2= "In this case, if the null hypothesis is true, the test statistic is distributed as:"
 
   QuestionText <- c(
     Core$setting$Intro,
+    Core$setting$LMsep[iTab],
     sQ1,
     ColorBold(sQ2)
   )
@@ -683,7 +725,7 @@ Q_5step_regression.1.c4 <- function() {
               sprintf("an F(%i,%i) distribution", s0$fstatistic[2], s0$fstatistic[3]),
               sprintf("an F(%i,%i) distribution", s1$fstatistic[2], s1$fstatistic[3])
              )
-  for (df in (iN-4):iN){
+  for (df in c(iDf-1, iDf, iDf+1, iN)){
      vAnswers= c(vAnswers,
                  sprintf("a $t_{%i}$ distribution", df),
                  sprintf("a $\\chi^2_{%i}$ distribution", df)
@@ -698,6 +740,7 @@ Q_5step_regression.1.c4 <- function() {
 }
 
 Q_5step_regression.1.c5 <- function() {
+  ########### Skip this question: Questionable what the answer should be
   #
   # generate the random numbers and question core
   #
@@ -718,9 +761,10 @@ Q_5step_regression.1.c5 <- function() {
 
   lmi= Core$results$lm0
   vI= Core$setting$X0
-  if (iTab == 2)
+  if (iTab == 2){
     lmi= Core$results$lm1
     vI= Core$setting$X1
+  }
   mM= summary(lmi)$coefficients
   iDf= lmi$df.residual
 
@@ -741,11 +785,12 @@ Q_5step_regression.1.c5 <- function() {
   sH1= sprintf("$H_1: \\beta_%i %s %.1f$", iB, c("<", "\\not=", ">")[iLim], dB10)
   sTest= Q_doubleminus(sprintf("$t= (b_%i - %g)/s_{b_%i}$", iB, dB10, iB))
 
-  sQ1= sprintf("%s wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person[1], sH0, sTab, sTest)
+  sQ1= sprintf("%s wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person, sH0, sTab, sTest)
   sQ2= "This test statistic will follow a Student-$t$ distribution if the following assumptions hold (select *ALL* which are relevant):"
 
   QuestionText <- c(
     Core$setting$Intro,
+    Core$setting$LM01,
     sQ1,
     ColorBold(sQ2)
   )
@@ -776,7 +821,7 @@ Q_5step_regression.1.c5 <- function() {
   # Select iAa out of iA answers, ordered randomly, including all correct ones
   lAC= answer_select(vAnswers, vCorrect, iAa, addnone=FALSE, mincorrect=sum(vCorrect))
 
-  return (list(type='ma', q='r1c5', text=QuestionText, answer=lAC$answer, correct=lAC$correct))
+  return (list(type='skip', q='r1c5', text=QuestionText, answer=lAC$answer, correct=lAC$correct))
 }
 
 Q_5step_regression.1.c6 <- function() {
@@ -801,9 +846,10 @@ Q_5step_regression.1.c6 <- function() {
 
   lmi= Core$results$lm0
   vI= Core$setting$X0
-  if (iTab == 2)
+  if (iTab == 2){
     lmi= Core$results$lm1
     vI= Core$setting$X1
+  }
   mM= summary(lmi)$coefficients
   iDf= lmi$df.residual
 
@@ -825,11 +871,12 @@ Q_5step_regression.1.c6 <- function() {
   sTest= Q_doubleminus(sprintf("$t= (b_%i - %g)/s_{b_%i}$", iB, dB10, iB))
   dTest= (round(vB[sVar],3) - dB10)/round(vS[sVar], 3)
 
-  sQ1= sprintf("%s wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person[1], sH0, sTab, sTest)
-  sQ2= sprintf("What is value of test statistic $t_{calc}$ (in the *%s* model)?", sTab)
+  sQ1= sprintf("%s wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person, sH0, sTab, sTest)
+  sQ2= sprintf("What is the value of the test statistic $t_{calc}$ in the %s model?", sTab)
 
   QuestionText <- c(
     Core$setting$Intro,
+    Core$setting$LMsep[iTab],
     sQ1,
     ColorBold(sQ2),
     DigitDecimalWarning(iDigits)
@@ -841,7 +888,7 @@ Q_5step_regression.1.c6 <- function() {
   Answers <- RoundAnswer(dTest, iDigits)
   Answers <- matrix(Answers, ncol= 3)
 
-  return (list(type='num', q='r1c6', text=QuestionText, correct=Answers))
+  return (list(type='num', q='r1c6', text=QuestionText, answer=Answers))
 }
 
 
@@ -865,9 +912,10 @@ Q_5step_regression.1.c7 <- function() {
 
   lmi= Core$results$lm0
   vI= Core$setting$X0
-  if (iTab == 2)
+  if (iTab == 2){
     lmi= Core$results$lm1
     vI= Core$setting$X1
+  }
   mM= summary(lmi)$coefficients
   iDf= lmi$df.residual
 
@@ -883,13 +931,15 @@ Q_5step_regression.1.c7 <- function() {
   sH1= sprintf("$H_1: \\beta_%i %s %.1f$", iB, c("<", "\\not=", ">")[iLim], dB10)
   sTest= Q_doubleminus(sprintf("$t= (b_%i - %g)/s_{b_%i}$", iB, dB10, iB))
   dTest= (round(vB[sVar],3) - dB10)/round(vS[sVar], 3)
+  dTest= round(dTest, 3)
 
-  sQ1= sprintf("%s tested the null hypothesis %s in the %s model, and finds $%s=%g$.", Core$setting$Person[1], sH0, sTab, sTest, dTest)
+  sQ1= sprintf("%s tested the null hypothesis %s in the %s model, and finds %s=%g.", Core$setting$Person, sH0, sTab, sTest, dTest)
   sQ2= sprintf("What is the corresponding critical value, at level $\\alpha=%g$?", dAlpha)
   sQ3= "(If there are two critical values, report the highest one)"
 
   QuestionText <- c(
     Core$setting$Intro,
+    Core$setting$LMsep[iTab],
     sQ1,
     ColorBold(sQ2),
     sQ3,
@@ -900,22 +950,14 @@ Q_5step_regression.1.c7 <- function() {
   # Prepare the answers, using either the df from the table, or the true one.
   #
   vCrit= qt(c(dAlpha, 1-dAlpha/2, 1-dAlpha), lower.tail= TRUE, df=FloorDfT(iDf))
-  dCritF= vCrit[iLim]
-  vCrit= qt(c(dAlpha, 1-dAlpha/2, 1-dAlpha), lower.tail= TRUE, df=iDf)
-  dCrit= vCrit[iLim]
+  mAnswers= RoundAnswer(vCrit[iLim], iDigits)
 
-  vCritU= unique(c(dCrit, dCritF))
-
-
-  #
-  # Round the answers
-  #
-  mAnswers= matrix(, nrow= 0, ncol=3)
-  for (dCrit in vCritU){
-    mAnswers <- rbind(mAnswers, RoundAnswer(dCrit, iDigits))
+  if (FloorDfT(iDf) != iDf){
+    vCrit= qt(c(dAlpha, 1-dAlpha/2, 1-dAlpha), lower.tail= TRUE, df=iDf)
+    mAnswers= rbind(mAnswers, RoundAnswer(vCrit[iLim], iDigits))
   }
 
-  return (list(type='num', q='r1c7', text=QuestionText, correct=mAnswers))
+  return (list(type='num', q='r1c7', text=QuestionText, answer=mAnswers))
   # return(Counters)
 }
 
@@ -937,9 +979,10 @@ Q_5step_regression.1.c8 <- function() {
 
   lmi= Core$results$lm0
   vI= Core$setting$X0
-  if (iTab == 2)
+  if (iTab == 2){
     lmi= Core$results$lm1
     vI= Core$setting$X1
+  }
   mM= summary(lmi)$coefficients
   iDf= lmi$df.residual
 
@@ -955,23 +998,29 @@ Q_5step_regression.1.c8 <- function() {
   sH1= sprintf("$H_1: \\beta_%i %s %.1f$", iB, c("<", "\\not=", ">")[iLim], dB10)
   sTest= Q_doubleminus(sprintf("$t= (b_%i - %g)/s_{b_%i}$", iB, dB10, iB))
   dTest= (round(vB[sVar],3) - dB10)/round(vS[sVar], 3)
+  dTest= round(dTest, 3)
+
   vCrit= qt(c(dAlpha, 1-dAlpha/2, 1-dAlpha), lower.tail= TRUE, df=iDf)
   dCrit= vCrit[iLim]
 
-  sQ1= sprintf("%s tested the null hypothesis %s in the %s model, and finds $%s=%g$.", Core$setting$Person[1], sH0, sTab, sTest, dTest)
-  sQ2= sprintf("As critical value, at $\\alpha= %g$, %s  finds $t_{crit}=%.3f$.", dAlpha, Core$setting$Person[1], dCrit)
+  sQ1= sprintf("%s tested the null hypothesis %s in the %s model, and finds %s=%g.", Core$setting$Person, sH0, sTab, sTest, dTest)
+  sQ2= sprintf("As critical value, at $\\alpha= %g$, %s  finds $t_{crit}=%.3f$.", dAlpha, Core$setting$Person, dCrit)
 
   if (iLim == 1){
     bRej= (dTest <= dCrit)
   } else if (iLim == 2){
-    sQ2= sprintf("As critical values, at $\\alpha= %g$, %s finds $t_L=%.3f$ and $t_U=%.3f$.", dAlpha, Core$setting$Person[1], -dCrit, dCrit)
+    sQ2= sprintf("As critical values, at $\\alpha= %g$, %s finds $t_L=%.3f$ and $t_U=%.3f$.", dAlpha, Core$setting$Person, -dCrit, dCrit)
     bRej= abs(dTest) >= dCrit
   } else {
     bRej= (dTest >= dCrit)
   }
 
   QuestionText <- c(
+    "In the following questions, the numbers and setting may
+    change, though questions are related. Use the numbers of the *question on screen*
+    to answer the question.",
     Core$setting$Intro,
+    Core$setting$LMsep[iTab],
     sQ1,
     sQ2,
     ColorBold("What is the correct conclusion?")

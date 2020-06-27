@@ -2,13 +2,13 @@
 library("stringi")
 library("car")
 
-# source ("../../aidfunctions.R")
-# source ("../../html_escape.R")
-# source ("../../tex2math.R")
-# source ("../../write_in_wrapper.R")
-# source ("../../RoundAnswer.R")
-# source ("../../answer_select.R")
-# source ("../../FloorDfT.R")
+source ("../engine/aidfunctions.R")
+source ("../engine/html_escape.R")
+source ("../engine/tex2math.R")
+source ("../engine/write_in_wrapper.R")
+source ("../engine/RoundAnswer.R")
+source ("../engine/answer_select.R")
+source ("../engine/FloorDfT.R")
 
 
 ################################################################
@@ -55,7 +55,7 @@ Q_theormodel <- function(vI, hat= FALSE, par='\\beta'){
 
   asMod= c(asMod, sprintf('y= %s_0', par))
   for (i in vI)
-    asMod= c(asMod, sprintf(' + %s_%i x%i', par, i, i))
+    asMod= c(asMod, sprintf(' + %s_%i x_%i', par, i, i))
   asMod= c(asMod, ' + \\epsilon$')
 
   return (paste(asMod, collapse=''))
@@ -75,7 +75,7 @@ Q_empmodel <- function(vI, vP, hat= TRUE, res= FALSE){
 
   iK= length(vI)
   for (j in 1:iK)
-    asMod= c(asMod, sprintf(' + %.3f x%i', vP[j+1], vI[j]))
+    asMod= c(asMod, sprintf(' + %.3f x_%i', vP[j+1], vI[j]))
   if (res)    # Incorrect... add residual
     asMod= c(asMod, ' + e')
 

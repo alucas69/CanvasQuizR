@@ -68,7 +68,7 @@ Q_5step_anova.1_core <- function(f_cc=1) {
   dAlpha= sample(c(0.1, 0.05, 0.01), 1)
   
   # Write intro
-  TotalIntro= sprintf("%s You gathered %s for %d different samples:", Setting$Topic, Setting$Subject, length(Sample$vi_N))
+  TotalIntro= sprintf("%s You saampled %s for %d different population:", Setting$Topic, Setting$Subject, length(Sample$vi_N))
   Setting$Groups= Setting$Groups[sample(1:length(Setting$Groups), length(Sample$vi_N))]
   for (i1 in 1:length(Setting$Groups)) TotalIntro= paste(TotalIntro, c(" ",", ")[1+(i1>1)], sprintf("%s (sample %d)", Setting$Groups[i1], i1), sep="")
   Setting$TotalIntro= paste(TotalIntro, sprintf(". You perform the 5-step testing plan for an ANOVA with $\\alpha=%4.2f$.", dAlpha), sep="")
@@ -91,17 +91,17 @@ Q_5step_anova.1_step1a <- function() {
   
   # answers
   Answers= matrix(c(
-    0, "the means of all populations are the same",
-    1, "the means of at least two populations are different",
+    0, "the means of all populations are the equal",
+    1, "the means of all populations are NOT all equal",
     -1, "the means of all three populations are different",
-    -1, "the means of all samples are the same",
-    -1, "the means of at least two samples are different",
+    -1, "the means of all samples are equal",
+    -1, "the means of all samples are NOT all equal",
     -1, "the means of all three samples are different",
-    -1, "the variances of all populations are the same",
-    -1, "the variances of at least two populations are different",
-    -1, "the variances of all three populations are different",
-    -1, "the variances of all samples are the same",
-    -1, "the variances of at least two samples are different",
+    -1, "the variances of all populations are equal",
+    -1, "the variances of all populations are NOT all equal",
+    -1, "the variances of all populations are different",
+    -1, "the variances of all samples are equal",
+    -1, "the variances of all samples are NOT all equal",
     -1, "the variances of all three samples are different"
   ), nrow=2)
 
@@ -121,7 +121,7 @@ Q_5step_anova.1_step2a <- function() {
   qtype= "mc"
   
   # question text
-  Text= c(Q$setting$TotalIntro, write_in_wrapper(sprintf("What is your statistic and rejection region?"), "b", s_wrappertag="style=\"color:blue\""))
+  Text= c(Q$setting$TotalIntro, write_in_wrapper(sprintf("What is your ANOVA statistic and corresponding rejection region?"), "b", s_wrappertag="style=\"color:blue\""))
   
   # answers
   Answers= matrix(c(
@@ -177,7 +177,7 @@ Q_5step_anova.1_step3b <- function() {
   qtype= "ma"
   
   # question text
-  Text= c(Q$setting$TotalIntro, sprintf("The number of observations in the three samples equals $n_1=%d$, $n_2=%d$, and $n_3=%d$. You perform an F-test.", Q$sample$vi_N[1], Q$sample$vi_N[2], Q$sample$vi_N[3]))
+  Text= c(Q$setting$TotalIntro, sprintf("The number of observations in the three samples equal $n_1=%d$, $n_2=%d$, and $n_3=%d$. You perform an F-test.", Q$sample$vi_N[1], Q$sample$vi_N[2], Q$sample$vi_N[3]))
   Text= c(Text, write_in_wrapper(sprintf("Which of the below assumptions are required for your test statistic to have an F-distribution under the null hypothesis? Choose *ALL* correct answers. The list may not be complete."), "b", s_wrappertag="style=\"color:blue\""))
   
   # answers
@@ -297,9 +297,10 @@ Q_5step_anova.1_step5b <- function() {
   # question text
   Text= c(Q$setting$TotalIntro, write_in_wrapper(Q$sample$tables$aov, "pre"))
   Text= c(Text, write_in_wrapper(Q$sample$tables$aov_summary, "pre"))
+
   Text= c(Text, sprintf("Next, you applied a Tukey post-hoc analysis with $\\alpha_{Tukey}=%4.2f$. You have the following table.", alphaT))
   Text= c(Text, write_in_wrapper(paste(Q$sample$tables$aov_tukey, sep="\n"), "pre"))
-  Text= c(Text, write_in_wrapper(sprintf("What is your conclusion regarding the means of the %d groups at $\\alpha_{Tukey}=%4.2f$? Check *ALL* correct answers. Remember: you never *accept* a null hypothesis.", length(Q$sample$vi_N), alphaT), "b", s_wrappertag="style=\"color:blue\""))
+  Text= c(Text, write_in_wrapper(sprintf("What is your conclusion regarding the means of the %d groups at $\\alpha_{Tukey}=%4.2f$? Check *ALL* correct answers. ", length(Q$sample$vi_N), alphaT), "b", s_wrappertag="style=\"color:blue\""))
   
   # answers
   Answers= matrix(c(

@@ -24,7 +24,7 @@ Q20200629_1o <- function() {
   QuestionText <- c(
     tex2math(sprintf("For a quality control study, you measure the temperature of an item right after 
       production in two different facilities. You are interested in testing whether 
-      the *standard deviations* of temperatures $\\sigma_1$ at facility 1 
+      the temperature *standard deviations* $\\sigma_1$ at facility 1 
       (sample 1) and $\\sigma_2$ at facility 2 (sample 2) are significantly different.
       What is your conclusion at $\\alpha = %4.2f$ and why (provide *ALL* correct answers)? 
       You can use the following tables.",
@@ -47,7 +47,7 @@ Q20200629_1o <- function() {
     0, "The standard deviations differ significantly, because the t test is *not* significant",
     0, "The standard deviations do *not* differ significantly, because the t test is *not* significant"
   ), nrow = 2)
-  Answers <- Answers[, c(1:2, sample(3:6, 2), sample(7:10, 2))]
+  Answers <- Answers[, c(sample(1:2, 1), sample(3:6, 2), sample(7:10, 2))]
   Answers[1,] <- 0 + (as.numeric(Answers[1,]) == (1 + (tbLevene$`Pr(>F)`[1] > dAlpha)))
   Answers <- cbind(Answers, c(0, "None of the above"))
   if (min(as.numeric(Answers[1,])) == 0) Answers[1,ncol(Answers)] <- 1
