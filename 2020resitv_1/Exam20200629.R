@@ -45,12 +45,12 @@ engine_sources= c(
   "write_quiz_html_mb_highlight_variables.R", "write_quiz_html_mc.R",
   "write_quiz_html_num.R", "write_quiz_html_upl.R", "write_three_part_table.R"
 )
-for (subsource in engine_sources) eval(parse(text=sprintf("source(\"%s/%s\")", engine_dir, subsource)))
+for (exam_source in engine_sources) eval(parse(text=sprintf("source(\"%s/%s\")", engine_dir, exam_source)))
 
 
 
 # load quiz sources
-numbervariations= 1
+variation_count= 1
 exam_sources= c(
   "ID_question.R", "Q20200629_1nw-core.R", 
   "Q20200629_1a.R", "Q20200629_1b.R", "Q20200629_1c.R", "Q20200629_1d.R",
@@ -62,52 +62,52 @@ exam_sources= c(
   "Q_5step_2pi.1.R", "Q_5step_anova.1.R", "Q_5step_regression.1.R"
 
 )
-for (subsource in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", question_dir, subsource)))
+for (exam_source in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", question_dir, exam_source)))
 
 questions= matrix(c(
-  numbervariations, "Q20200629_1a",
-  numbervariations, "Q20200629_1b",
-  numbervariations, "Q20200629_1e",
-  numbervariations, "Q20200629_1h",
-  numbervariations, "Q20200629_1i",
-  numbervariations, "Q20200629_1j",
-  numbervariations, "Q20200629_1o",
-  numbervariations, "Q20200629_1q",
-  numbervariations, "Q20200629_1t",
-  numbervariations, "Q20200629_1u",
-  numbervariations, "Q20200629_1w",
-  numbervariations, "Q_5step_anova.1_step1a",
-  numbervariations, "Q_5step_anova.1_step2a",
-  numbervariations, "Q_5step_anova.1_step3a",
-  numbervariations, "Q_5step_anova.1_step3b",
-  numbervariations, "Q_5step_anova.1_step3c",
-  numbervariations, "Q_5step_anova.1_step5a",
-  numbervariations, "Q_5step_anova.1_step5b",
-  numbervariations, "Q_5step_2pi.1_step1a",
-  numbervariations, "Q_5step_2pi.1_step2a",
-  numbervariations, "Q_5step_2pi.1_step3a",
-  numbervariations, "Q_5step_2pi.1_step3b",
-  numbervariations, "Q_5step_2pi.1_step3c",
-  numbervariations, "Q_5step_2pi.1_step4a",
-  numbervariations, "Q_5step_2pi.1_step4b",
-  numbervariations, "Q_5step_2pi.1_step5a",
-  numbervariations, "Q_5step_regression.1.a1",
-  numbervariations, "Q_5step_regression.1.a2",
+  variation_count, "Q20200629_1a",
+  variation_count, "Q20200629_1b",
+  variation_count, "Q20200629_1e",
+  variation_count, "Q20200629_1h",
+  variation_count, "Q20200629_1i",
+  variation_count, "Q20200629_1j",
+  variation_count, "Q20200629_1o",
+  variation_count, "Q20200629_1q",
+  variation_count, "Q20200629_1t",
+  variation_count, "Q20200629_1u",
+  variation_count, "Q20200629_1w",
+  variation_count, "Q_5step_anova.1_step1a",
+  variation_count, "Q_5step_anova.1_step2a",
+  variation_count, "Q_5step_anova.1_step3a",
+  variation_count, "Q_5step_anova.1_step3b",
+  variation_count, "Q_5step_anova.1_step3c",
+  variation_count, "Q_5step_anova.1_step5a",
+  variation_count, "Q_5step_anova.1_step5b",
+  variation_count, "Q_5step_2pi.1_step1a",
+  variation_count, "Q_5step_2pi.1_step2a",
+  variation_count, "Q_5step_2pi.1_step3a",
+  variation_count, "Q_5step_2pi.1_step3b",
+  variation_count, "Q_5step_2pi.1_step3c",
+  variation_count, "Q_5step_2pi.1_step4a",
+  variation_count, "Q_5step_2pi.1_step4b",
+  variation_count, "Q_5step_2pi.1_step5a",
+  variation_count, "Q_5step_regression.1.a1",
+  variation_count, "Q_5step_regression.1.a2",
   #! numbervariations, "Q_5step_regression.1.a3",
-  numbervariations, "Q_5step_regression.1.c2",
-  numbervariations, "Q_5step_regression.1.c3",
+  variation_count, "Q_5step_regression.1.c2",
+  variation_count, "Q_5step_regression.1.c3",
   #! numbervariations, "Q_5step_regression.1.c4",
-  numbervariations, "Q_5step_regression.1.c5",
+  variation_count, "Q_5step_regression.1.c5",
   #w numbervariations, "Q_5step_regression.1.c6",
   #w numbervariations, "Q_5step_regression.1.c7",
-  numbervariations, "Q_5step_regression.1.c8",
+  variation_count, "Q_5step_regression.1.c8",
   NULL
 ), nrow=2)
 
 
 # set the exam key
-examkey= paste("E_IBA1_BS_20200629_", "", "_rnd", rnd_seed, sep="")
-#examkey= paste("E_IBA1_BS_20200629_", generate_key(4), "_rnd", rnd_seed, sep="")
+#examkey= paste("E_IBA1_BS_20200629_", "", "_rnd", rnd_seed, sep="")
+exam_key= paste("E_IBA1_BS_20200629_", generate_key(4), "_rnd", rnd_seed, sep="")
 
 
 # set seed and retain for storage if set
@@ -121,15 +121,15 @@ if (exists("rnd_seed")) {
 exam = list(blocks=list(), 
             seed=rnd_seed,
             emergency_html=emergency_message, 
-            key = examkey, 
+            key = exam_key,
             name="R generated quiz")
-for (blockcounter in 1:ncol(questions)) {
-  block = list(questions=list(), name=sprintf("Question %d", blockcounter))
-  for (questioncounter in 1:questions[1, blockcounter]) {
-    print(sprintf("Question %d.%d", blockcounter, questioncounter))
-    # print(questions[2,blockcounter])
-    eval(parse(text = sprintf("question_tmp= %s()", questions[2, blockcounter])))
-    question_tmp$q= sprintf("Q%d", blockcounter)
+for (block_number in 1:ncol(questions)) {
+  block = list(questions=list(), name=sprintf("Question %d", block_number))
+  for (question_number in 1:questions[1, block_number]) {
+    print(sprintf("Question %d.%d", block_number, question_number))
+    # print(questions[2,block_number])
+    eval(parse(text = sprintf("question_tmp= %s()", questions[2, block_number])))
+    question_tmp$q= sprintf("Q%d", block_number)
     block$questions= append(block$questions, list(question_tmp))
   }
   exam$blocks= append(exam$blocks, list(block))
