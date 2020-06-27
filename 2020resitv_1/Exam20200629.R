@@ -4,10 +4,13 @@ enginedir="../engine"
 questiondir="../questions"
 rndseed= 55
 emergency_message= "In case of emergency, mail a.lucas@vu.nl."
+extratime= TRUE
 
 # check for emergency message 
 if (!exists("emergency_message")) stop("FULL STOP: an emergency message needs to be set for students to contact you")
 
+# check for extra/normal time 
+if (!exists("extratime")) stop("FULL STOP: indicate whether this is the exam for extra time or normal time students") else warning("*** IMPORTANT: THIS IS THE EXAM FOR EXTRA TIME STUDENTS ***", immediate. = TRUE)
 
 # libraries
 library(stringi)
@@ -50,7 +53,7 @@ for (subsource in engine_sources) eval(parse(text=sprintf("source(\"%s/%s\")", e
 
 
 # load quiz sources
-numbervariations= 3
+numbervariations= 1
 exam_sources= c(
   "ID_question.R", "Q20200629_1nw-core.R", 
   "Q20200629_1a.R", "Q20200629_1b.R", "Q20200629_1c.R", "Q20200629_1d.R",
@@ -65,42 +68,45 @@ exam_sources= c(
 for (subsource in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", questiondir, subsource)))
 
 questions= matrix(c(
-  numbervariations, "Q20200629_1a",
-  numbervariations, "Q20200629_1b",
-  numbervariations, "Q20200629_1e",
-  numbervariations, "Q20200629_1h",
-  numbervariations, "Q20200629_1i",
-  numbervariations, "Q20200629_1j",
-  numbervariations, "Q20200629_1o",
-  numbervariations, "Q20200629_1q",
-  numbervariations, "Q20200629_1t",
-  numbervariations, "Q20200629_1u",
-  numbervariations, "Q20200629_1w",
-  numbervariations, "Q_5step_anova.1_step1a",
-  numbervariations, "Q_5step_anova.1_step2a",
-  numbervariations, "Q_5step_anova.1_step3a",
-  numbervariations, "Q_5step_anova.1_step3b",
-  numbervariations, "Q_5step_anova.1_step3c",
-  numbervariations, "Q_5step_anova.1_step5a",
-  numbervariations, "Q_5step_anova.1_step5b",
-  numbervariations, "Q_5step_2pi.1_step1a",
-  numbervariations, "Q_5step_2pi.1_step2a",
-  numbervariations, "Q_5step_2pi.1_step3a",
-  numbervariations, "Q_5step_2pi.1_step3b",
-  numbervariations, "Q_5step_2pi.1_step3c",
-  numbervariations, "Q_5step_2pi.1_step4a",
-  numbervariations, "Q_5step_2pi.1_step4b",
-  numbervariations, "Q_5step_2pi.1_step5a",
+  # 1, "Q_Integrity",
+  # numbervariations, "Q20200629_1a",
+  # numbervariations, "Q20200629_1b",
+  # numbervariations, "Q20200629_1e",
+  # numbervariations, "Q20200629_1h",
+  # numbervariations, "Q20200629_1i",
+  # numbervariations, "Q20200629_1j",
+  # numbervariations, "Q20200629_1o",
+  # numbervariations, "Q20200629_1q",
+  # numbervariations, "Q20200629_1t",
+  # numbervariations, "Q20200629_1u",
+  # numbervariations, "Q20200629_1w",
+  # numbervariations, "Q_Selfie",
+  # numbervariations, "Q_5step_anova.1_step1a",
+  # numbervariations, "Q_5step_anova.1_step2a",
+  # numbervariations, "Q_5step_anova.1_step3a",
+  # numbervariations, "Q_5step_anova.1_step3b",
+  # numbervariations, "Q_5step_anova.1_step3c",
+  # numbervariations, "Q_5step_anova.1_step5a",
+  # numbervariations, "Q_5step_anova.1_step5b",
+  # numbervariations, "Q_5step_2pi.1_step1a",
+  # numbervariations, "Q_5step_2pi.1_step2a",
+  # numbervariations, "Q_5step_2pi.1_step3a",
+  # numbervariations, "Q_5step_2pi.1_step3b",
+  # numbervariations, "Q_5step_2pi.1_step3c",
+  # numbervariations, "Q_5step_2pi.1_step4a",
+  # numbervariations, "Q_5step_2pi.1_step4b",
+  # numbervariations, "Q_5step_2pi.1_step5a",
   numbervariations, "Q_5step_regression.1.a1",
-  numbervariations, "Q_5step_regression.1.a2",
-  #! numbervariations, "Q_5step_regression.1.a3",
-  numbervariations, "Q_5step_regression.1.c2",
-  numbervariations, "Q_5step_regression.1.c3",
-  #! numbervariations, "Q_5step_regression.1.c4",
-  numbervariations, "Q_5step_regression.1.c5",
-  #w numbervariations, "Q_5step_regression.1.c6",
-  #w numbervariations, "Q_5step_regression.1.c7",
-  numbervariations, "Q_5step_regression.1.c8",
+  # numbervariations, "Q_5step_regression.1.a2",
+  # numbervariations, "Q_5step_regression.1.a3",
+  # numbervariations, "Q_5step_regression.1.c2",
+  # numbervariations, "Q_5step_regression.1.c3",
+  # numbervariations, "Q_5step_regression.1.c4",
+  # # numbervariations, "Q_5step_regression.1.c5",
+  # numbervariations, "Q_5step_regression.1.c6",
+  # numbervariations, "Q_5step_regression.1.c7",
+  # numbervariations, "Q_5step_regression.1.c8",
+  # 1, "Q_IntegrityExit",
   NULL
 ), nrow=2)
 
@@ -127,7 +133,8 @@ for (blockcounter in 1:ncol(questions)) {
   for (questioncounter in 1:questions[1, blockcounter]) {
     print(sprintf("Question %d.%d", blockcounter, questioncounter))
     # print(questions[2,blockcounter])
-    eval(parse(text = sprintf("question_tmp= %s()", questions[2, blockcounter])))
+    if (questions[2, blockcounter] == "Q_Integrity") group_message= paste("(extratime=", extratime, ")", sep="") else group_message= "()"
+    eval(parse(text = sprintf("question_tmp= %s%s", questions[2, blockcounter], group_message)))
     question_tmp$q= sprintf("Q%d", blockcounter)
     block$questions= append(block$questions, list(question_tmp))
   }
@@ -136,5 +143,5 @@ for (blockcounter in 1:ncol(questions)) {
 
 
 # write the exam
-write_quiz_html(exam, subdir="../../tmp")
-#write_quiz_canvas(exam, subdir="../../tmp")
+write_quiz_html(exam, subdir="../tmp")
+#write_quiz_canvas(exam, subdir="../tmp")
