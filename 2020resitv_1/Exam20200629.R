@@ -1,8 +1,8 @@
 # clean up
 rm(list=ls())
-enginedir="../engine"
-questiondir="../questions"
-rndseed= 55
+engine_dir="../engine"
+question_dir="../questions"
+rnd_seed= 55
 emergency_message= "In case of emergency, mail a.lucas@vu.nl."
 
 # check for emergency message 
@@ -45,12 +45,12 @@ engine_sources= c(
   "write_quiz_html_mb_highlight_variables.R", "write_quiz_html_mc.R",
   "write_quiz_html_num.R", "write_quiz_html_upl.R", "write_three_part_table.R"
 )
-for (subsource in engine_sources) eval(parse(text=sprintf("source(\"%s/%s\")", enginedir, subsource)))
+for (subsource in engine_sources) eval(parse(text=sprintf("source(\"%s/%s\")", engine_dir, subsource)))
 
 
 
 # load quiz sources
-numbervariations= 3
+numbervariations= 1
 exam_sources= c(
   "ID_question.R", "Q20200629_1nw-core.R", 
   "Q20200629_1a.R", "Q20200629_1b.R", "Q20200629_1c.R", "Q20200629_1d.R",
@@ -62,7 +62,7 @@ exam_sources= c(
   "Q_5step_2pi.1.R", "Q_5step_anova.1.R", "Q_5step_regression.1.R"
 
 )
-for (subsource in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", questiondir, subsource)))
+for (subsource in exam_sources) eval(parse(text=sprintf("source(\"%s/%s\")", question_dir, subsource)))
 
 questions= matrix(c(
   numbervariations, "Q20200629_1a",
@@ -106,19 +106,20 @@ questions= matrix(c(
 
 
 # set the exam key
-examkey= paste("E_IBA1_BS_20200629_", generate_key(4), "_rnd", rndseed, sep="")
+examkey= paste("E_IBA1_BS_20200629_", "", "_rnd", rnd_seed, sep="")
+#examkey= paste("E_IBA1_BS_20200629_", generate_key(4), "_rnd", rnd_seed, sep="")
 
 
 # set seed and retain for storage if set
-if (exists("rndseed")) {
-  rndseed= abs(as.integer(rndseed))
-  set.seed(abs(rndseed))
-} else rndseed= NULL
+if (exists("rnd_seed")) {
+  rnd_seed= abs(as.integer(rnd_seed))
+  set.seed(abs(rnd_seed))
+} else rnd_seed= NULL
 
 
 # construct the exam
 exam = list(blocks=list(), 
-            seed=rndseed, 
+            seed=rnd_seed,
             emergency_html=emergency_message, 
             key = examkey, 
             name="R generated quiz")
@@ -136,5 +137,5 @@ for (blockcounter in 1:ncol(questions)) {
 
 
 # write the exam
-write_quiz_html(exam, subdir="../../tmp")
+write_quiz_html(exam, subdir="../build")
 #write_quiz_canvas(exam, subdir="../../tmp")
