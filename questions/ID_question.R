@@ -1,13 +1,10 @@
 # Introductory text and Integrity question
-Q_Integrity <- function(sEmailaddress, extratime = FALSE) {
+Q_Integrity <- function(extratime = FALSE) {
 
-  sText <- c("<strong><big>Welcome to the BSTAT written exam.</big></strong>")
+  sText <- write_in_wrapper(write_in_wrapper("Welcome to the BSTAT written re-exam.", "big"), "strong")
   if (extratime == FALSE) sText <- c(sText, "You are looking at the version for normal time students (so 120 + 5 minutes for the selfie). If you are entitled to <strong>extra time</strong>, close the current quiz now and go to the extra time exam quiz.")
   else sText <- c(sText, "You are looking at the version for extra time students (so 150 + 5 minutes for the selfie). If you are <strong>not entitled</strong> to extra time, close the current quiz now and go to the normal time exam quiz.")
-  sText <- c(sText,
-             sprintf("For emergency questions during the exam (the real exam that is), you can mail me your emergency question (%s) using the subject line starting with \"BSTAT: \". I will check mail regularly.", sEmailaddress),
-             "Before proceeding, choose one of the statements below that applies to you."
-  )
+  sText <- c(sText, "Before proceeding, choose one of the statements below that applies to you.")
 
   sType <- "mc"
   sq <- "Introduction and statement"
@@ -32,9 +29,7 @@ Q_Integrity <- function(sEmailaddress, extratime = FALSE) {
 # Introductory text and Integrity question
 Q_IntegrityExit <- function() {
 
-  sText <- c(
-    "Before submitting your exam, choose one of the statements below that applies to you."
-  )
+  sText <- "Before submitting your exam, choose one of the statements below that applies to you."
 
   sType <- "mc"
   sq <- "Exit statement"
@@ -99,16 +94,16 @@ Q_Selfie <- function() {
 
   sType <- "upl"
   sq <- "Selfie"
-  sText <- c(write_in_wrapper("Upload a selfie such that:", "p"),
+  sText <- c("Upload a selfie such that:",
              write_as_html_ul(c(
                "your face is clearly visible",
                "your ID with photo is clearly visible",
                Selfie[i1,1])),
              write_in_wrapper(
-               sprintf("<img src=\"%s\" alt=\"\" width=\"%s\" height=\"%s\" data-decorative=\"true\">",
-                       Selfie[i1,2], Selfie[i1,3], Selfie[i1,4]),
-               "p"
+               "", "img", 
+               s_wrappertag = sprintf("src=\"%s\" alt=\"\" width=\"%s\" height=\"%s\" data-decorative=\"true\"",
+                                      Selfie[i1,2], Selfie[i1,3], Selfie[i1,4])
              ))
-
+  
   return (list(type=sType, q=sq, text=sText))
 }
