@@ -89,7 +89,7 @@ Q_5step_regression.1.gendata <- function(iN, lSetting){
 #     $N         integer, number of observations
 #     $results   list, for the moment empty
 Q_5step_regression.1.setup <- function(){
-  iN= 10*sample(0:5, 1) + 10
+  iN= 10*sample(0:5, 1) + 40
 
   Range= list(Vars= c('Range', 'Constant', 'Capacity battery', 'Charging speed', 'Width', 'Height', 'Front surface area'),
               VarsSh= c('Range', 'C', 'Cap', 'Charge', 'W', 'H', 'Surf'),
@@ -242,9 +242,10 @@ Q_5step_regression.1.a1 <- function() {
 
     vB= vB0
     vI= Core$setting$X0
-    if (iTab == 2)
+    if (iTab == 2){
       vB= vB1
       vI= Core$setting$X1
+    }
 
     sCorrect= c(Q_theormodel(vI), Q_empmodel(vI, vB))[iMod]
 
@@ -348,7 +349,7 @@ Q_5step_regression.1.a3 <- function() {
     QuestionText <- c(
       Core$setting$Intro,
       Core$setting$Variables,
-      Core$setting$LM01,
+      Core$setting$LMsep[iTab],
       ColorBold(sprintf("Use the output for the **%s** model to predict the %s of a %s, given that %s=%g, %s= %g, %s= %g, %s= %g, and %s= %g.", sTab, tolower(lVars[1]), Core$setting$Object,
         lVars[3], vYX[3], lVars[4], vYX[4], lVars[5], vYX[5], lVars[6], vYX[6], lVars[7], vYX[7])),
       sprintf("Give your answer with a precision of %d decimals after the decimal point.", iDigits)
@@ -476,10 +477,10 @@ Q_5step_regression.1.c1 <- function() {
 
     mM= summary(Core$results$lm0)$coefficients
     vI= Core$setting$X0
-    if (iTab == 2)
+    if (iTab == 2){
       mM= summary(Core$results$lm1)$coefficients
       vI= Core$setting$X1
-
+    }
     i= length(Core$setting$Vars)
     sVar= (Core$setting$VarsSh)[i]
     vB= round(mM[,"Estimate"], 3)
@@ -546,10 +547,10 @@ Q_5step_regression.1.c2 <- function() {
   sLim= Core$select$sLim
   mM= summary(Core$results$lm0)$coefficients
   vI= Core$setting$X0
-  if (iTab == 2)
+  if (iTab == 2){
     mM= summary(Core$results$lm1)$coefficients
     vI= Core$setting$X1
-
+  }
   i= length(Core$setting$Vars)      # Choose last parameter
   iB= i-2   # Note that this is x_{i-2}, or beta_{i-2}
   sVar= (Core$setting$VarsSh)[i]
@@ -622,10 +623,10 @@ Q_5step_regression.1.c3 <- function() {
   sLim= Core$select$sLim
   mM= summary(Core$results$lm0)$coefficients
   vI= Core$setting$X0
-  if (iTab == 2)
+  if (iTab == 2){
     mM= summary(Core$results$lm1)$coefficients
     vI= Core$setting$X1
-
+  }
   i= length(Core$setting$Vars)      # Choose last parameter
   iB= i-2   # Note that this is x_{i-2}, or beta_{i-2}
   sVar= (Core$setting$VarsSh)[i]
