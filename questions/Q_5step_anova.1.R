@@ -68,10 +68,10 @@ Q_5step_anova.1_core <- function(f_cc=1) {
   dAlpha= sample(c(0.1, 0.05, 0.01), 1)
   
   # Write intro
-  TotalIntro= sprintf("%s You saampled %s for %d different population:", Setting$Topic, Setting$Subject, length(Sample$vi_N))
+  TotalIntro= sprintf("%s You sampled %s for %d different population:", Setting$Topic, Setting$Subject, length(Sample$vi_N))
   Setting$Groups= Setting$Groups[sample(1:length(Setting$Groups), length(Sample$vi_N))]
   for (i1 in 1:length(Setting$Groups)) TotalIntro= paste(TotalIntro, c(" ",", ")[1+(i1>1)], sprintf("%s (sample %d)", Setting$Groups[i1], i1), sep="")
-  Setting$TotalIntro= paste(TotalIntro, sprintf(". You perform the 5-step testing plan for an ANOVA with $\\alpha=%4.2f$.", dAlpha), sep="")
+  Setting$TotalIntro= paste(TotalIntro, sprintf(". You perform the 5-step testing plan for an ANOVA to compare the means with $\\alpha=%4.2f$.", dAlpha), sep="")
 
   return(list(setting=Setting, sample=Sample, alpha=dAlpha))
 }
@@ -139,7 +139,7 @@ Q_5step_anova.1_step2a <- function() {
   )
   
   # correct
-  Answers= answer_select(Answers[2,], (as.integer(Answers[1,])==1), iAlt=7, mincorrect = 0)
+  Answers= answer_select(Answers[2,], (as.integer(Answers[1,])==1), iAlt=7, mincorrect = 0, maxcorrect=1)
   
   # return
   return(list(type=qtype, text=Text, answer=Answers$answer, correct=Answers$correct))  
@@ -153,6 +153,7 @@ Q_5step_anova.1_step3a <- function() {
   
   # initialize
   qtype= "num"
+  qtype= "skip"
   
   # question text
   Text= c(Q$setting$TotalIntro, sprintf("The number of observations in the three samples equals $n_1=%d$, $n_2=%d$, and $n_3=%d$. You perform an F-test.", Q$sample$vi_N[1], Q$sample$vi_N[2], Q$sample$vi_N[3]))
@@ -175,6 +176,7 @@ Q_5step_anova.1_step3b <- function() {
   
   # initialize
   qtype= "ma"
+  qtype= "skip"
   
   # question text
   Text= c(Q$setting$TotalIntro, sprintf("The number of observations in the three samples equal $n_1=%d$, $n_2=%d$, and $n_3=%d$. You perform an F-test.", Q$sample$vi_N[1], Q$sample$vi_N[2], Q$sample$vi_N[3]))
@@ -208,6 +210,7 @@ Q_5step_anova.1_step3c <- function() {
   
   # initialize
   qtype= "ma"
+  qtype= "skip"
   alphaL= 0.05
   
   # question text
@@ -222,12 +225,10 @@ Q_5step_anova.1_step3c <- function() {
     0, "we *reject* the null hypothesis of equal variances, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
     1, "we do *not reject* the null hypothesis of equal variances, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
     2, "not all variances are equal, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
-    0, "not all variances are equal, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
     0, "not all variances are equal, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
-    1, "not all variances are equal, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
+    0, "there is insufficient evidence to conclude that not all variances are equal, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
+    1, "there is insufficient evidence to conclude that not all variances are equal, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
     0, "all variances are different, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
-    0, "all variances are different, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
-    0, "all variances are different, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
     0, "all variances are different, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$"
   ), nrow=2)
   reject= (Q$sample$results$aov_levene$`Pr(>F)`[1] < alphaL)
@@ -259,13 +260,7 @@ Q_5step_anova.1_step5a <- function() {
     0, "we do *not reject* the null hypothesis of equal means, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
     0, "we *reject* the null hypothesis of equal means, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
     1, "we do *not reject* the null hypothesis of equal means, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
-    2, "not all means are equal, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
-    0, "not all means are equal, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
-    0, "not all means are equal, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
-    0, "not all means are equal, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
     0, "all means are different, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
-    0, "all means are different, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
-    0, "all means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
     0, "all means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
     1, "there is insufficient empirical evidence that the means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
     2, "not all means are equal, as the calculated ANOVA F-test is larger than its critical value",
