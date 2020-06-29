@@ -88,7 +88,7 @@ Q_5step_2pi.1_core <- function(f_cc=1) {
   for (i1 in 1:length(Setting$Groups)) TotalIntro= paste(TotalIntro, c(" ",", ")[1+(i1>1)], sprintf("%s (sample %d)", ColorBold(Setting$Groups[i1]), i1), sep="")
   Setting$TotalIntro= c(
     paste(TotalIntro, ".", sep=""),
-    sprintf("You perform a 5-step testing plan at %s to test whether %s is %s for %s %s for %s.", 
+    sprintf("You perform a 5-step testing plan at %s to 'prove' whether %s is %s for %s %s for %s.", 
             ColorBold(sprintf("$\\alpha=%4.2f$", dAlpha)), Setting$Subject, ColorBold(Setting$Comparative), Setting$Groups[1], Setting$Than, Setting$Groups[2])
   )
 
@@ -166,9 +166,9 @@ Q_5step_2pi.1_step2a <- function() {
   ), nrow=2)
   tmp= as.logical(as.integer(Answers[1,]))
   Answers= cbind(
-    rbind(as.integer(tmp & (Q$direction==1)), sprintf("%s, reject for *large* values", Answers[2,])),
-    rbind(as.integer(tmp & (Q$direction==0)), sprintf("%s, reject for *small and large* values", Answers[2,])),
-    rbind(as.integer(tmp & (Q$direction==-1)), sprintf("%s, reject for *small* values", Answers[2,]))
+    rbind(as.integer(tmp & (Q$direction==1)), sprintf("%s, reject for *large positive* values", Answers[2,])),
+    rbind(as.integer(tmp & (Q$direction==0)), sprintf("%s, reject for *large positive or negative* values", Answers[2,])),
+    rbind(as.integer(tmp & (Q$direction==-1)), sprintf("%s, reject for *large negative* values", Answers[2,]))
   )
   
   # correct
@@ -228,10 +228,10 @@ Q_5step_2pi.1_step3b <- function() {
     0, "the populations are normally distributed",
     0, "the samples are approximately normally distributed",
     0, "at least one of the populations is normally distributed",
-    0, sprintf("%s in either sample 1 or sample 2 should be 10 or larger", Q$setting$Subject2),
-    0, sprintf("%s in either sample 1 or sample 2 should be 10 or larger", Q$setting$Subject3),
-    1, sprintf("%s in both sample 1 and sample 2 should be 10 or larger", Q$setting$Subject2),
-    1, sprintf("%s in both sample 1 and sample 2 should be 10 or larger", Q$setting$Subject3)
+    0, sprintf("%s in *either* sample 1 *or* sample 2 should be 10 or larger", Q$setting$Subject2),
+    0, sprintf("%s in *either* sample 1 *or* sample 2 should be 10 or larger", Q$setting$Subject3),
+    1, sprintf("%s in *both* sample 1 and sample 2 should be 10 or larger", Q$setting$Subject2),
+    1, sprintf("%s in *both* sample 1 and sample 2 should be 10 or larger", Q$setting$Subject3)
   ), nrow=2)
 
   # correct
@@ -263,7 +263,7 @@ Q_5step_2pi.1_step3c <- function() {
   Answers= qnorm(1 - Q$alpha/(1 + (Q$direction==0)))
   Answers= floor(100 * Answers)/100
   if (Q$direction==-1) Answers= -Answers
-  Answers= matrix(sort(Answers + 0.01 * c(0, -1, 1)), nrow=1)
+  Answers= matrix(sort(Answers + 0.02 * c(0, -1, 1)), nrow=1)
   Answers[, c(1,2)]= Answers[, c(2,1)]
   
   # return
@@ -318,7 +318,7 @@ Q_5step_2pi.1_step4b <- function() {
   if (Q$direction == -1) dZ=-dZ
 
   # question text
-  Text= c(Q$setting$TotalIntro, sprintf("You test $H_0: \\pi_1 %s \\pi_2$ using a test statistic that is normally distributed under the null hypothesis. Based on your sample, you computed $z_{calc} = %4.2f$.", c("\\geq", "=", "\\leq")[2+Q$direction], dZ))
+  Text= c(Q$setting$TotalIntro, sprintf("You test $H_0: \\pi_1 %s \\pi_2$ using a test statistic $z = (p_1 - p_2)/\\sqrt{p_c(1-p_c)/n_1 + p_c(1-p_c)/n_2}$ with $p_c = (x_1+x_2)/(n_1+n_2)$, where $z$ is normally distributed under the null hypothesis. Based on your sample, you computed $z_{calc} = %4.2f$.", c("\\geq", "=", "\\leq")[2+Q$direction], dZ))
   Text= c(
     Text, 
     ColorBold("Compute the p-value of your test statistic."),
@@ -360,7 +360,7 @@ Q_5step_2pi.1_step5a <- function() {
   }
 
   # question text
-  Text= c(Q$setting$TotalIntro, sprintf("You test $H_0: \\pi_1 %s \\pi_2$ using a test statistic $z$ that is normally distributed under the null hypothesis. Based on your sample, you computed $z_{calc} = %4.2f$. %s", 
+  Text= c(Q$setting$TotalIntro, sprintf("You test $H_0: \\pi_1 %s \\pi_2$ using a test statistic $z = (p_1 - p_2)/\\sqrt{p_c(1-p_c)/n_1 + p_c(1-p_c)/n_2}$ with $p_c = (x_1+x_2)/(n_1+n_2)$, where $z$ is normally distributed under the null hypothesis. Based on your sample, you computed $z_{calc} = %4.2f$. %s", 
                                         c("\\geq", "=", "\\leq")[2+Q$direction], dZ, sRegion))
   Text= c(
     Text, 

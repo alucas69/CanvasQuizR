@@ -24,11 +24,11 @@ Q20200629_1o <- function() {
   QuestionText <- c(
     tex2math(sprintf("For a quality control study, you measure the temperature of an item right after 
       production in two different facilities. You are interested in testing whether 
-      the temperature *standard deviations* $\\sigma_1$ at facility 1 
+      the temperature %s $\\sigma_1$ at facility 1 
       (sample 1) and $\\sigma_2$ at facility 2 (sample 2) are significantly different.
       What is your conclusion at $\\alpha = %4.2f$ and why (provide *ALL* correct answers)? 
       You can use the following tables.",
-                     dAlpha)),
+                     ColorBold("*standard deviations*"), dAlpha)),
     sprintf("<pre>%s</pre>", myprettytableprint(tbSummary, floatcolumn = c(0,1,1))),
     sprintf("<pre>%s</pre>", myprettyleveneprint(tbLevene)),
     sprintf("<pre>%s</pre>", myprettyttestprint(tbTtest, withalternative = FALSE))
@@ -50,7 +50,7 @@ Q20200629_1o <- function() {
   Answers <- Answers[, c(sample(1:2, 1), sample(3:6, 2), sample(7:10, 2))]
   Answers[1,] <- 0 + (as.numeric(Answers[1,]) == (1 + (tbLevene$`Pr(>F)`[1] > dAlpha)))
   Answers <- cbind(Answers, c(0, "None of the above"))
-  if (min(as.numeric(Answers[1,])) == 0) Answers[1,ncol(Answers)] <- 1
+  if (max(as.numeric(Answers[1,])) == 0) Answers[1,ncol(Answers)] <- 1
   Answers[2,]= tex2math(Answers[2,])
   
   return(list(type=qtype, text=QuestionText, answer=Answers[2,], correct=(as.numeric(Answers[1,])==1)))    

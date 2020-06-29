@@ -91,7 +91,7 @@ Q_5step_anova.1_step1a <- function() {
   
   # answers
   Answers= matrix(c(
-    0, "the means of all populations are the equal",
+    0, "the means of all populations are equal",
     1, "the means of all populations are NOT all equal",
     -1, "the means of all three populations are different",
     -1, "the means of all samples are equal",
@@ -129,8 +129,8 @@ Q_5step_anova.1_step2a <- function() {
     1, "F-test",
     0, "chi-squared test statistic, reject for large values",
     0, "two-sample (paired samples) t-test for differences in means",
-    0, "two-sample (independent samples) t-test for differences in means",
-    0, "two-sample (independent samples) t-test for differences in proportions"
+    0, "two-sample (independent samples) t-test for differences in means"
+    #0, "two-sample (independent samples) t-test for differences in proportions"
   ), nrow=2)
   Answers= cbind(
     rbind(Answers[1,], sprintf("%s, reject for *large* values", Answers[2,])),
@@ -221,10 +221,10 @@ Q_5step_anova.1_step3c <- function() {
     0, "we do *not reject* the null hypothesis of equal variances, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
     0, "we *reject* the null hypothesis of equal variances, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
     1, "we do *not reject* the null hypothesis of equal variances, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
-    2, "at least 2 variances are different, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
-    0, "at least 2 variances are different, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
-    0, "at least 2 variances are different, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
-    1, "at least 2 variances are different, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
+    2, "not all variances are equal, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
+    0, "not all variances are equal, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
+    0, "not all variances are equal, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
+    1, "not all variances are equal, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
     0, "all variances are different, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
     0, "all variances are different, as the Levene test has a p-value *smaller* than $\\alpha_{Levene}$",
     0, "all variances are different, as the Levene test has a p-value *larger* than $\\alpha_{Levene}$",
@@ -259,16 +259,16 @@ Q_5step_anova.1_step5a <- function() {
     0, "we do *not reject* the null hypothesis of equal means, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
     0, "we *reject* the null hypothesis of equal means, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
     1, "we do *not reject* the null hypothesis of equal means, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
-    2, "at least 2 means are different, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
-    0, "at least 2 means are different, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
-    0, "at least 2 means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
-    0, "at least 2 means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
+    2, "not all means are equal, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
+    0, "not all means are equal, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
+    0, "not all means are equal, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
+    0, "not all means are equal, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
     0, "all means are different, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
     0, "all means are different, as the ANOVA F-test has a p-value *smaller* than $\\alpha$",
     0, "all means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
     0, "all means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
     1, "there is insufficient empirical evidence that the means are different, as the ANOVA F-test has a p-value *larger* than $\\alpha$",
-    2, "at least 2 means are different, as the calculated ANOVA F-test is larger than its critical value",
+    2, "not all means are equal, as the calculated ANOVA F-test is larger than its critical value",
     1, "there is insufficient empirical evidence that the means are different, as the calculated ANOVA F-test is below its critical value"
   ), nrow=2)
   reject= (Q$sample$results$aov_summary[[1]][1,"Pr(>F)"] < Q$alpha)

@@ -2,8 +2,8 @@
 Q_Integrity <- function(extratime = FALSE) {
 
   sText <- write_in_wrapper(write_in_wrapper("Welcome to the BSTAT written re-exam.", "big"), "strong")
-  if (extratime == FALSE) sText <- c(sText, "You are looking at the version for normal time students (so 120 + 5 minutes for the selfie). If you are entitled to <strong>extra time</strong>, close the current quiz now and go to the extra time exam quiz.")
-  else sText <- c(sText, "You are looking at the version for extra time students (so 150 + 5 minutes for the selfie). If you are <strong>not entitled</strong> to extra time, close the current quiz now and go to the normal time exam quiz.")
+  if (extratime == FALSE) sText <- c(sText, paste("You are looking at the version for", ColorBold("NORMAL TIME"), "students (so 120 + 5 minutes for the selfie). If you are", ColorBold("entitled to extra time"), "then close the current quiz now and go to the extra time exam quiz."))
+  else sText <- c(sText, paste("You are looking at the version for", ColorBold("EXTRA TIME"), "students (so 150 + 5 minutes for the selfie). If you are", ColorBold("not entitled to extra time"), "then close the current quiz now and go to the normal time exam quiz. Otherwise your exam results might be invalid."))
   sText <- c(sText, "Before proceeding, choose one of the statements below that applies to you.")
 
   sType <- "mc"
