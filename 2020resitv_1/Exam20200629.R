@@ -2,7 +2,7 @@
 rm(list=ls())
 enginedir="../engine"
 questiondir="../questions"
-rndseed= 55
+rndseed= 89
 emergency_message= "In case of emergency, mail a.lucas@vu.nl."
 extratime= TRUE
 
@@ -53,7 +53,7 @@ for (subsource in engine_sources) eval(parse(text=sprintf("source(\"%s/%s\")", e
 
 
 # load quiz sources
-numbervariations= 1
+numbervariations= 30
 exam_sources= c(
   "ID_question.R", "Q20200629_1nw-core.R", 
   "Q20200629_1a.R", "Q20200629_1b.R", "Q20200629_1c.R", "Q20200629_1d.R",
@@ -143,5 +143,5 @@ for (blockcounter in 1:ncol(questions)) {
 
 
 # write the exam
-write_quiz_html(exam, subdir="../tmp")
+# write_quiz_html(exam, subdir="../tmp")
 write_quiz_canvas(exam, subdir="../tmp")
