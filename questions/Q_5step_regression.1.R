@@ -638,7 +638,7 @@ Q_5step_regression.1.c3 <- function() {
   sH1= sprintf("$H_1: \\beta_%i %s %.1f$", iB, c("<", "\\not=", ">")[iLim], dB10)
   sTest= Q_doubleminus(sprintf("$t= (b_%i - %g)/s_{b_%i}$", iB, dB10, iB))
 
-  sQ1= sprintf("%s wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person, sH0, sTab, sTest)
+  sQ1= sprintf("%s is interested in the effect of the %s on the %s, and hence wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person, tolower(Core$setting$Vars[i]), tolower(Core$setting$Vars[1]), sH0, sTab, sTest)
   sQ2= "In this case, the test should reject:"
 
   QuestionText <- c(
@@ -708,7 +708,7 @@ Q_5step_regression.1.c4 <- function() {
   sH1= sprintf("$H_1: \\beta_%i %s %.1f$", iB, c("<", "\\not=", ">")[iLim], dB10)
   sTest= Q_doubleminus(sprintf("$t= (b_%i - %g)/s_{b_%i}$", iB, dB10, iB))
 
-  sQ1= sprintf("%s wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person, sH0, sTab, sTest)
+  sQ1= sprintf("%s is interested in the effect of the %s on the %s, and hence wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person, tolower(Core$setting$Vars[i]), tolower(Core$setting$Vars[1]), sH0, sTab, sTest)
   sQ2= "In this case, if the null hypothesis is true, the test statistic is distributed as:"
 
   QuestionText <- c(
@@ -785,7 +785,7 @@ Q_5step_regression.1.c5 <- function() {
   sH1= sprintf("$H_1: \\beta_%i %s %.1f$", iB, c("<", "\\not=", ">")[iLim], dB10)
   sTest= Q_doubleminus(sprintf("$t= (b_%i - %g)/s_{b_%i}$", iB, dB10, iB))
 
-  sQ1= sprintf("%s wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person, sH0, sTab, sTest)
+  sQ1= sprintf("%s is interested in the effect of the %s on the %s, and hence wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person, tolower(Core$setting$Vars[i]), tolower(Core$setting$Vars[1]), sH0, sTab, sTest)
   sQ2= "This test statistic will follow a Student-$t$ distribution if the following assumptions hold (select *ALL* which are relevant):"
 
   QuestionText <- c(
@@ -871,7 +871,7 @@ Q_5step_regression.1.c6 <- function() {
   sTest= Q_doubleminus(sprintf("$t= (b_%i - %g)/s_{b_%i}$", iB, dB10, iB))
   dTest= (round(vB[sVar],3) - dB10)/round(vS[sVar], 3)
 
-  sQ1= sprintf("%s wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person, sH0, sTab, sTest)
+  sQ1= sprintf("%s is interested in the effect of the %s on the %s, and hence wants to test the null hypothesis %s in the %s model, with test statistic %s.", Core$setting$Person, tolower(Core$setting$Vars[i]), tolower(Core$setting$Vars[1]), sH0, sTab, sTest)
   sQ2= sprintf("What is the value of the test statistic $t_{calc}$ in the %s model?", sTab)
 
   QuestionText <- c(
@@ -888,7 +888,7 @@ Q_5step_regression.1.c6 <- function() {
   Answers <- RoundAnswer(dTest, iDigits)
   Answers <- matrix(Answers, ncol= 3)
 
-  return (list(type='num', q='r1c6', text=QuestionText, answer=Answers))
+  return (list(type='skip', q='r1c6', text=QuestionText, answer=Answers))
 }
 
 
@@ -933,7 +933,7 @@ Q_5step_regression.1.c7 <- function() {
   dTest= (round(vB[sVar],3) - dB10)/round(vS[sVar], 3)
   dTest= round(dTest, 3)
 
-  sQ1= sprintf("%s tested the null hypothesis %s in the %s model, and finds %s=%g.", Core$setting$Person, sH0, sTab, sTest, dTest)
+  sQ1= sprintf("%s is interested in the effect of the %s on the %s, and hence tested the null hypothesis %s in the %s model, and finds %s=%g.", Core$setting$Person, tolower(Core$setting$Vars[i]), tolower(Core$setting$Vars[1]), sH0, sTab, sTest, dTest)
   sQ2= sprintf("What is the corresponding critical value, at level $\\alpha=%g$?", dAlpha)
   sQ3= "(If there are two critical values, report the highest one)"
 
@@ -1003,7 +1003,7 @@ Q_5step_regression.1.c8 <- function() {
   vCrit= qt(c(dAlpha, 1-dAlpha/2, 1-dAlpha), lower.tail= TRUE, df=iDf)
   dCrit= vCrit[iLim]
 
-  sQ1= sprintf("%s tested the null hypothesis %s in the %s model, and finds %s=%g.", Core$setting$Person, sH0, sTab, sTest, dTest)
+  sQ1= sprintf("%s is interested in the effect of the %s on the %s, and hence tested the null hypothesis %s in the %s model, and finds %s=%g.", Core$setting$Person, tolower(Core$setting$Vars[i]), tolower(Core$setting$Vars[1]), sH0, sTab, sTest, dTest)
   sQ2= sprintf("As critical value, at $\\alpha= %g$, %s  finds $t_{crit}=%.3f$.", dAlpha, Core$setting$Person, dCrit)
 
   if (iLim == 1){
