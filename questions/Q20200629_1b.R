@@ -19,7 +19,7 @@ Q20200629_1b <- function() {
   
   # compute the answer and error margin
   dZ <- qnorm(dAlpha)
-  dZerror <- 0.015
+  dZerror <- 0.021
   Answers <- matrix(dMu + dSigma * ( dZ + dZerror * c(0, -1, 1)), ncol=3)
 
   # return the question
