@@ -57,9 +57,9 @@ write_quiz_canvas_num= function(question, answer_counter) {
       "conditionvar", block=TRUE)
     output3= c(output3, write_in_wrapper("100", "setvar", s_wrappertag="action=\"Set\" varname=\"SCORE\""))
     output3= write_in_wrapper(output3, "respcondition", s_wrappertag="continue=\"No\"", block=TRUE)
+    output2= c(output2, output3)
   }
   # put total answer(s) in canvas answer processing wrapper
-  output2= c(output2, output3)
   output= c(output, write_in_wrapper(output2, "resprocessing", block=TRUE))
   
   # add total question wrapper
