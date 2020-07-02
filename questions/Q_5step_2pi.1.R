@@ -326,7 +326,7 @@ Q_5step_2pi.1_step4b <- function() {
   )
   
   # answers
-  Answers= pnorm( dZ, lower.tail = (Q$direction == -1))
+  Answers= pnorm( dZ, lower.tail = (Q$direction == -1)) * (1 + (Q$direction == 0))
   Answers= matrix(Answers + 7 * (10^(-iDigits)) * c(0, -1, 1), nrow=1)
   
   # return
